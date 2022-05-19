@@ -5,8 +5,8 @@ import './dashboard.css'
 import Helmet from 'react-helmet'
 // component/s
 import HomeContainer from '../../components/HomeContainer'
-import Example from './charts/SimpleLineChart'
-import { getAllStatistics } from "../../services/admins/get";
+import WeeklyHealthStatusGraph from './charts/SimpleLineChart'
+import { getAllStatistics, getAllWeeklyStatistics } from "../../services/admins/get";
 
 const Dashboard = () => {
 
@@ -19,6 +19,7 @@ const Dashboard = () => {
     const [totalActiveCasesToday, setTotalActiveCasesToday] = useState(0);
     const [totalRecoveredCasesToday, setTotalRecoveredCasesToday] = useState(0);
     const [totalNormalUsersToday, setTotalNormalUsersToday] = useState(0);
+    const [weeklyHeathAnalytics, setWeeklyHealthAnalytics] = useState([]);
 
     const statisticsData = async () => {
         try {
@@ -40,8 +41,18 @@ const Dashboard = () => {
         }
     }
 
+    const weeklyHealthStatusAnalytics =  async () => {
+        try {
+            const data = await getAllWeeklyStatistics()
+            setWeeklyHealthAnalytics(data.data.collectiveWeeklyHeatlhReport)
+        } catch (error) {
+            setWeeklyHealthAnalytics([])
+        }
+    }
+
     useEffect(() => {
         statisticsData();
+        weeklyHealthStatusAnalytics();
     }, []);
 
     return (
@@ -83,8 +94,10 @@ const Dashboard = () => {
                 </div>
             </div>
             <div style={{ marginTop: "20px", width: "100%"}} className="box-statistics">
-                <h3 className='chartTitle'>Health Status Analytics</h3>
-                <Example/>
+                <h3 className='chartTitle'>Weekly Health Status Analytics</h3>
+                <WeeklyHealthStatusGraph
+                    weeklyHeathAnalytics={weeklyHeathAnalytics}
+                />
             </div>
         </HomeContainer>
         

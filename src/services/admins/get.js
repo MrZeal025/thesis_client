@@ -15,3 +15,8 @@ export const getOneAdmin = (id) => {
 export const getAllStatistics = () => {
   return axios.get(`${baseUrl}/statistics/all`);
 };
+
+// get all statistics
+export const getAllWeeklyStatistics = () => {
+  return axios.get(`${baseUrl}/statistics/weekly-health-status`);
+};
