@@ -1,0 +1,23 @@
+.deleteModalTitle, .deleteLocationName {
+    color: var(--red) !important;
+    font-weight: 700;
+}
+
+.editModalTitle, .addModalTitle {
+    color: white;
+    font-weight: 700;
+}
+
+.form-notice {
+    font-size: 13px;
+    color: rgb(97, 95, 95);
+    margin-bottom: 0;
+}
+
+.wide-modal-title {
+    padding-left: 1%;
+}
+
+.content-center-modal {
+    padding: 0 1%;
+}
