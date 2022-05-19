@@ -5,7 +5,7 @@ import './dashboard.css'
 import Helmet from 'react-helmet'
 // component/s
 import HomeContainer from '../../components/HomeContainer'
-//import Example from './charts/SimpleLineChart'
+import Example from './charts/SimpleLineChart'
 import { getAllStatistics } from "../../services/admins/get";
 
 const Dashboard = () => {
@@ -82,10 +82,10 @@ const Dashboard = () => {
                     </div>
                 </div>
             </div>
-            {/* <div style={{ marginTop: "20px", width: "100%"}} className="box-statistics">
+            <div style={{ marginTop: "20px", width: "100%"}} className="box-statistics">
                 <h3 className='chartTitle'>Health Status Analytics</h3>
                 <Example/>
-            </div> */}
+            </div>
             
         </HomeContainer>
         
