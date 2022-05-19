@@ -1,4 +1,3 @@
-import React from 'react';
 import { 
     LineChart, 
     Line, 
@@ -55,7 +54,7 @@ const data = [
   },
 ];
 
-const Example = () => {
+export default function Example() {
     return (
         <ResponsiveContainer width="100%" aspect={4 / 1}>
             <LineChart
@@ -73,5 +72,3 @@ const Example = () => {
         </ResponsiveContainer>
     );
 }
-
-export default Example
