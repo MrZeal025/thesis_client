@@ -58,7 +58,7 @@ export default function Example() {
     return (
         <ResponsiveContainer width="100%" aspect={4 / 1}>
             <LineChart
-                data={data}
+              data={data}
             >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="date" />
