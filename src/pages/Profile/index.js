@@ -115,6 +115,7 @@ const ProfilePage = () => {
         } catch (error) {
             setDataToBeEdit(data)   
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

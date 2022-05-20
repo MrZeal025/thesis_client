@@ -59,6 +59,7 @@ const Dashboard = () => {
     useEffect(() => {
         statisticsData();
         weeklyHealthStatusAnalytics();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

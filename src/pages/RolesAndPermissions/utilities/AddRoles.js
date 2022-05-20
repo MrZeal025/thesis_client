@@ -123,6 +123,7 @@ const AddRoleModal = ({ method, permissions, modules }) => {
                                                             />
                                                         </div>
                                                     }
+                                                    return null;
                                                 })
                                             }
                                         </div>
