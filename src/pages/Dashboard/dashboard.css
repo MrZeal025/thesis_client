@@ -14,7 +14,6 @@
     box-shadow: 0 10px 10px rgba(66, 185, 194, 0.2);
 }
 .chartTitle {
-    margin-bottom: 20px;
     color: var(--primary);
 }
 .box-statistics {
@@ -36,7 +35,6 @@
 
 .box {
     padding: 15px;
-
     background-image: url(./media/wave-design2.svg), linear-gradient(var(--white), #b3e7df);
     background-position: center calc(100% - 0.0001px);
     background-repeat: no-repeat;
@@ -164,4 +162,8 @@
 .bold {
     font-size: 20px;
     font-weight: 900;
+}
+
+.react-datepicker-wrapper {
+    padding-top: 5px;
 }

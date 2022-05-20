@@ -3,11 +3,6 @@
     font-weight: 700;
 }
 
-.editModalTitle, .addModalTitle {
-    color: var(--primary);
-    font-weight: 700;
-}
-
 .wide-modal-title {
     padding-left: 1%;
 }
@@ -61,6 +56,30 @@
     margin-bottom: 0;
 }
 
+.qr-download-modal {
+    margin-top: 10px;
+    width: auto;
+    height: 50px;
+    background-color: var(--primary);
+    border: none;
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+.qr-download-modal-item {
+    text-decoration: none;
+    width: fit-content;
+    color: var(--white);
+    font-weight: 600;
+}
+
+.qr-download-modal-item:hover {
+    color: var(--white);
+}
 
 
 .line {

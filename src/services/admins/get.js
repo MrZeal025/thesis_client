@@ -17,6 +17,6 @@ export const getAllStatistics = () => {
 };
 
 // get all statistics
-export const getAllWeeklyStatistics = () => {
-  return axios.get(`${baseUrl}/statistics/weekly-health-status`);
+export const getAllWeeklyStatistics = (date) => {
+  return axios.get(`${baseUrl}/statistics/weekly-health-status/${date}`);
 };

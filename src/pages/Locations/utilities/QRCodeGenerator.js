@@ -38,8 +38,14 @@ const QRCodeGeneratorModal = ({ showFunction, onHideFunction, data, qrCodelocati
                                 </div>
                             </div>
                         </div>
-                        <div className='full-page-modal-save-button'>
-                            <button className='primaryBtn'>Save QR Code as Image</button>
+                        <div className='qr-download-modal'>
+                            <a 
+                                href={qrCodelocationName} 
+                                className='qr-download-modal-item' 
+                                download
+                            >
+                                Save QR Code as Image
+                            </a>
                         </div>
                     </div>
                 </Modal.Body>

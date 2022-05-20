@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 // css
 import './dashboard.css'
 // import package/s
@@ -7,6 +9,8 @@ import Helmet from 'react-helmet'
 import HomeContainer from '../../components/HomeContainer'
 import WeeklyHealthStatusGraph from './charts/SimpleLineChart'
 import { getAllStatistics, getAllWeeklyStatistics } from "../../services/admins/get";
+import { Button } from 'react-bootstrap'
+import { FaSync } from 'react-icons/fa'
 
 const Dashboard = () => {
 
@@ -20,6 +24,8 @@ const Dashboard = () => {
     const [totalRecoveredCasesToday, setTotalRecoveredCasesToday] = useState(0);
     const [totalNormalUsersToday, setTotalNormalUsersToday] = useState(0);
     const [weeklyHeathAnalytics, setWeeklyHealthAnalytics] = useState([]);
+
+    const [startDate, setStartDate] = useState(new Date());
 
     const statisticsData = async () => {
         try {
@@ -43,7 +49,7 @@ const Dashboard = () => {
 
     const weeklyHealthStatusAnalytics =  async () => {
         try {
-            const data = await getAllWeeklyStatistics()
+            const data = await getAllWeeklyStatistics(startDate.toISOString())
             setWeeklyHealthAnalytics(data.data.collectiveWeeklyHeatlhReport)
         } catch (error) {
             setWeeklyHealthAnalytics([])
@@ -94,7 +100,24 @@ const Dashboard = () => {
                 </div>
             </div>
             <div style={{ marginTop: "20px", width: "100%"}} className="box-statistics">
-                <h3 className='chartTitle'>Weekly Health Status Analytics</h3>
+                <div style={{ marginBottom: "20px"}} className='d-flex justify-content-md-between'>
+                    <h3 className='chartTitle'>Weekly Health Status Analytics</h3>
+                    <div className='d-flex justify-content-md-between'>
+                        <DatePicker 
+                            selected={startDate} 
+                            form 
+                            onChange={
+                                (date) => {
+                                    setStartDate(date)
+                                    weeklyHealthStatusAnalytics();
+                                } 
+                            } 
+                        />
+                        <Button style={{ marginLeft: "10px" }} onClick={() => { weeklyHealthStatusAnalytics()}}>
+                            <FaSync/>
+                        </Button>
+                    </div>
+                </div>
                 <WeeklyHealthStatusGraph
                     weeklyHeathAnalytics={weeklyHeathAnalytics}
                 />
