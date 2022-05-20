@@ -50,7 +50,7 @@ const ContactTracingLogs = () => {
             
             <h1 className='contentTitle pb-10'>Visitation Logs</h1>
             <div className='contentDiv'>
-                <p className='tableCaption'>This table contains visitation logs within 31 days that will be used for contact tracing purposes. No personal information from the users will be collected on the system unless they are stated as positive of COVID-19.</p>
+                <p className='tableCaption'>This table contains visitation logs that will be used for contact tracing purposes. No personal information from the users will be collected on the system unless they are stated as positive of COVID-19.</p>
                 <h4>Filters</h4>
                 <div className='filterandReportGrp'>
                     <div className='filterInputWrapper mb-10'>
