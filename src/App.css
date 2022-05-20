@@ -177,7 +177,7 @@ input:focus {
 
 
 /* TABLE Custom Style */
-.customTableDiv {
+/* .customTableDiv {
   padding: 10px;
   background-color: var(--white);
   border-radius: 5px;
@@ -209,7 +209,7 @@ input:focus {
   color: var(--blackTextColor);
   padding: 5px;
   padding-right: 10px;
-}
+} */
 
 /* For center alignment vertically of the No. Column */
 .tableStyle tbody tr td:first-child {
