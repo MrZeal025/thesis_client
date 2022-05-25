@@ -19,7 +19,6 @@ function BasicTable ({
     deleteModalFunction, 
     qrModalFunction,
     tracerModalFunction 
-
 }) {
 
     const columns = useMemo(() => columnHeads, [columnHeads])

@@ -8,7 +8,8 @@ import Helmet from 'react-helmet'
 // component/s
 import HomeContainer from '../../components/HomeContainer'
 import WeeklyHealthStatusGraph from './charts/SimpleLineChart'
-import { getAllStatistics, getAllWeeklyStatistics } from "../../services/admins/get";
+import VisitationLineChart from './charts/VisitationLinChart';
+import { getAllStatistics, getAllWeeklyStatistics, getAllVisitationStatistics } from "../../services/admins/get";
 import { Button } from 'react-bootstrap'
 import { FaSync } from 'react-icons/fa'
 
@@ -24,6 +25,7 @@ const Dashboard = () => {
     const [totalRecoveredCasesToday, setTotalRecoveredCasesToday] = useState(0);
     const [totalNormalUsersToday, setTotalNormalUsersToday] = useState(0);
     const [weeklyHeathAnalytics, setWeeklyHealthAnalytics] = useState([]);
+    const [weeklyVisitationAnalytics, setWeeklyVisitationAnalytics] = useState([]);
 
     const [startDate, setStartDate] = useState(new Date());
 
@@ -56,9 +58,19 @@ const Dashboard = () => {
         }
     }
 
+    const weeklyVisitationStatusAnalytics =  async () => {
+        try {
+            const data = await getAllVisitationStatistics(startDate.toISOString())
+            setWeeklyVisitationAnalytics(data.data.collectiveWeeklyHeatlhReport)
+        } catch (error) {
+            setWeeklyVisitationAnalytics([])
+        }
+    }
+
     useEffect(() => {
         statisticsData();
         weeklyHealthStatusAnalytics();
+        weeklyVisitationStatusAnalytics();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -78,7 +90,7 @@ const Dashboard = () => {
                         <p className='box1-bottom-heading'>+ {totalUserCountToday} Today</p>
                     </div>
                 </div>
-                 <div className='box'>
+                <div className='box'>
                     <p className='box-top-heading'>Total Normal User</p>
                     <p className='box-middle-heading'>{totalNormalUsers}</p>
                     <div className='d-flex justify-content-end'>
@@ -121,6 +133,29 @@ const Dashboard = () => {
                 </div>
                 <WeeklyHealthStatusGraph
                     weeklyHeathAnalytics={weeklyHeathAnalytics}
+                />
+            </div>
+            <div style={{ marginTop: "20px", width: "100%"}} className="box-statistics">
+                <div style={{ marginBottom: "20px"}} className='d-flex justify-content-md-between'>
+                    <h3 className='chartTitle'>Weekly Visitation Status Analytics</h3>
+                    <div className='d-flex justify-content-md-between'>
+                        <DatePicker 
+                            selected={startDate} 
+                            form 
+                            onChange={
+                                (date) => {
+                                    setStartDate(date)
+                                    weeklyHealthStatusAnalytics();
+                                } 
+                            } 
+                        />
+                        <Button style={{ marginLeft: "10px" }} onClick={() => { weeklyVisitationStatusAnalytics()}}>
+                            <FaSync/>
+                        </Button>
+                    </div>
+                </div>
+                <VisitationLineChart
+                    weeklyHeathAnalytics={weeklyVisitationAnalytics}
                 />
             </div>
         </HomeContainer>

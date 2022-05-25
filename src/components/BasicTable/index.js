@@ -93,12 +93,6 @@ const BasicTable = ({
         return 0;
     }
 
-    const getComparator = (order, orderBy) => {
-        return order === 'desc'
-        ? (a, b) => descendingComparator(a, b, orderBy)
-        : (a, b) => -descendingComparator(a, b, orderBy);
-    }
-
     // sorting process starts here
     const handleRequestSort = (event, property) => {
         console.log(property)

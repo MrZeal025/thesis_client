@@ -18,7 +18,7 @@ const WeeklyHealthStatusGraph = ({ weeklyHeathAnalytics }) => {
             >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="date" />
-                <YAxis/>
+                <YAxis allowDecimals={false} />
                 <Tooltip />
                 <Legend />
                 <Line type="monotone" dataKey="New User" stroke="grey"/>
