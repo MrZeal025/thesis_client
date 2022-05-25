@@ -83,16 +83,6 @@ const BasicTable = ({
         setPage(0);
     };
 
-    const descendingComparator = (a, b, orderBy) => {
-        if (b[orderBy] < a[orderBy]) {
-            return -1;
-        }
-        if (b[orderBy] > a[orderBy]) {
-            return 1;
-        }
-        return 0;
-    }
-
     // sorting process starts here
     const handleRequestSort = (event, property) => {
         console.log(property)
@@ -100,6 +90,18 @@ const BasicTable = ({
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
     };
+
+    const numberSensorship = (num) => {
+        console.log(num)
+        let deconstruct = num.split("")
+        deconstruct[4] = "*"
+        deconstruct[5] = "*"
+        deconstruct[6] = "*"
+        deconstruct[7] = "*"
+        deconstruct[8] = "*"
+        deconstruct[9] = "*"
+        return deconstruct.join("")
+    }
 
     return (
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -165,7 +167,7 @@ const BasicTable = ({
                                         }
 
                                         if(cell.column.Header === "Users Contact No.") {
-                                            return <TableCell>{cell.row.original.userId.mobileNumber}</TableCell>
+                                            return <TableCell>{numberSensorship(cell.row.original.userId.mobileNumber)}</TableCell>
                                         }
 
                                         if(cell.column.Header === "Date") {
@@ -181,7 +183,11 @@ const BasicTable = ({
                                         }
 
                                         if(cell.column.Header === "Close Contact Number") {
-                                            return <TableCell>{cell.row.original.userId.mobileNumber}</TableCell>
+                                            return <TableCell>{numberSensorship(cell.row.original.userId.mobileNumber)}</TableCell>
+                                        }
+
+                                        if(cell.column.Header === "Contact Number") {
+                                            return <TableCell>{numberSensorship(cell.row.original.mobileNumber)}</TableCell>
                                         }
                                         
                                         if(cell.column.Header === "Health Status") {

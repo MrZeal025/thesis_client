@@ -41,7 +41,6 @@ const VisitationLineChart = ({ weeklyHeathAnalytics }) => {
                 <Legend />
                 {
                      locations.length > 0 && locations.map((location, i) => {
-                        console.log(location)
                         return <Line key={i} type="monotone" dataKey={location.name} stroke={colors[i]}/>
                     })
                 }

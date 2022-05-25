@@ -15,15 +15,30 @@ import { getAllLocations } from '../../services/locations/get.js';
 const ContactTracingLogs = () => {
 
     const [contactLogs, setContactLogs] = useState([]);
+    const [exportableDataState, setExportableData] = useState([]);
     const [locations, setLocations] = useState([]);
     const [isFetching, setIsFetching] = useState(true);
 
     const _getAllVisitationLogs = async () => {
         try {
+            let exports = []
             const visitationLogs = await getAllVisitationLogs();
             setContactLogs(visitationLogs.data?.data);
+            for(let i = 0; i < visitationLogs.data.data.length; i++) {
+                let exportableData = {
+                    location: visitationLogs.data.data[i].location,
+                    healthStatus: visitationLogs.data.data[i].userId.userHealthStatus,
+                    userType: visitationLogs.data.data[i].userId.userType,
+                    date: visitationLogs.data.data[i].date,
+                    time: visitationLogs.data.data[i].time,
+                    action: visitationLogs.data.data[i].action
+                }
+                exports.push(exportableData)
+            }
+            setExportableData(exports)
             setIsFetching(false);
         } catch (error) { 
+            setExportableData([])
             setContactLogs([]);
         }
     }
@@ -135,7 +150,7 @@ const ContactTracingLogs = () => {
                         <input type="date" className='inputStyle2 mr-10'/>
                     </div>
                     {/* Generate Report Button */}
-                    <button onClick={() => { JSONToCSVConvertor(contactLogs, "Visitation Histories", true)}} className='primaryBtn genReportBtn'>Export CSV</button>
+                    { exportableDataState.length > 0 && <button onClick={() => { JSONToCSVConvertor(exportableDataState, "Visitation Histories", true)}} className='primaryBtn genReportBtn'>Export CSV</button>}
                 </div>
                 <BasicTable 
                     columnHeads = {LogsCOLUMN}
