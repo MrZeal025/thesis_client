@@ -54,7 +54,7 @@ const CloseContactTracerModal = ({ showFunction, onHideFunction, data, closeCont
                     <Modal.Title className='modal-title' style={{ marginLeft: "10px"}}>Positive Case Information Summary</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Box sx={{ width: '100%' }} className='report-container'>
+                    <Box sx={{ width: '100%' }}>
                         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                             <Tab label="User Information" {...a11yProps(0)} />
                             <Tab label="Visitation History" {...a11yProps(1)} />
