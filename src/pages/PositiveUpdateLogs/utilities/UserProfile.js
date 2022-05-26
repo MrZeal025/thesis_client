@@ -19,42 +19,10 @@ const PositiveUserProfile = ({ data }) => {
                         <Form.Control 
                             type="text"
                             value={data.userType} 
+                            readOnly
                             required
                         />
                     </div>
-                    {
-                        data.userType === "Student" && 
-                        <div className='form-inline-display'>
-                            <Form.Label>Student Number </Form.Label>
-                            <Form.Control 
-                                type="text"
-                                value={data.studentNumber}  
-                                required
-                            />
-                        </div>
-                    }
-                    {
-                        data.userType === "Worker" && 
-                        <div className='form-inline-display'>
-                            <Form.Label>Job Title</Form.Label>
-                            <Form.Control 
-                                type="text"
-                                value={data.jobTitle}  
-                                required
-                            />
-                        </div>
-                    }
-                    {
-                        (data.userType === "Student" || data.userType === "Faculty") && 
-                        <div className='form-inline-display'>
-                            <Form.Label>Department </Form.Label>
-                            <Form.Control 
-                                type="text"
-                                value={data.collegeDepartment}  
-                                required
-                            />
-                        </div>
-                    }
                 </Form.Group>
             </div>
             <div className='mt-3'>
@@ -65,6 +33,7 @@ const PositiveUserProfile = ({ data }) => {
                         <Form.Control 
                             type="text" 
                             value={data.firstName}  
+                            readOnly
                             required
                         />
                     </div>
@@ -73,6 +42,7 @@ const PositiveUserProfile = ({ data }) => {
                         <Form.Control 
                             type="text" 
                             value={data.middleName}  
+                            readOnly
                             required
                         />
                     </div>
@@ -81,6 +51,7 @@ const PositiveUserProfile = ({ data }) => {
                         <Form.Control 
                             type="text" 
                             value={data.lastName}  
+                            readOnly
                             required
                         />
                     </div>
@@ -88,7 +59,8 @@ const PositiveUserProfile = ({ data }) => {
                         <Form.Label>Suffix </Form.Label>
                         <Form.Control 
                             type="text" 
-                            value={data.nameExtension}  
+                            value={data.nameExtension} 
+                            readOnly 
                             required
                         />
                     </div>
@@ -102,6 +74,7 @@ const PositiveUserProfile = ({ data }) => {
                         <Form.Control 
                             type="text" 
                             value={data.lotNumber} 
+                            readOnly
                             required
                         />
                     </div>
@@ -110,6 +83,7 @@ const PositiveUserProfile = ({ data }) => {
                         <Form.Control 
                             type="text" 
                             value={data.streetName} 
+                            readOnly
                             required
                         />
                     </div>
@@ -120,6 +94,7 @@ const PositiveUserProfile = ({ data }) => {
                         <Form.Control 
                             type="text" 
                             value={data.disctrict} 
+                            readOnly
                             required
                         />
                     </div>
@@ -128,6 +103,7 @@ const PositiveUserProfile = ({ data }) => {
                         <Form.Control 
                             type="text" 
                             value={data.barangay} 
+                            readOnly
                             required
                         />
                     </div>
@@ -138,6 +114,7 @@ const PositiveUserProfile = ({ data }) => {
                         <Form.Control 
                             type="text" 
                             value={data.city} 
+                            readOnly
                             required
                         />
                     </div>
@@ -146,6 +123,7 @@ const PositiveUserProfile = ({ data }) => {
                         <Form.Control 
                             type="text" 
                             value={data.province} 
+                            readOnly
                             required
                         />
                     </div>
@@ -159,6 +137,7 @@ const PositiveUserProfile = ({ data }) => {
                         <Form.Control 
                             type="text" 
                             value={data.mobileNumber} 
+                            readOnly
                             required
                         />
                     </div>

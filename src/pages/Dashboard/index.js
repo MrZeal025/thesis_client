@@ -76,7 +76,6 @@ const Dashboard = () => {
 
     return (
         <HomeContainer>
-            {/* Helmet for page's title*/}
             <Helmet>
                 <title>JuanBreath | Dashboard</title>
             </Helmet>
@@ -145,7 +144,7 @@ const Dashboard = () => {
                             onChange={
                                 (date) => {
                                     setStartDate(date)
-                                    weeklyHealthStatusAnalytics();
+                                    weeklyVisitationStatusAnalytics();
                                 } 
                             } 
                         />

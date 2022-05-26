@@ -41,8 +41,8 @@ const BasicTable = ({
 
     const tableInstance = useTable(
         {
-        columns,
-        data,
+            columns,
+            data,
         },
         useSortBy
     );
