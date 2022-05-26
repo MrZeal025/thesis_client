@@ -37,7 +37,7 @@ const PositiveTracingLogs = () => {
         try {
             const closeContacts = await getAllCloseContact(id);
             const visitationHistroy = await getAllInfectedVisitationHistroy(id);
-            const filteredCloseContacts = closeContacts.data.data.filter((positive) => { return positive.userId.mobileNumber === id })
+            const filteredCloseContacts = closeContacts.data.data.filter((positive) => { return positive.userId.mobileNumber !== id })
             setCloseContactData(filteredCloseContacts);
             setVisitationHistoryData(visitationHistroy.data?.data)
             // filter the data requested for editing
@@ -76,28 +76,6 @@ const PositiveTracingLogs = () => {
                             <option value={"Guest"}>Guest</option>
                         </select>
                         <input type="date" className='inputStyle2 mr-10'/>
-                        <select className='inputStyle2 mr-10'>
-                            <option>Time</option>
-                            <option>4:00 AM</option>
-                            <option>5:00 AM</option>
-                            <option>6:00 AM</option>
-                            <option>7:00 AM</option>
-                            <option>8:00 AM</option>
-                            <option>9:00 AM</option>
-                            <option>10:00 AM</option>
-                            <option>11:00 AM</option>
-                            <option>12:00 PM</option>
-                            <option>1:00 PM</option>
-                            <option>2:00 PM</option>
-                            <option>3:00 PM</option>
-                            <option>4:00 PM</option>
-                            <option>5:00 PM</option>
-                            <option>6:00 PM</option>
-                            <option>7:00 PM</option>
-                            <option>8:00 PM</option>
-                            <option>9:00 PM</option>
-                            <option>10:00 PM</option>
-                        </select>
                     </div>
                     {/* Generate Report Button */}
                     <button className='primaryBtn genReportBtn'>Generate Report</button>

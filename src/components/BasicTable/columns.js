@@ -44,7 +44,7 @@ export const PositiveLogsCOLUMN = [
         accessor: 'userType'
     },
     {
-        Header: 'Health Status',
+        Header: 'Current Status',
         accessor: 'healthStatus'
     },
     {
