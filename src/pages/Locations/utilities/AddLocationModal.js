@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 // import css
 import './CustomModals.css'
 // import package/s
+import { Button } from '@mui/material'
 import { Modal, Form } from 'react-bootstrap'
 
 const AddLocationModal = ({ method }) => {
@@ -29,8 +30,7 @@ const AddLocationModal = ({ method }) => {
   }
   return (
     <>
-      <button className='primaryBtn' onClick={handleShow}>Add Location</button>
-
+      <Button className='primaryBtn' onClick={handleShow} variant="contained">Add Location</Button>
       <Modal show={show} onHide={handleClose}>
           <Modal.Header className='modal-header-bg' closeButton >
               <Modal.Title className='addModalTitle wide-modal-title'>Create Location</Modal.Title>

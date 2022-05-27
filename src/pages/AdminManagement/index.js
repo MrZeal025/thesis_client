@@ -18,7 +18,9 @@ import { getAllRoles } from "../../services/roles/get";
 import { deleteOneAdmin } from "../../services/admins/delete"
 import { putOneAdmin } from '../../services/admins/put';
 import { postOneAdmin } from "../../services/admins/post";
-
+// utilities
+import SearchFields from '../../components/Search/index.js';
+import Refresh from '../../components/Refresh/index.js';
 
 const AdminManagement = () => {
 
@@ -34,6 +36,14 @@ const AdminManagement = () => {
     const [dataToBeEdit, setDataToBeEdit] = useState({ firstName: "", middleName: "", lastName: "", suffix: "", username: "", email: "", locationAssigned: "", role: "" });
     const [editId, setEditId] = useState('');
     const [isFetching, setIsFetching] = useState(true);
+    const [query, setQuery] = useState("");
+    
+    // filtering process
+    const filteredData = (admins) => {
+        const keys = ["firstName", "middleName", "lastName", "email", "role", "locationAssigned", "username"]
+        return admins.filter((item) => keys.some(key => item[key].toLowerCase().includes(query)));
+    }
+
     // add modal declaration
     const [showAddModal, setShowAddModal] = useState(false)
 
@@ -61,13 +71,23 @@ const AdminManagement = () => {
     }
     
     // get all admin accounts
-    const _getAllAdmins = async () => {
+    const _getAllAdmins = async (allowToast) => {
         try {
             const admins = await getAllAdmins();
             setAdmins(admins.data?.data);
             setIsFetching(false);
+            if(allowToast){
+                setShowToast(!showToast);
+                setToastMessage("The admin list has been refreshed successfully.");
+                setToastStatus('Success');
+            }
         } catch (error) {
             setAdmins([]);
+            if(allowToast){
+                setShowToast(!showToast);
+                setToastMessage("Something went wrong!");
+                setToastStatus('Error');
+            }
         }
     }
     // get all locations
@@ -194,22 +214,28 @@ const AdminManagement = () => {
             </Helmet>
             <div className='titleAndButtonDiv'>
                 <h1 className='contentTitle'>Admin Management</h1>
-                <AddAdminModal 
-                    show={showAddModal}
-                    errorMsg={errorMsg}
-                    handleClose={() => { setShowAddModal(!showAddModal); setErrorMsg([]) }}
-                    handleShow={() => { setShowAddModal(!showAddModal); setErrorMsg([]) }}
-                    roles={roles}
-                    locations={locations}
-                    method={_postOneAdmin}
-                    handleClearError={handleClearError}
-                />
             </div>
             <div className='contentDiv'>
                 <p className='tableCaption'>This table shows the list of other admins assigned in the system.</p>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                    <SearchFields onSearch={setQuery}/>
+                    <div style={{ marginTop: "20px"}}>
+                        <Refresh onRefresh={_getAllAdmins}/>
+                        <AddAdminModal 
+                            show={showAddModal}
+                            errorMsg={errorMsg}
+                            handleClose={() => { setShowAddModal(!showAddModal); setErrorMsg([]) }}
+                            handleShow={() => { setShowAddModal(!showAddModal); setErrorMsg([]) }}
+                            roles={roles}
+                            locations={locations}
+                            method={_postOneAdmin}
+                            handleClearError={handleClearError}
+                        />
+                    </div>
+                </div>
                 <BasicTable 
                     columnHeads = {AdminsCOLUMN}
-                    tableData = {admins}
+                    tableData = {filteredData(admins)}
                     hasDelete={true}
                     hasEdit={true}
                     hasQR={false}

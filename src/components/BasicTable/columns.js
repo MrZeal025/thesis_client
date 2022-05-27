@@ -95,7 +95,7 @@ export const AdminsCOLUMN = [
         accessor: 'username'
     },
     {
-        Header: 'Faculty Name',
+        Header: 'Admin Name',
         accessor: ''
     },
     {

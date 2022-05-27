@@ -15,6 +15,9 @@ import { getAllPermissions } from '../../services/permissions/get';
 import { getAllRoles } from '../../services/roles/get';
 import { postOneRole } from '../../services/roles/post';
 import { deleteOneRole } from '../../services/roles/delete';
+// utilities
+import SearchFields from '../../components/Search/index.js';
+import Refresh from '../../components/Refresh/index.js';
 
 const RolesAndPermissions = () => {
 
@@ -31,6 +34,14 @@ const RolesAndPermissions = () => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const handleCloseShowDeleteModal = () => setShowDeleteModal(false);
 
+    const [query, setQuery] = useState("");
+    
+    // filtering process
+    const filteredData = (locations) => {
+        const keys = ["name", "description"]
+        return locations.filter((item) => keys.some(key => item[key].toLowerCase().includes(query)));
+    }
+
     const modules = [
         "Admin",
         "Location",
@@ -46,13 +57,23 @@ const RolesAndPermissions = () => {
     ];
 
     // get all users accounts
-    const _getAllRoles = async () => {
+    const _getAllRoles = async (allowToast) => {
         try {
             const roles = await getAllRoles();
             setRoles(roles.data?.data);
             setIsFetching(false);
+             if(allowToast){
+                setShowToast(!showToast);
+                setToastMessage("The roles and permission list has been refreshed successfully.");
+                setToastStatus('Success');
+            }
         } catch (error) {
             setRoles([]);
+            if(allowToast){
+                setShowToast(!showToast);
+                setToastMessage("Something went wrong!");
+                setToastStatus('Error');
+            }
         }
     }
 
@@ -125,17 +146,23 @@ const RolesAndPermissions = () => {
             </Helmet>
             <div className='titleAndButtonDiv'>
                 <h1 className='contentTitle'>Roles And Permissions</h1>
-                <AddRoleModal 
-                    method={_postOneRole}
-                    permissions={permissions}
-                    modules={modules}
-                />
             </div>
             <div className='contentDiv'>
                 <p className='tableCaption'>This table shows the list of roles and permissions for the admins that are in the system.</p>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                    <SearchFields onSearch={setQuery}/>
+                    <div style={{ marginTop: "20px"}}>
+                        <Refresh onRefresh={_getAllRoles}/>
+                        <AddRoleModal 
+                            method={_postOneRole}
+                            permissions={permissions}
+                            modules={modules}
+                        />
+                    </div>
+                </div>
                 <BasicTable
                     columnHeads = {RolesAndPermissionsCOLUMNS}
-                    tableData = {roles}
+                    tableData = {filteredData(roles)}
                     isFetching={isFetching}
                     hasDelete={true}
                     hasEdit={true}

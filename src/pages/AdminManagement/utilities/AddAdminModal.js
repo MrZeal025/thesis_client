@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 // import package/s
+import { Button } from '@mui/material'
 import { Modal, Form, Row, Col } from 'react-bootstrap'
 import { FormError } from '../../../components/ErrorDisplay/FormError';
 
@@ -71,7 +72,7 @@ const AddAdminModal = ({ method, roles, locations, handleClose, handleShow, show
 
     return (
         <>
-            <button className='primaryBtn' onClick={handleShow}>Create Account</button>
+            <Button className='primaryBtn' onClick={handleShow} variant="contained">Create Account</Button>
             <Modal show={show} size="lg" onHide={handleClose}>
                 <Modal.Header className='modal-header-bg' closeButton>
                     <Modal.Title className='addModalTitle wide-modal-title'>Create a new Administrator Account</Modal.Title>

@@ -163,7 +163,7 @@ const BasicTable = ({
                                     }
 
                                     if (
-                                    cell.column.Header === "Faculty Name" ||
+                                    cell.column.Header === "Admin Name" ||
                                     cell.column.Header === "Name"
                                     ) {
                                     return (

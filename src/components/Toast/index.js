@@ -1,18 +1,20 @@
 import React from 'react'
-import { Toast, ToastContainer } from 'react-bootstrap'
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const  ToastNotification = ({ message, status, showToast, setShowToast })  => {
-
   return (
-    <ToastContainer className='toast-custom-spacing' position='bottom-end'>
-        <Toast show={showToast} bg={status.toLowerCase()} onClose={() => setShowToast(!showToast)} delay={2500} autohide>
-            <Toast.Header>
-                <strong className="me-auto">{status ? status === "Danger" ? "Oops" : status : 'Something went wrong'}</strong>
-                <small>A few seconds ago</small>
-            </Toast.Header>
-            <Toast.Body className={'text-white'}>{ message ? message : '' }</Toast.Body>
-        </Toast>
-    </ToastContainer>
+    <>
+         <Snackbar open={showToast} autoHideDuration={2500} onClose={() => setShowToast(!showToast)}  anchorOrigin={{ vertical : "bottom", horizontal: "right" }}>
+          <Alert onClose={() => setShowToast(!showToast)} severity={status.toLowerCase()} sx={{ width: '100%' }}>
+            { message ? message : '' }
+          </Alert>
+        </Snackbar>
+    </>
   );
 }
 

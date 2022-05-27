@@ -10,10 +10,6 @@
     width: 80%;
     min-width: 100px;
 }
-.genReportBtn {
-    margin-top: 2.5px;
-}
-
 @media (max-width: 800px) {
 
 }

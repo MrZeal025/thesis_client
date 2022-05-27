@@ -18,8 +18,9 @@ import QRCodeGeneratorModal from './utilities/QRCodeGenerator.js';
 import AddLocationModal from './utilities/AddLocationModal.js';
 import EditLocationModal from './utilities/EditLocationModal.js';
 import DeleteLocationModal from './utilities/DeleteLocationModal.js';
-
-
+// utilities
+import SearchFields from '../../components/Search/index.js';
+import Refresh from '../../components/Refresh/index.js';
 
 const Locations = () => {
     // location default state
@@ -33,7 +34,13 @@ const Locations = () => {
     const [toastStatue, setToastStatus] = useState('');
     const [toastMessage, setToastMessage] = useState('');
     const [isFetching, setIsFetching] = useState(true);
-
+    const [query, setQuery] = useState("");
+    
+    // filtering process
+    const filteredData = (locations) => {
+        const keys = ["name", "officerInCharge", "address", "createdAt"]
+        return locations.filter((item) => keys.some(key => item[key].toLowerCase().includes(query)));
+    }
 
     // Edit Modal Declarations
     const [showEditModal, setShowEditModal] = useState(false);
@@ -82,14 +89,24 @@ const Locations = () => {
         setDataToBeEdit(filterdData[0])
     }
 
-    const _getAllLocation = async () => {
+    const _getAllLocation = async (allowToast) => {
         try {
             const locations = await getAllLocations();
             setLocations(locations.data?.data);
             setIsFetching(false);
+            if(allowToast){
+                setShowToast(!showToast);
+                setToastMessage("The location list has been refreshed successfully.");
+                setToastStatus('Success');
+            }
         } catch (error) {
             setHasErrors(true);
             setLocations([]);
+            if(allowToast){
+                setShowToast(!showToast);
+                setToastMessage("Something went wrong!");
+                setToastStatus('Error');
+            }
         }
     }
     // send the data to the backend to be created
@@ -99,13 +116,13 @@ const Locations = () => {
             if(result.data.success) {
                 setLocations([...locations, result.data.data]);
                 setShowToast(!showToast);
-                setToastMessage("Location has been created successfully.");
+                setToastMessage("The location has been created successfully.");
                 setToastStatus('Success');
             }
         } catch (error) {
             setShowToast(!showToast);
             setToastMessage("Something went wrong.");
-            setToastStatus('Danger');
+            setToastStatus('Error');
         }
     }
 
@@ -123,7 +140,7 @@ const Locations = () => {
                 setLocations([...filterdData, result.data.data]);
                 setShowToast(!showToast);
                 setShowEditModal(!showEditModal);
-                setToastMessage("Location has been updated successfully.");
+                setToastMessage("Then location has been updated successfully.");
                 setToastStatus('Success');
             }
         } catch (error) {
@@ -142,7 +159,7 @@ const Locations = () => {
                 setLocations([...filterdData]);
                 setShowToast(!showToast);
                 setShowDeleteModal(!showDeleteModal)
-                setToastMessage("Location has been deleted successfully.");
+                setToastMessage("The location has been deleted successfully.");
                 setToastStatus('Success');
             }
         } catch (error) {
@@ -164,16 +181,21 @@ const Locations = () => {
             </Helmet>
             <div className='titleAndButtonDiv'>
                 <h1 className='contentTitle'>Locations</h1>
-                <AddLocationModal 
-                    method={_postOneLocation}
-                />
             </div>
             <div className='contentDiv'>
                 <p className='tableCaption'>This table shows the list of locations stored in the system.</p>
-                
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                    <SearchFields onSearch={setQuery}/>
+                    <div style={{ marginTop: "20px"}}>
+                        <Refresh onRefresh={_getAllLocation}/>
+                        <AddLocationModal 
+                            method={_postOneLocation}
+                        />
+                    </div>
+                </div>
                 <BasicTable
                     columnHeads = {LocationsCOLUMN}
-                    tableData = {locations}
+                    tableData = {filteredData(locations)}
                     hasDelete={true}
                     hasEdit={true}
                     hasQR={true}
@@ -182,8 +204,6 @@ const Locations = () => {
                     deleteModalFunction={handleShowDeleteModal}
                     isFetching={isFetching}
                 />
-                
-                {/* error cather ui */}
                 {
                     hasErrors && <div>Something went wrong</div>
                 }

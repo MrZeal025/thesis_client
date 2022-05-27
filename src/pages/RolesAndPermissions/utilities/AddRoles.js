@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import './CustomModals.css'
 // import package/s
 import { Modal, Form } from 'react-bootstrap'
+import { Button } from '@mui/material'
 
 const AddRoleModal = ({ method, permissions, modules }) => {
     
@@ -65,7 +66,7 @@ const AddRoleModal = ({ method, permissions, modules }) => {
 
     return (
         <>
-            <button className='primaryBtn' onClick={handleShow}>Add Role</button>
+            <Button className='primaryBtn' onClick={handleShow} variant="contained">Add Role</Button>
             <Modal Modal show={show} fullscreen={true} onHide={handleClose}>
                 <Modal.Header className='modal-header-bg' closeButton >
                     <Modal.Title className='wide-modal-title'>Create Role</Modal.Title>

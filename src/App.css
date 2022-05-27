@@ -127,8 +127,8 @@ input:focus {
   width: fit-content;
 
   margin: 10px 0;
-  background-color: var(--primary);
-  color: var(--white);
+  background-color: var(--primary) !important;
+  color: var(--white) !important;
   padding-left: 10px;
   padding-right: 10px;
   font-weight: 600;
@@ -210,6 +210,12 @@ input:focus {
   padding: 5px;
   padding-right: 10px;
 } */
+
+.tableCaption {
+  text-align: left;
+  margin-bottom: 0px;
+  font-size: 13px;
+}
 
 /* For center alignment vertically of the No. Column */
 .tableStyle tbody tr td:first-child {
