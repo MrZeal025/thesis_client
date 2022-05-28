@@ -8,6 +8,7 @@ import Helmet from 'react-helmet'
 import FileDownload from "js-file-download";
 import Spinner from 'react-bootstrap/Spinner'
 import axios from 'axios';
+import { Button } from '@mui/material';
 
 const UserHome = () => {
     
@@ -50,13 +51,14 @@ const UserHome = () => {
                         <b>JuanBreath</b> is a contact tracing app developed to help the nation 
                         from the adverse effects on the spread the COVID-19 virus.
                         </h6>
-                        { !isDownloading &&  <button className='accentBtn downloadAppBtn' onClick={() => {downloadApp()}}>Download JuanBreath Mobile App</button>}
+                        { !isDownloading &&  <Button className='accentBtn downloadAppBtn' onClick={() => {downloadApp()}}>Download JuanBreath Mobile App</Button>}
                         {
-                            isDownloading && <>
-                                <Spinner animation="border" role="status">
+                            isDownloading && <div style={{ display: "flex"}}>
+                                <Spinner animation="border" role="status" style={{marginRight: "10px", color: "white"}}>
                                     <span className="visually-hidden">Loading...</span>
-                                </Spinner><p>Download {percentage}%</p>
-                            </>
+                                </Spinner>
+                                <p style={{ color: "white", marginTop: "5px"}}>Download {percentage}%</p>
+                            </div>
                         }
                     </div>
                     <div className='userHomeIllustration'>

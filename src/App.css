@@ -142,7 +142,7 @@ input:focus {
   color: var(--primary);
 }
 .accentBtn {
-  background-color: var(--accent);
+  background-color: var(--accent) !important;
   color: var(--white);
 }
 
