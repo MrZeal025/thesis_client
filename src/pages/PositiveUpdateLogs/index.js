@@ -150,6 +150,7 @@ const PositiveTracingLogs = () => {
 
     useEffect(() => {
         _getAllVisitationLogs();
+        // eslint-disable-next-line
     }, []);
 
     return (

@@ -204,6 +204,7 @@ const AdminManagement = () => {
         _getAllAdmins();
         _getAllLocation();
         _getAllRoles();
+        // eslint-disable-next-line
     }, []);
 
     return (

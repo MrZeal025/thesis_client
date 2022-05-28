@@ -171,6 +171,7 @@ const Locations = () => {
 
     useEffect(() => {
         _getAllLocation();
+        // eslint-disable-next-line
     }, []);
 
     return (

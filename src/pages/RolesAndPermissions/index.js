@@ -119,6 +119,7 @@ const RolesAndPermissions = () => {
     useEffect(() => {
         _getAllRoles();
         _getAllPermissions();
+        // eslint-disable-next-line
     }, []);
 
     // send the data to the backend to be created

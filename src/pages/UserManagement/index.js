@@ -50,7 +50,8 @@ const UserManagement = () => {
 
     // this function will auto run on mount
     useEffect(() => {
-        _getAllUsers()
+        _getAllUsers();
+        // eslint-disable-next-line
     }, []);
 
     return (

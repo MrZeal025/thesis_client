@@ -7,7 +7,8 @@ export default function ChoropletMap({ countries }) {
     const [data, setData] = useState([])
 
     useEffect(() => {
-        setData(countries)
+        setData(countries);
+        // eslint-disable-next-line
     }, []);
 
     return (

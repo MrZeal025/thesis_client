@@ -117,6 +117,7 @@ const ContactTracingLogs = () => {
 
     useEffect(() => {
         _getAllVisitationLogs();
+        // eslint-disable-next-line
     }, []);
 
     return (
