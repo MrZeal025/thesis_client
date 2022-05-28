@@ -9,7 +9,7 @@ import Helmet from 'react-helmet'
 import HomeContainer from '../../components/HomeContainer'
 import WeeklyHealthStatusGraph from './charts/SimpleLineChart'
 import VisitationLineChart from './charts/VisitationLinChart';
-// import MainMap from './map';
+import MainMap from './map';
 // utilities
 import { getAllStatistics, getAllWeeklyStatistics, getAllVisitationStatistics } from "../../services/admins/get";
 import { Button } from 'react-bootstrap'
@@ -114,12 +114,12 @@ const Dashboard = () => {
                     </div>
                 </div>
             </div>
-            {/* <div style={{ marginTop: "20px", width: "100%"}} className="box-statistics">
+            <div style={{ marginTop: "20px", width: "100%"}} className="box-statistics">
                 <div  style={{ marginBottom: "5px"}} className='d-flex justify-content-md-between'>
                     <h3 className='chartTitle'>Philippines COVID-19 Choroplet Map</h3>
                 </div>
                 <MainMap/>
-            </div> */}
+            </div>
             <div style={{ marginTop: "20px", width: "100%"}} className="box-statistics">
                 <div style={{ marginBottom: "20px"}} className='d-flex justify-content-md-between'>
                     <h3 className='chartTitle'>Weekly Health Status Analytics</h3>
