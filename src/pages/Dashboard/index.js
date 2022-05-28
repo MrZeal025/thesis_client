@@ -9,7 +9,7 @@ import Helmet from 'react-helmet'
 import HomeContainer from '../../components/HomeContainer'
 import WeeklyHealthStatusGraph from './charts/SimpleLineChart'
 import VisitationLineChart from './charts/VisitationLinChart';
-import MainMap from './map';
+// import MainMap from './map';
 // utilities
 import { getAllStatistics, getAllWeeklyStatistics, getAllVisitationStatistics } from "../../services/admins/get";
 import { Button } from 'react-bootstrap'
