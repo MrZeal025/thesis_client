@@ -114,12 +114,12 @@ const Dashboard = () => {
                     </div>
                 </div>
             </div>
-            <div style={{ marginTop: "20px", width: "100%"}} className="box-statistics">
+            {/* <div style={{ marginTop: "20px", width: "100%"}} className="box-statistics">
                 <div  style={{ marginBottom: "5px"}} className='d-flex justify-content-md-between'>
                     <h3 className='chartTitle'>Philippines COVID-19 Choroplet Map</h3>
                 </div>
                 <MainMap/>
-            </div>
+            </div> */}
             <div style={{ marginTop: "20px", width: "100%"}} className="box-statistics">
                 <div style={{ marginBottom: "20px"}} className='d-flex justify-content-md-between'>
                     <h3 className='chartTitle'>Weekly Health Status Analytics</h3>
