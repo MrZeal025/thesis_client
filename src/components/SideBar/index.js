@@ -2,17 +2,88 @@ import React, { useState } from 'react'
 import logo from '../../media/logo-Blue.png'
 import './sideBar.css'
 // import icon/s
-import { FaChartBar, FaMapMarkerAlt, FaAlignJustify, FaUserFriends, FaIdBadge, FaPlus } from "react-icons/fa";
+import { FaChartBar, FaMapMarkerAlt, FaAlignJustify, FaUserFriends, FaIdBadge, FaPlus, FaVirus } from "react-icons/fa";
 import { BsPhoneFill } from "react-icons/bs"
 import axios from 'axios';
 import FileDownload from "js-file-download";
 import Spinner from 'react-bootstrap/Spinner'
 
-const Sidebar = () => {
-    // figure out how to change color of the link of an active page
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import { styled, useTheme } from '@mui/material/styles';
 
+const drawerWidth = 250;
+
+const DrawerHeader = styled('div')(({ theme }) => ({
+  display: 'flex',
+  padding: theme.spacing(0, 2),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+  justifyContent: 'space-between',
+}));
+
+const Sidebar = ({ open, handleDrawerClose }) => {
+
+    const theme = useTheme();
     const [isDownloading, setIsDownloading] = useState(false);
     const [percentage, setPercentage] = useState(0);
+
+    const graph = [
+        {
+            name: "Dashboard",
+            link: "/dashboard",
+            icon: <FaChartBar className='mr-10' height={50}/>
+        },
+        {
+            name: "Locations",
+            link: "/locations",
+            icon: <FaMapMarkerAlt className='mr-10' height={50}/>
+        }
+    ]
+
+    const items = [
+        {
+            name: "Disease Management",
+            link: "/diseases",
+            icon: <FaVirus className='mr-10' height={50}/>
+        },
+        {
+            name: "Visitation Logs",
+            link: "/visitation-logs",
+            icon: <FaAlignJustify className='mr-10' height={50}/>
+        },
+        {
+            name: "Positive Update Logs",
+            link: "/positive-tracing-logs",
+            icon: <FaPlus className='mr-10' height={50}/>
+        }
+    ]
+
+    const management = [
+        {
+            name: "Admin Management",
+            link: "/admin-management",
+            icon: <FaUserFriends className='mr-10' height={50}/>
+        },
+        {
+            name: "User Management",
+            link: "/user-management",
+            icon: <FaUserFriends className='mr-10' height={50}/>
+        },
+        {
+            name: "Roles & Permissions",
+            link: "/roles-and-permissions",
+            icon: <FaIdBadge className='mr-10' height={50}/>
+        }
+    ]
 
     // ADD this function on onClick of download Button
     const downloadApp =  () => {
@@ -36,60 +107,92 @@ const Sidebar = () => {
     }
 
     return (
-        <div className='sideBarContainer'>
-            <div className='companyGrp'>
-                <img src={logo} alt='logo' height={45} className='companyLogo'/>
-                <div className='TitleCont'>
-                    <h4 className='companyName'>JuanBreath</h4> 
-                    <p className='companyName2'>ADMIN</p>
+        <Drawer
+            sx={{
+                width: drawerWidth,
+                flexShrink: 0,
+                '& .MuiDrawer-paper': {
+                    width: drawerWidth,
+                    boxSizing: 'border-box',
+                },
+            }}
+            variant="persistent"
+            anchor="left"
+            open={open}
+        >
+            <DrawerHeader>
+                <div className='companyGrp'>
+                    <img src={logo} alt='logo' height={40} className='companyLogo'/>
+                    <div style={{ marginLeft: "5px", paddingTop: "5px" }}>
+                        <h5 className='companyName'>JuanBreath</h5> 
+                        <p className='companyName2'>ADMIN</p>
+                    </div>
                 </div>
-            </div>
-            <li className='sideBarItems'>
-                <a href='/dashboard' className={`sideBarItem ${window.location.pathname === '/dashboard' && 'active'}`}>
-                    
-                    <FaChartBar className='mr-10' height={50}/>
-                    Dashboard
-                </a>
-                <a  href='/locations' className={`sideBarItem ${window.location.pathname === '/locations' && 'active'}`}>
-                    <FaMapMarkerAlt className='mr-10'/>
-                    Locations
-                </a>
-                <a  href='/visitation-logs' className={`sideBarItem ${window.location.pathname === '/visitation-logs' && 'active'}`}>
-                    <FaAlignJustify className='mr-10'/>
-                    Visitation Logs
-                </a>
-                <a  href='/positive-tracing-logs' className={`sideBarItem ${window.location.pathname === '/positive-tracing-logs' && 'active'}`}>
-                    <FaPlus className='mr-10'/>
-                    Positive Update Logs
-                </a>
-                <a  href='/admin-management' className={`sideBarItem ${window.location.pathname === '/admin-management' && 'active'}`}>
-                    <FaUserFriends className='mr-10'/>
-                    Admin Management
-                </a>
-                <a  href='/user-management' className={`sideBarItem ${window.location.pathname === '/user-management' && 'active'}`}>
-                    <FaUserFriends className='mr-10'/>
-                    User Management
-                </a>
-                <a  href='/roles-and-permissions' className={`sideBarItem ${window.location.pathname === '/roles-and-permissions' && 'active'}`}>
-                    <FaIdBadge className='mr-10'/>
-                    Roles &amp; Permissions
-                </a>
+                <IconButton onClick={handleDrawerClose}>
+                    {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                </IconButton>
+            </DrawerHeader>
+            <Divider />
+            <List>
                 {
-                    !isDownloading && <p onClick={() => { downloadApp()}} className={`sideBarItem`}>
-                        {/* <MdPhonelinkSetup className='mr-10'/> */}
-                        <BsPhoneFill className='mr-10'/>
-                        Download App
-                    </p>
+                    graph.map((item, index) => (
+                    <ListItem key={index} disablePadding>
+                        <ListItemButton component="a" href={item.link} className={`sideBarItem ${window.location.pathname === item.link && 'active'}`}>
+                            <ListItemIcon style={{ marginLeft: "13px", color: window.location.pathname === item.link && '#2a749f' }}>{item.icon}</ListItemIcon>
+                            <ListItemText primary={item.name} style={{ fontWeight: "700" }} />
+                        </ListItemButton>
+                    </ListItem>
+                    ))
                 }
+            </List>
+            <Divider />
+            <List>
                 {
-                    isDownloading && <>
+                    items.map((item, index) => (
+                        <ListItem key={index} disablePadding>
+                            <ListItemButton component="a" href={item.link} className={`sideBarItem ${window.location.pathname === item.link && 'active'}`}>
+                                <ListItemIcon style={{ marginLeft: "13px", color: window.location.pathname === item.link && '#2a749f' }}>{item.icon}</ListItemIcon>
+                                <ListItemText primary={item.name} style={{ fontWeight: "700" }} />
+                            </ListItemButton>
+                        </ListItem>
+                    ))
+                }
+            </List>
+            <Divider />
+            <List>
+                {
+                    management.map((item, index) => (
+                    <ListItem key={index} disablePadding>
+                        <ListItemButton component="a" href={item.link} className={`sideBarItem ${window.location.pathname === item.link && 'active'}`}>
+                            <ListItemIcon style={{ marginLeft: "13px", color: window.location.pathname === item.link && '#2a749f' }}>{item.icon}</ListItemIcon>
+                            <ListItemText primary={item.name} style={{ fontWeight: "700" }} />
+                        </ListItemButton>
+                    </ListItem>
+                    ))
+                }
+            </List>
+            <Divider />
+            {
+                !isDownloading && 
+                    <ListItem disablePadding>
+                        <ListItemButton className={"sideBarItem"} onClick={() => { downloadApp()}} >
+                            <ListItemIcon style={{ marginLeft: "13px"}}>
+                                <BsPhoneFill className='mr-10'/>
+                            </ListItemIcon>
+                            <ListItemText primary={"Download App"} style={{ fontWeight: "700" }} />
+                        </ListItemButton>
+                    </ListItem> 
+            }
+            {
+                isDownloading && <ListItem disablePadding>
+                    <ListItemButton>
                         <Spinner animation="border" role="status">
                             <span className="visually-hidden">Loading...</span>
                         </Spinner><p>Download {percentage}%</p>
-                    </>
-                }
-            </li>
-        </div>
+                    </ListItemButton>
+                </ListItem>
+            }
+        </Drawer>
         
     )
 }

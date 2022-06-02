@@ -211,3 +211,30 @@ export const VisitationHistroyCOLUMNS = [
         accessor: 'none'
     }
 ]
+
+export const DiseasesCOLUMNS = [
+    {
+        Header: 'No.',
+        accessor: ''
+    },
+    {
+        Header: 'Disease Name',
+        accessor: 'name'
+    },
+    {
+        Header: 'Total Monitored',
+        accessor: 'totalMonitoredToday'
+    },
+    {
+        Header: 'Traced Today',
+        accessor: 'totalTraceCount'
+    },
+    {
+        Header: 'Priority',
+        accessor: 'isPriority'
+    },
+    {
+        Header: 'Actions',
+        accessor: 'none'
+    }
+]

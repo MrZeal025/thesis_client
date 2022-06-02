@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import jwtDecode from 'jwt-decode';
-import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
-import { FaUserCircle, FaCogs, FaSignOutAlt } from "react-icons/fa";
+import HomeNavBar from './muinav';
 // stylesheet
 import './homeNav.css'
 
@@ -13,7 +12,7 @@ const logout = () => {
     window.location.href ="/"
 }
 
-const HomeNav = ({ showResetPasswordModal }) => {
+const HomeNav = ({ showResetPasswordModal, handleDrawerOpen, open }) => {
 
     const [fullName, setUserFullName] = useState('');
 
@@ -33,18 +32,13 @@ const HomeNav = ({ showResetPasswordModal }) => {
     },[]);
 
     return (
-        <Navbar className='homeNav' expand="lg">
-            <Navbar.Collapse className="justify-content-end">
-                <Nav className='align-left'>
-                    <NavDropdown title={fullName} className="homeNavGreeting" id="basic-nav-dropdown">
-                        <NavDropdown.Item href="/profile"><FaUserCircle/> Profile</NavDropdown.Item>
-                        <NavDropdown.Item href="#" onClick={showResetPasswordModal}><FaCogs/> Reset Password</NavDropdown.Item>
-                        <NavDropdown.Divider />
-                        <NavDropdown.Item href="#" onClick={() => logout()}><FaSignOutAlt/> Sign Out</NavDropdown.Item>
-                    </NavDropdown>
-                </Nav>
-            </Navbar.Collapse>
-        </Navbar>
+        <HomeNavBar
+            fullName={fullName}
+            showResetPasswordModal={showResetPasswordModal}
+            logout={logout}
+            open={open}
+            handleDrawerOpen={handleDrawerOpen}
+        />
     )
 }
 

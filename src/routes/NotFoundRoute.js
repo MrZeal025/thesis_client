@@ -8,7 +8,7 @@ export default function NotFoundRoute() {
       <img src={ErrorArt} className='error-art' alt='404 Error Page Not Found'/>
       <h2>Error 404 Page Not found</h2>
       <p>Please return to the previous page.</p>
-      <a href='/'>
+      <a href='/dashboard'>
         <button className='primaryBtn'>Go Back</button>
       </a>
     </div>

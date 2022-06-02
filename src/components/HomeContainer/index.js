@@ -1,14 +1,58 @@
 import React, { useState, useEffect } from 'react';
 import jwtDecode from 'jwt-decode';
 import HomeNav from '../HomeNav';
-import Sidebar from '../SideBar';
 import ResetPassword from '../../pages/Login/utils/ResetPassword';
 // services
 import { loginAdmin } from '../../services/auth/login';
 import { resetPassword } from '../../services/auth/resetpassword';
 import ToastNotification from '../Toast';
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import CssBaseline from '@mui/material/CssBaseline';
+import Sidebar from '../SideBar';
+
+const drawerWidth = 250;
+
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
+  ({ theme, open }) => ({
+    flexGrow: 1,
+    padding: theme.spacing(4),
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginLeft: `-${drawerWidth}px`,
+    ...(open && {
+      width: `calc(100% - ${drawerWidth}px)`,
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      marginLeft: 0,
+    }),
+  }),
+);
+
+const DrawerHeader = styled('div')(({ theme }) => ({
+  display: 'flex',
+  padding: theme.spacing(0, 2),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+  justifyContent: 'space-between',
+}));
 
 export default function HomeContainer (props) {
+  
+  const [open, setOpen] = React.useState(true);
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+
   // set up password and new password variables
   const [userName, setUserName] = useState('');
   const [showNextStep, setShowNextStep] = useState(false);
@@ -89,40 +133,44 @@ export default function HomeContainer (props) {
 
   // add toast notif
   return (
-    <div className='customContainer '>
-        <div className='homeWrapper'>
-            <Sidebar />
-            <div className='navAndContentDiv'>
-                <HomeNav 
-                  showResetPasswordModal={e => setShowResetModal(!showResetModal)}
-                />
-                <div className='contentWrapper'>
-                    {props.children}
-                </div>
-            </div>
-        </div>
-        <ResetPassword
-          showFunction = {showResetModal}
-          showNextStep={showNextStep}
-          errorMsg={errorMsg}
-          onHideFunction = {handleCloseShowResetModal}
-          handleConfirmCurrentPassword={handleConfirmCurrentPassword}
-          currentPassword={currentPassword}
-          newPassword={newPassword}
-          confirmNewPassword={confirmNewPassword}
-          setCurrentPassword={setCurrentPassword}
-          setNewPassword={setNewPassword}
-          setConfirmNewPassword={setConfirmNewPassword}
-          isSubmitting={isSubmitting}
-          resetPasswordFunction={resetPasswordFunction}
-        />
-        <ToastNotification
-          showToast={showToast}
-          setShowToast={setShowToast}
-          message={toastMessage}
-          status={toastStatue}
-        /> 
-    </div>
+    <Box sx={{ display: 'flex' }} className="customContainer">
+      <HomeNav 
+        showResetPasswordModal={e => setShowResetModal(!showResetModal)}
+        handleDrawerOpen={handleDrawerOpen}
+        open={open}
+      />
+      <Sidebar
+        open={open}
+        handleDrawerClose={handleDrawerClose}
+      />
+      {/* Center Content */}
+      <Main className='navAndContentDiv' open={open}>
+        <DrawerHeader />
+        {props.children}
+      </Main>
+      {/* Utilities */}
+      <ResetPassword
+        showFunction = {showResetModal}
+        showNextStep={showNextStep}
+        errorMsg={errorMsg}
+        onHideFunction = {handleCloseShowResetModal}
+        handleConfirmCurrentPassword={handleConfirmCurrentPassword}
+        currentPassword={currentPassword}
+        newPassword={newPassword}
+        confirmNewPassword={confirmNewPassword}
+        setCurrentPassword={setCurrentPassword}
+        setNewPassword={setNewPassword}
+        setConfirmNewPassword={setConfirmNewPassword}
+        isSubmitting={isSubmitting}
+        resetPasswordFunction={resetPasswordFunction}
+      />
+      <ToastNotification
+        showToast={showToast}
+        setShowToast={setShowToast}
+        message={toastMessage}
+        status={toastStatue}
+      /> 
+    </Box>
   )
 }
 

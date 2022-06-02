@@ -116,7 +116,7 @@ const AdminManagement = () => {
                 setShowAddModal(!showAddModal);
                 setAdmins([...admins, result.data.data]);
                 setShowToast(!showToast);
-                setToastMessage("Admin account has been created successfully.");
+                setToastMessage("Admin account has been created successfully. Please check the registered email for credentials.");
                 setToastStatus('Success');
             }
         } catch (error) {

@@ -122,29 +122,6 @@ const Dashboard = () => {
             </div>
             <div style={{ marginTop: "20px", width: "100%"}} className="box-statistics">
                 <div style={{ marginBottom: "20px"}} className='d-flex justify-content-md-between'>
-                    <h3 className='chartTitle'>Weekly Health Status Analytics</h3>
-                    <div className='d-flex justify-content-md-between'>
-                        <DatePicker 
-                            selected={startDate} 
-                            form 
-                            onChange={
-                                (date) => {
-                                    setStartDate(date)
-                                    weeklyHealthStatusAnalytics();
-                                } 
-                            } 
-                        />
-                        <Button style={{ marginLeft: "10px" }} onClick={() => { weeklyHealthStatusAnalytics()}}>
-                            <FaSync/>
-                        </Button>
-                    </div>
-                </div>
-                <WeeklyHealthStatusGraph
-                    weeklyHeathAnalytics={weeklyHeathAnalytics}
-                />
-            </div>
-            <div style={{ marginTop: "20px", width: "100%"}} className="box-statistics">
-                <div style={{ marginBottom: "20px"}} className='d-flex justify-content-md-between'>
                     <h3 className='chartTitle'>Weekly Visitation Status Analytics</h3>
                     <div className='d-flex justify-content-md-between'>
                         <DatePicker 
@@ -164,6 +141,29 @@ const Dashboard = () => {
                 </div>
                 <VisitationLineChart
                     weeklyHeathAnalytics={weeklyVisitationAnalytics}
+                />
+            </div>
+            <div style={{ marginTop: "20px", width: "100%"}} className="box-statistics">
+                <div style={{ marginBottom: "20px"}} className='d-flex justify-content-md-between'>
+                    <h3 className='chartTitle'>Weekly Health Status Analytics</h3>
+                    <div className='d-flex justify-content-md-between'>
+                        <DatePicker 
+                            selected={startDate} 
+                            form 
+                            onChange={
+                                (date) => {
+                                    setStartDate(date)
+                                    weeklyHealthStatusAnalytics();
+                                } 
+                            } 
+                        />
+                        <Button style={{ marginLeft: "10px" }} onClick={() => { weeklyHealthStatusAnalytics()}}>
+                            <FaSync/>
+                        </Button>
+                    </div>
+                </div>
+                <WeeklyHealthStatusGraph
+                    weeklyHeathAnalytics={weeklyHeathAnalytics}
                 />
             </div>
         </HomeContainer>

@@ -14,41 +14,40 @@
     justify-content: center;
     padding-top: 5px;
     padding-bottom: 10px;
-    border-bottom: 1.5px solid var(--inputBG);
-}
-.companyLogo {
-    margin-right: 10px;
+    margin-left: 10px;
 }
 .companyName {
-    color: var(--primary);
     font-weight: 700;
+    color: var(--primary);
     margin-bottom: 0;
 }
 .companyName2 {
-    color: var(--primary);
     font-size: .7rem;
     font-weight: 600;
+    color: var(--primary);
     margin-bottom: 0;
 }
 
 .sideBarItems {
     display: flex;
     flex-direction: column;
-    margin-top: 30px;
+    margin-top: 30px !important;
 }
+
 .sideBarItem {
     text-decoration: none !important;
-    color: var(--placeholderText);
-    font-weight: 600;
-
-    
-    display: flex;
-    align-items: center;
-    margin-bottom: 4vh;
+    color: var(--placeholderText) !important;
 }
+
 .sideBarItem:active, .sideBarItem:hover, .active {
     color: var(--primary) !important;
+    background-color: #d9e1e9 !important;
 }
+
+.iconActive {
+    color: var(--primary) !important;
+}
+
 .dot {
     height: 25px;
     width: 25px;
@@ -56,4 +55,16 @@
     border-radius: 50%;
     display: inline-block;
     margin-right: 10px;
+}
+
+/* over ride */
+.css-10hburv-MuiTypography-root {
+    margin-top: 6px !important;
+    margin-bottom: 6px !important;
+}
+.css-cveggr-MuiListItemIcon-root {
+    min-width: 35px !important;
+}
+.css-10hburv-MuiTypography-root {
+    font-weight: 600 !important;
 }

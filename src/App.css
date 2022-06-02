@@ -18,6 +18,11 @@
   --red: #ad2828;
 }
 
+#root {
+  background-color: #eaeaea !important;
+  height: 100vh;
+}
+
 .bg-primary {
   background-color: var(--primary) !important;
 }
@@ -28,12 +33,9 @@
 
 /* Home Common Parts Custom Style */
 .customContainer {
-  width:100%;
-  height:100vh;
-  margin: 0 !important; 
-  padding: 0 !important;
-  background-color: #eaeaea;
-  display: flex;
+  background-color: #eaeaea !important;
+  height: 100% !important;
+
 }
 .homeWrapper {
   width:100vw;
@@ -61,7 +63,8 @@
 /* Content Title per page in the pages*/
 .contentTitle {
   color: var(--primary);
-  width: auto;  /*to match the min-width of the table*/
+  width: auto; 
+  margin-bottom: 0; /*to match the min-width of the table*/
 }
 .contentDiv {
   width: 100%;
@@ -213,8 +216,8 @@ input:focus {
 
 .tableCaption {
   text-align: left;
-  margin-bottom: 0px;
-  font-size: 13px;
+  margin-bottom: 10px;
+  font-size: 15px;
 }
 
 /* For center alignment vertically of the No. Column */

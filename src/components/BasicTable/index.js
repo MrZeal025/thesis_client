@@ -193,6 +193,26 @@ const BasicTable = ({
                                     );
                                     }
 
+                                    if (cell.column.Header === "Total Monitored") {
+                                    return (
+                                        <TableCell>{cell.row.original.totalMonitoredToday === "" ? 0 : cell.row.original.totalMonitoredToday}</TableCell>
+                                    );
+                                    }
+
+                                    if (cell.column.Header === "Traced Today") {
+                                    return (
+                                        <TableCell>{cell.row.original.totalTraceCount === "" ? 0 : cell.row.original.totalTraceCount }</TableCell>
+                                    );
+                                    }
+
+                                    if (cell.column.Header === "Priority") {
+                                    return (
+                                        <TableCell>
+                                            <b>{cell.row.original.isPriority ? "Yes" : "No"}</b>
+                                        </TableCell>
+                                    );
+                                    }
+
                                     if (cell.column.Header === "Role Name") {
                                     return (
                                         <TableCell>

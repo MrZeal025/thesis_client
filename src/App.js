@@ -17,6 +17,7 @@ import RolesAndPermissions from './pages/RolesAndPermissions';
 import UserManagement from './pages/UserManagement';
 import PositiveTracingLogs from './pages/PositiveUpdateLogs';
 import ProfilePage from './pages/Profile';
+import Diseasemanagement from './pages/DiseaseManagement';
 
 //utilities
 import jwt_decode from 'jwt-decode';
@@ -84,6 +85,14 @@ function App() {
             element={
               <RequireAuth>
                 <Locations/>
+              </RequireAuth>
+            } 
+          />
+          <Route 
+            path="/diseases" 
+            element={
+              <RequireAuth>
+                <Diseasemanagement/>
               </RequireAuth>
             } 
           />
