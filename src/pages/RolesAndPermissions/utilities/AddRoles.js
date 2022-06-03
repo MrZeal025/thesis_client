@@ -134,7 +134,7 @@ const AddRoleModal = ({ method, permissions, modules }) => {
                         }
 
                         <div className='full-page-modal-save-button'>
-                            <button className='primaryBlockBtn' onClick={() => onSubmit()}>Create Location</button>
+                            <button className='primaryBlockBtn' onClick={() => onSubmit()}>Create Role</button>
                         </div>
                     </div>
                 </Modal.Body>

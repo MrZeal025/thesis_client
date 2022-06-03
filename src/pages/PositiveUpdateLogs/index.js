@@ -32,7 +32,7 @@ const PositiveTracingLogs = () => {
 
     // filtering process
     const filteredData = (positiveLogs) => {
-        const keys = ["firstName", "middleName", "lastName", "mobileNumber", "userType", "date"]
+        const keys = ["gender", "age", "mobileNumber", "userType", "date"]
         return positiveLogs.filter((item) => keys.some(
             key => 
                 item[key].toLowerCase().includes(query)
@@ -49,6 +49,8 @@ const PositiveTracingLogs = () => {
                     firstName: visitationLogs.data.data[i].firstName,
                     middleName: visitationLogs.data.data[i].middleName,
                     lastName: visitationLogs.data.data[i].lastName,
+                    gender: visitationLogs.data.data[i].gender,
+                    age: visitationLogs.data.data[i].age,
                     mobileNumber: visitationLogs.data.data[i].mobileNumber,
                     nameExtension: visitationLogs.data.data[i].nameExtension,
                     healthStatus: visitationLogs.data.data[i].healthStatus,

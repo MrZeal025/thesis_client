@@ -9,9 +9,11 @@ import logo from '../../media/logo-White.png'
 import { useForm } from 'react-hook-form'
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import Spinner from 'react-bootstrap/Spinner'
+import jwt_decode from 'jwt-decode';
+import { checkAccess } from '../../services/auth/login';
 
 const Login = () => {
-    
+
     const { register, handleSubmit, formState: {errors} } = useForm(); 
     const [viewPassword, setViewPassword] = useState(false)   
     const [validationError, setErrors] = useState('');
@@ -27,8 +29,8 @@ const Login = () => {
                 // set the generated token to the local storage
                 localStorage.setItem('accessToken', data.accessToken);
                 localStorage.setItem('refreshToken', data.refreshToken);
-                // navigate inside the application
-                window.location.href = "/dashboard"
+                const decodedToken = jwt_decode(data.accessToken)
+                check(decodedToken.role)
             }
 
         } catch (error) {
@@ -41,6 +43,47 @@ const Login = () => {
 
     const passwordToggleBtn = () => {
         setViewPassword(prevState => !prevState)
+    }
+
+    const check =  async (role) => {
+        try {
+            let permissionNames = []
+            const data = await checkAccess(role)
+            const permissions = data.data?.data[0].permissions;
+
+            for(let i = 0; i < permissions.length; i++) {
+                permissionNames.push(permissions[i].name)
+            }
+
+            if(permissionNames.includes("Dashboard:Read")) {
+                window.location.href = "/dashboard"
+            }
+            else if(permissionNames.includes("Location:Read")) {
+                window.location.href = "/locations"
+            }
+            else if(permissionNames.includes("Disease:Read")) {
+                window.location.href = "/diseases"
+            }
+            else if (permissionNames.includes("Visitation-History:Read")){
+                window.location.href = "/visitation-logs"
+            }
+            else if(permissionNames.includes("Contact-Tracing-Logs:Read")) {
+                window.location.href = "/positive-tracing-logs"
+
+            }
+            else if(permissionNames.includes("Users:Read")) {
+                window.location.href = "/user-management"
+            }
+            else if(permissionNames.includes("Admin:Read")) {
+                window.location.href = "/admin-management"
+            }
+            else if(permissionNames.includes("Role:Read")) {
+                window.location.href = "/roles-and-permissions"
+            }
+
+        } catch (error) {
+            // do something
+        }
     }
 
     return (

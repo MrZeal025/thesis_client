@@ -23,10 +23,11 @@ export default function ChoropletMap({ countries }) {
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
                 {
-                    data.map((state) => {
+                    data.map((state, i) => {
                         const coordinates = state.geometry.coordinates[0].map((item) => [item[1], item[0]]);
                         
                         return (<Polygon
+                            key={i}
                             pathOptions={{
                                 fillColor: '#FD8D3C',
                                 fillOpacity: 0.7,

@@ -10,9 +10,9 @@ import { DiseasesCOLUMNS } from '../../components/BasicTable/columns';
 import ToastNotification from '../../components/Toast/index.js';
 // apis
 import { getAllDiseases } from '../../services/diseases/get.js';
-import { postOneLocation } from '../../services/locations/post.js';
-import { putOneLocation } from "../../services/locations/put"
-import { deleteOneLocations } from '../../services/locations/delete.js';
+import { postOneDisease } from '../../services/diseases/post';
+import { putOneDisease } from "../../services/diseases/put"
+import { deleteOneDisease } from '../../services/diseases/delete.js';
 // modals
 import QRCodeGeneratorModal from './utilities/QRCodeGenerator.js';
 import AddLocationModal from './utilities/AddLocationModal.js';
@@ -29,7 +29,7 @@ const Diseasemanagement = () => {
     const [showToast, setShowToast] = useState(false);
     const [editId, setEditId] = useState('');
     const [deleteId, setDeleteId] = useState('');
-    const [dataToBeEdit, setDataToBeEdit] = useState({ name: "", address: "", officerInCharge: "" });
+    const [dataToBeEdit, setDataToBeEdit] = useState({ name: "" });
     const [dataToBeDeleted, setDataToBeDeleted] = useState('');
     const [toastStatue, setToastStatus] = useState('');
     const [toastMessage, setToastMessage] = useState('');
@@ -38,7 +38,7 @@ const Diseasemanagement = () => {
     
     // filtering process
     const filteredData = (locations) => {
-        const keys = ["name", "officerInCharge", "address", "createdAt"]
+        const keys = ["name", "totalMonitoredToday", "totalTraceCount"]
         return locations.filter((item) => keys.some(key => item[key].toLowerCase().includes(query)));
     }
 
@@ -96,7 +96,7 @@ const Diseasemanagement = () => {
             setIsFetching(false);
             if(allowToast){
                 setShowToast(!showToast);
-                setToastMessage("The location list has been refreshed successfully.");
+                setToastMessage("The disease list has been refreshed successfully.");
                 setToastStatus('Success');
             }
         } catch (error) {
@@ -112,11 +112,11 @@ const Diseasemanagement = () => {
     // send the data to the backend to be created
     const _postOneLocation = async (data) => {
         try {
-            const result = await postOneLocation(data);
+            const result = await postOneDisease(data);
             if(result.data.success) {
                 setLocations([...locations, result.data.data]);
                 setShowToast(!showToast);
-                setToastMessage("The location has been created successfully.");
+                setToastMessage("The disease has been created successfully.");
                 setToastStatus('Success');
             }
         } catch (error) {
@@ -129,18 +129,16 @@ const Diseasemanagement = () => {
     const _putOneLocation = async () => {
         try {
             const newLocation = {
-                name: dataToBeEdit.name,
-                address: dataToBeEdit.address,
-                officerInCharge: dataToBeEdit.officerInCharge
+                name: dataToBeEdit.name
             }
-            const result = await putOneLocation(newLocation, editId);
+            const result = await putOneDisease(newLocation, editId);
             if(result.data.success) {
                 // removed the edited data from the set
                 const filterdData = locations.filter((location) => { return location._id !== editId })
                 setLocations([...filterdData, result.data.data]);
                 setShowToast(!showToast);
                 setShowEditModal(!showEditModal);
-                setToastMessage("Then location has been updated successfully.");
+                setToastMessage("The disease information has been updated successfully.");
                 setToastStatus('Success');
             }
         } catch (error) {
@@ -152,14 +150,14 @@ const Diseasemanagement = () => {
 
     const _deleteOneLocation = async () => {
         try {
-            const result = await deleteOneLocations(deleteId);
+            const result = await deleteOneDisease(deleteId);
             if(result.data.success){
                 // filter the data requested for editing
                 const filterdData = locations.filter((location) => { return location._id !== deleteId })  
                 setLocations([...filterdData]);
                 setShowToast(!showToast);
                 setShowDeleteModal(!showDeleteModal)
-                setToastMessage("The location has been deleted successfully.");
+                setToastMessage("The disease has been deleted successfully.");
                 setToastStatus('Success');
             }
         } catch (error) {

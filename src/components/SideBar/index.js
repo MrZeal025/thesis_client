@@ -1,13 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import logo from '../../media/logo-Blue.png'
 import './sideBar.css'
+import jwtDecode from 'jwt-decode';
 // import icon/s
 import { FaChartBar, FaMapMarkerAlt, FaAlignJustify, FaUserFriends, FaIdBadge, FaPlus, FaVirus } from "react-icons/fa";
 import { BsPhoneFill } from "react-icons/bs"
+
 import axios from 'axios';
+import { checkAccess } from "../../services/auth/login";
+
 import FileDownload from "js-file-download";
 import Spinner from 'react-bootstrap/Spinner'
-
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
@@ -23,14 +26,31 @@ import { styled, useTheme } from '@mui/material/styles';
 const drawerWidth = 250;
 
 const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  padding: theme.spacing(0, 2),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-  justifyContent: 'space-between',
+    display: 'flex',
+    padding: theme.spacing(0, 2),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: 'space-between',
 }));
 
 const Sidebar = ({ open, handleDrawerClose }) => {
+
+    const [accessList, setAccess] = useState([])
+
+    const check =  async (role) => {
+        try {
+            let permissionNames = []
+            const data = await checkAccess(role)
+            const permissions = data.data?.data[0].permissions;
+
+            for(let i = 0; i < permissions.length; i++) {
+                permissionNames.push(permissions[i].name)
+            }
+            setAccess(permissionNames)
+        } catch (error) {
+            setAccess([])
+        }
+    }
 
     const theme = useTheme();
     const [isDownloading, setIsDownloading] = useState(false);
@@ -39,11 +59,13 @@ const Sidebar = ({ open, handleDrawerClose }) => {
     const graph = [
         {
             name: "Dashboard",
+            accessData: "Dashboard:Read",
             link: "/dashboard",
             icon: <FaChartBar className='mr-10' height={50}/>
         },
         {
             name: "Locations",
+            accessData: "Location:Read",
             link: "/locations",
             icon: <FaMapMarkerAlt className='mr-10' height={50}/>
         }
@@ -52,16 +74,19 @@ const Sidebar = ({ open, handleDrawerClose }) => {
     const items = [
         {
             name: "Disease Management",
+            accessData: "Disease:Read",
             link: "/diseases",
             icon: <FaVirus className='mr-10' height={50}/>
         },
         {
             name: "Visitation Logs",
+            accessData: "Visitation-History:Read",
             link: "/visitation-logs",
             icon: <FaAlignJustify className='mr-10' height={50}/>
         },
         {
             name: "Positive Update Logs",
+            accessData: "Contact-Tracing-Logs:Read",
             link: "/positive-tracing-logs",
             icon: <FaPlus className='mr-10' height={50}/>
         }
@@ -70,16 +95,19 @@ const Sidebar = ({ open, handleDrawerClose }) => {
     const management = [
         {
             name: "Admin Management",
+            accessData: "Admin:Read",
             link: "/admin-management",
             icon: <FaUserFriends className='mr-10' height={50}/>
         },
         {
             name: "User Management",
+            accessData: "Users:Read",
             link: "/user-management",
             icon: <FaUserFriends className='mr-10' height={50}/>
         },
         {
             name: "Roles & Permissions",
+            accessData: "Role:Read",
             link: "/roles-and-permissions",
             icon: <FaIdBadge className='mr-10' height={50}/>
         }
@@ -105,6 +133,13 @@ const Sidebar = ({ open, handleDrawerClose }) => {
             alert(err)
         })
     }
+
+    useEffect(() => {
+        // get the local token, decode and reuse the users user name as navbar header
+        const token = localStorage.getItem('accessToken');
+        const decodedToken = token ? jwtDecode(token) : null
+        check(decodedToken.role)
+    },[]);
 
     return (
         <Drawer
@@ -132,46 +167,72 @@ const Sidebar = ({ open, handleDrawerClose }) => {
                     {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                 </IconButton>
             </DrawerHeader>
-            <Divider />
-            <List>
-                {
-                    graph.map((item, index) => (
-                    <ListItem key={index} disablePadding>
-                        <ListItemButton component="a" href={item.link} className={`sideBarItem ${window.location.pathname === item.link && 'active'}`}>
-                            <ListItemIcon style={{ marginLeft: "13px", color: window.location.pathname === item.link && '#2a749f' }}>{item.icon}</ListItemIcon>
-                            <ListItemText primary={item.name} style={{ fontWeight: "700" }} />
-                        </ListItemButton>
-                    </ListItem>
-                    ))
-                }
-            </List>
-            <Divider />
-            <List>
-                {
-                    items.map((item, index) => (
-                        <ListItem key={index} disablePadding>
-                            <ListItemButton component="a" href={item.link} className={`sideBarItem ${window.location.pathname === item.link && 'active'}`}>
-                                <ListItemIcon style={{ marginLeft: "13px", color: window.location.pathname === item.link && '#2a749f' }}>{item.icon}</ListItemIcon>
-                                <ListItemText primary={item.name} style={{ fontWeight: "700" }} />
-                            </ListItemButton>
-                        </ListItem>
-                    ))
-                }
-            </List>
-            <Divider />
-            <List>
-                {
-                    management.map((item, index) => (
-                    <ListItem key={index} disablePadding>
-                        <ListItemButton component="a" href={item.link} className={`sideBarItem ${window.location.pathname === item.link && 'active'}`}>
-                            <ListItemIcon style={{ marginLeft: "13px", color: window.location.pathname === item.link && '#2a749f' }}>{item.icon}</ListItemIcon>
-                            <ListItemText primary={item.name} style={{ fontWeight: "700" }} />
-                        </ListItemButton>
-                    </ListItem>
-                    ))
-                }
-            </List>
-            <Divider />
+            {
+                graph.filter((item) => (accessList.includes(item.accessData))).length > 0 &&  
+                <>
+                    <Divider />
+                    <List>
+                        {
+                            graph.map((item, index) => {
+                                return (
+                                    accessList.includes(item.accessData) && <>
+                                    <ListItem key={index} disablePadding>
+                                        <ListItemButton component="a" href={item.link} className={`sideBarItem ${window.location.pathname === item.link && 'active'}`}>
+                                            <ListItemIcon style={{ marginLeft: "13px", color: window.location.pathname === item.link && '#2a749f' }}>{item.icon}</ListItemIcon>
+                                            <ListItemText primary={item.name} style={{ fontWeight: "700" }} />
+                                        </ListItemButton>
+                                    </ListItem>
+                                </>
+                            )})
+                        }
+                    </List>
+                </>
+            }
+            {
+                // component 1
+                items.filter((item) => (accessList.includes(item.accessData))).length > 0 &&  
+                <>
+                    <Divider />
+                    <List>
+                        {
+                            items.map((item, index) => {
+                                return (
+                                    accessList.includes(item.accessData) && <>
+                                    <ListItem key={index} disablePadding>
+                                        <ListItemButton component="a" href={item.link} className={`sideBarItem ${window.location.pathname === item.link && 'active'}`}>
+                                            <ListItemIcon style={{ marginLeft: "13px", color: window.location.pathname === item.link && '#2a749f' }}>{item.icon}</ListItemIcon>
+                                            <ListItemText primary={item.name} style={{ fontWeight: "700" }} />
+                                        </ListItemButton>
+                                    </ListItem>
+                                </>
+                            )})
+                        }
+                    </List>
+                </>
+            }
+            {
+                // component 2
+                management.filter((item) => (accessList.includes(item.accessData))).length > 0 && 
+                <>
+                    <Divider />
+                    <List>
+                        {
+                            management.map((item, index) => {
+                                return (
+                                    accessList.includes(item.accessData) && <>
+                                    <ListItem key={index} disablePadding>
+                                        <ListItemButton component="a" href={item.link} className={`sideBarItem ${window.location.pathname === item.link && 'active'}`}>
+                                            <ListItemIcon style={{ marginLeft: "13px", color: window.location.pathname === item.link && '#2a749f' }}>{item.icon}</ListItemIcon>
+                                            <ListItemText primary={item.name} style={{ fontWeight: "700" }} />
+                                        </ListItemButton>
+                                    </ListItem>
+                                </>
+                            )})
+                        }
+                    </List>
+                    <Divider />
+                </>
+            }
             {
                 !isDownloading && 
                     <ListItem disablePadding>

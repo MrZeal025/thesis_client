@@ -21,7 +21,6 @@ const HomeNav = ({ showResetPasswordModal, handleDrawerOpen, open }) => {
             // get the local token, decode and reuse the users user name as navbar header
             const token = localStorage.getItem('accessToken');
             const decodedToken = token ? jwtDecode(token) : null
-            
             if(decodedToken) {
                 setUserFullName(decodedToken.firstName + " " + decodedToken.lastName)
             }

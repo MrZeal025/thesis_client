@@ -32,8 +32,16 @@ export const PositiveLogsCOLUMN = [
         accessor: 'no'
     },
     {
-        Header: 'Name',
-        accessor: ''
+        Header: 'Gender',
+        accessor: 'gender'
+    },
+    {
+        Header: 'Age',
+        accessor: 'age'
+    },
+    {
+        Header: 'City',
+        accessor: 'city'
     },
     {
         Header: 'Contact Number',
@@ -46,6 +54,10 @@ export const PositiveLogsCOLUMN = [
     {
         Header: 'Current Status',
         accessor: 'healthStatus'
+    },
+    {
+        Header: 'Disease',
+        accessor: 'disease'
     },
     {
         Header: 'Date',
@@ -221,17 +233,17 @@ export const DiseasesCOLUMNS = [
         Header: 'Disease Name',
         accessor: 'name'
     },
-    {
-        Header: 'Total Monitored',
-        accessor: 'totalMonitoredToday'
-    },
-    {
-        Header: 'Traced Today',
+    { 
+        Header: 'Total Traced Case',
         accessor: 'totalTraceCount'
     },
     {
-        Header: 'Priority',
-        accessor: 'isPriority'
+        Header: 'Traced Case Today',
+        accessor: 'totalMonitoredToday'
+    },
+    {
+        Header: 'Start Date of Tracing',
+        accessor: 'createdAt'
     },
     {
         Header: 'Actions',

@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -18,9 +19,9 @@ import UserManagement from './pages/UserManagement';
 import PositiveTracingLogs from './pages/PositiveUpdateLogs';
 import ProfilePage from './pages/Profile';
 import Diseasemanagement from './pages/DiseaseManagement';
-
 //utilities
 import jwt_decode from 'jwt-decode';
+import { checkAccess } from './services/auth/login';
 
 // axios interceptors
 import axios from 'axios';
@@ -47,8 +48,32 @@ function RequireAuth({ children }) {
 }
 
 function App() {
-  
+  const [accessList, setAccess] = useState([])
   const shortLiveKey = localStorage.getItem('shortlivekey')
+
+  const check =  async (role) => {
+    try {
+        let permissionNames = []
+        const data = await checkAccess(role)
+        const permissions = data.data?.data[0].permissions;
+
+        for(let i = 0; i < permissions.length; i++) {
+            permissionNames.push(permissions[i].name)
+        }
+        setAccess(permissionNames)
+    } catch (error) {
+        setAccess([])
+    }
+  }
+
+  useEffect(() => {
+    // get the local token, decode and reuse the users user name as navbar header
+    const token = localStorage.getItem('accessToken');
+    const decodedToken = token ? jwt_decode(token) : null
+    if(decodedToken) {
+      check(decodedToken.role)
+    }
+  },[]);
 
   return (
     <div>
@@ -72,71 +97,94 @@ function App() {
           <Route path={`${shortLiveKey}/forgot-password-notification`} element={<ForgotPasswordNotification />} />
 
           {/* Main Admin Pages */}
-          <Route 
-            path="/dashboard" 
-            element={
-              <RequireAuth>
-                <Dashboard/>
-              </RequireAuth>
-            } 
-          />
-          <Route 
-            path="/locations" 
-            element={
-              <RequireAuth>
-                <Locations/>
-              </RequireAuth>
-            } 
-          />
-          <Route 
-            path="/diseases" 
-            element={
-              <RequireAuth>
-                <Diseasemanagement/>
-              </RequireAuth>
-            } 
-          />
-          <Route 
-            path="/visitation-logs" 
-            element={
-              <RequireAuth>
-                <ContactTracingLogs/>
-              </RequireAuth>
-            } 
-          />
-          <Route 
-            path="/positive-tracing-logs" 
-            element={
-              <RequireAuth>
-                <PositiveTracingLogs/>
-              </RequireAuth>
-            } 
-          />
-          <Route 
-            path="/user-management" 
-            element={
-              <RequireAuth>
-                <UserManagement/>
-              </RequireAuth>
-            } 
-          />
-          <Route 
-            path="/admin-management" 
-            element={
-              <RequireAuth>
-                <AdminManagement/>
-              </RequireAuth>
-            } 
-          />
-          <Route 
-            path="/roles-and-permissions" 
-            element={
-              <RequireAuth>
-                <RolesAndPermissions/>
-              </RequireAuth>
-            } 
-          />
-          {/* extra routes not on sidebar */}
+          {
+            accessList.filter((item) => (item.includes("Dashboard:Read"))).length > 0 && 
+            <Route 
+              path="/dashboard" 
+              element={
+                <RequireAuth>
+                  <Dashboard/>
+                </RequireAuth>
+              } 
+            />
+          }
+          {
+            accessList.filter((item) => (item.includes("Location:Read"))).length > 0 && 
+            <Route 
+              path="/locations" 
+              element={
+                <RequireAuth>
+                  <Locations/>
+                </RequireAuth>
+              } 
+            />
+          }
+          {
+            accessList.filter((item) => (item.includes("Disease:Read"))).length > 0 && 
+            <Route 
+              path="/diseases" 
+              element={
+                <RequireAuth>
+                  <Diseasemanagement/>
+                </RequireAuth>
+              } 
+            />
+          }
+          {
+            accessList.filter((item) => (item.includes("Visitation-History:Read"))).length > 0 && 
+            <Route 
+              path="/visitation-logs" 
+              element={
+                <RequireAuth>
+                  <ContactTracingLogs/>
+                </RequireAuth>
+              } 
+            />
+          }
+          {
+            accessList.filter((item) => (item.includes("Contact-Tracing-Logs:Read"))).length > 0 && 
+            <Route 
+              path="/positive-tracing-logs" 
+              element={
+                <RequireAuth>
+                  <PositiveTracingLogs/>
+                </RequireAuth>
+              } 
+            />
+        }
+          {
+            accessList.filter((item) => (item.includes("Users:Read"))).length > 0 && 
+            <Route 
+              path="/user-management" 
+              element={
+                <RequireAuth>
+                  <UserManagement/>
+                </RequireAuth>
+              } 
+            />
+          }
+          {
+            accessList.filter((item) => (item.includes("Admin:Read"))).length > 0 && 
+            <Route 
+              path="/admin-management" 
+              element={
+                <RequireAuth>
+                  <AdminManagement/>
+                </RequireAuth>
+              } 
+            />
+          }
+         {
+           accessList.filter((item) => (item.includes("Role:Read"))).length > 0 && 
+            <Route 
+              path="/roles-and-permissions" 
+              element={
+                <RequireAuth>
+                  <RolesAndPermissions/>
+                </RequireAuth>
+              } 
+            />
+         }
           <Route 
             path="/profile" 
             element={
@@ -145,9 +193,7 @@ function App() {
               </RequireAuth>
             } 
           />
-
-          {/* user manual url not catcher */}
-          <Route path="*" element={<NotFoundRoute/>} />
+          { accessList.length > 0 && <Route path="*" element={<NotFoundRoute/>} /> }
         </Routes>
       </Router>
     </div>

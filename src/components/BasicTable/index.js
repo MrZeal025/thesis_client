@@ -193,23 +193,9 @@ const BasicTable = ({
                                     );
                                     }
 
-                                    if (cell.column.Header === "Total Monitored") {
+                                    if (cell.column.Header === "Disease Name") {
                                     return (
-                                        <TableCell>{cell.row.original.totalMonitoredToday === "" ? 0 : cell.row.original.totalMonitoredToday}</TableCell>
-                                    );
-                                    }
-
-                                    if (cell.column.Header === "Traced Today") {
-                                    return (
-                                        <TableCell>{cell.row.original.totalTraceCount === "" ? 0 : cell.row.original.totalTraceCount }</TableCell>
-                                    );
-                                    }
-
-                                    if (cell.column.Header === "Priority") {
-                                    return (
-                                        <TableCell>
-                                            <b>{cell.row.original.isPriority ? "Yes" : "No"}</b>
-                                        </TableCell>
+                                        <TableCell style={{ color: "red", fontWeight: "bold"}}>{cell.row.original.name}</TableCell>
                                     );
                                     }
 
@@ -285,7 +271,28 @@ const BasicTable = ({
                                         );
                                     }
 
+                                    if (cell.column.Header === "Disease") {
+                                        return (
+                                            <TableCell
+                                            style={{
+                                                fontWeight: "bold",
+                                                color: "red"
+                                            }}
+                                            >
+                                            {cell.row.original.disease}
+                                            </TableCell>
+                                        );
+                                    }
+
                                     if (cell.column.Header === "Registration Date") {
+                                    return (
+                                        <TableCell>
+                                        {cell.row.original.createdAt.split("T")[0]}
+                                        </TableCell>
+                                    );
+                                    }
+
+                                    if (cell.column.Header === "Start Date of Tracing") {
                                     return (
                                         <TableCell>
                                         {cell.row.original.createdAt.split("T")[0]}
