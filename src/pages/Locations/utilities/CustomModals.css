@@ -23,6 +23,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-top: 2%;
 }
 
 /* Location QR Code */
@@ -73,15 +74,9 @@
 .qr-download-modal-item {
     text-decoration: none;
     width: fit-content;
-    color: var(--white);
+    color: var(--primary);
     font-weight: 600;
 }
-
-.qr-download-modal-item:hover {
-    color: var(--white);
-}
-
-
 .line {
     width: 70%;
     max-width: 200px;

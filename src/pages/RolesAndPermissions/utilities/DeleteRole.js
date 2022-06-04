@@ -7,7 +7,7 @@ import { Modal } from 'react-bootstrap'
 const DeleteRoleModal = ({ showFunction, onHideFunction, data, submitDeleteMethod }) => {
     return (
         <>
-            <Modal show={showFunction} onHide={onHideFunction}>
+            <Modal show={showFunction} onHide={onHideFunction} centered>
                 <Modal.Header>
                     <Modal.Title className='deleteModalTitle'>Confirm to Delete</Modal.Title>
                 </Modal.Header>

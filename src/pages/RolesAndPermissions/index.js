@@ -111,7 +111,7 @@ const RolesAndPermissions = () => {
         } catch (error) {
             setShowToast(!showToast);
             setToastMessage("Something went wrong.");
-            setToastStatus('Danger');
+            setToastStatus('Error');
         }
     }
 
@@ -135,7 +135,7 @@ const RolesAndPermissions = () => {
             console.log(error.response.data.message)
             setShowToast(!showToast);
             setToastMessage(error.response.data ? error.response.data.message : "Something went wrong.");
-            setToastStatus('Danger');
+            setToastStatus('Error');
         }
     }
 

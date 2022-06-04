@@ -8,10 +8,10 @@ import { resetPassword } from '../../services/auth/resetpassword';
 import ToastNotification from '../Toast';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
 import Sidebar from '../SideBar';
+import { checkAccess } from '../../services/auth/login';
 
-const drawerWidth = 250;
+const drawerWidth = 255;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
@@ -43,7 +43,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function HomeContainer (props) {
   
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
+  const [accessList, setAccess] = useState([]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -109,11 +110,33 @@ export default function HomeContainer (props) {
         setToastMessage("Admin password has been updated successfully.");
         setToastStatus('Success');
       }
+      // execiute after 3 seconds
+      setTimeout(()=> {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        window.location.href ="/"
+      }, 3000)
+      
     } catch (error) {
       setIsSubmitting(false)
       if(error.response?.status === 400) {
         setErrorMsg(error.response.data?.message.split('.'))
       }
+    }
+  }
+
+  const check =  async (role) => {
+    try {
+        let permissionNames = []
+        const data = await checkAccess(role)
+        const permissions = data.data?.data[0].permissions;
+
+        for(let i = 0; i < permissions.length; i++) {
+            permissionNames.push(permissions[i].name)
+        }
+        setAccess(permissionNames)
+    } catch (error) {
+        setAccess([])
     }
   }
 
@@ -125,6 +148,7 @@ export default function HomeContainer (props) {
       
       if(decodedToken) {
         setUserName(decodedToken.username)
+        check(decodedToken.role)
       }
     } catch (error) {
         setUserName('JuanBreath Admin')   
@@ -135,12 +159,13 @@ export default function HomeContainer (props) {
   return (
     <Box sx={{ display: 'flex' }} className="customContainer">
       <HomeNav 
-        showResetPasswordModal={e => setShowResetModal(!showResetModal)}
+        showResetPasswordModal={() => setShowResetModal(!showResetModal)}
         handleDrawerOpen={handleDrawerOpen}
         open={open}
       />
       <Sidebar
         open={open}
+        accessList={accessList}
         handleDrawerClose={handleDrawerClose}
       />
       {/* Center Content */}

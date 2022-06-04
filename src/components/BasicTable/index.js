@@ -121,8 +121,8 @@ const BasicTable = ({
                 {!isFetching && (
                     <>
                     <TableHead>
-                        {headerGroups.map((headerGroup) => (
-                        <TableRow {...headerGroup.getHeaderGroupProps()}>
+                        {headerGroups.map((headerGroup, i) => (
+                        <TableRow key={i} {...headerGroup.getHeaderGroupProps()}>
                             {headerGroup.headers.map((column) => (
                             <TableCell
                                 key={column.Header}
@@ -320,9 +320,10 @@ const BasicTable = ({
                                         <TableCell>
                                         <div className="permission-container">
                                             {cell.row.original.permissions.map(
-                                            (data) => {
+                                            (data,i) => {
                                                 return (
                                                 <Badge
+                                                    key={i}
                                                     className={data.name.split(":")[0]}
                                                 >
                                                     {data.name}
@@ -352,8 +353,9 @@ const BasicTable = ({
                                     ) {
                                     return (
                                         <TableCell className="iconBtnWrapper">
-                                        <button
-                                            className="accentBtn mt-0 mb-0"
+                                        <Button
+                                            className="accentBtn"
+                                            variant="contained"
                                             title="Delete"
                                             onClick={() =>
                                             tracerModalFunction(
@@ -361,8 +363,8 @@ const BasicTable = ({
                                             )
                                             }
                                         >
-                                            <FaEye /> Trace Contacts
-                                        </button>
+                                            <FaEye style={{ marginRight: "5px"}} /> Trace Contacts
+                                        </Button>
                                         </TableCell>
                                     );
                                     }

@@ -125,7 +125,7 @@ const AdminManagement = () => {
                 setErrorMsg(error.response?.data.message.split('.'))
             }
             setToastMessage("Something went wrong.");
-            setToastStatus('Danger');
+            setToastStatus('Error');
         }
     }
 
@@ -174,7 +174,7 @@ const AdminManagement = () => {
                 setErrorMsg(error.response?.data.message.split('.'))
             }
             setToastMessage("Something went wrong.");
-            setToastStatus('Danger');
+            setToastStatus('Error');
         }
     }
 
@@ -195,7 +195,7 @@ const AdminManagement = () => {
         } catch (error) {
             setShowToast(!showToast);
             setToastMessage("Something went wrong.");
-            setToastStatus('Danger');
+            setToastStatus('Error');
         }
     }
 

@@ -8,7 +8,7 @@ export const FormError = ({ errorMessages, field, replaceControl }) => {
                     <p className='form-error-display' key={i}>{message.replace(`"${field}"`, replaceControl)}</p>
                 )
             } else {
-                return <p></p>
+                return ""
             }
         })
     )

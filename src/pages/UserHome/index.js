@@ -1,39 +1,53 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 // import css
 import './userhome.css'
 // import utilities
 import UserHomeNav from './utilities/UserHomeNav'
 // import package/s
 import Helmet from 'react-helmet'
-import FileDownload from "js-file-download";
-import Spinner from 'react-bootstrap/Spinner'
 import axios from 'axios';
 import { Button } from '@mui/material';
+import DownloadIcon from '@mui/icons-material/Download';
+import LoadingButton from '@mui/lab/LoadingButton';
+import SaveIcon from '@mui/icons-material/Save'
+import { saveAs } from "file-saver"
 
 const UserHome = () => {
     
     const [isDownloading, setIsDownloading] = useState(false);
     const [percentage, setPercentage] = useState(0);
 
+    const cancelTokenSource = useRef();
+
     // ADD this function on onClick of download Button
     const downloadApp =  () => {
+        
         setIsDownloading(true)
         let progress = 0;
+        cancelTokenSource.current = axios.CancelToken.source();
+
         axios({
             url: "https://juanbreath-server.herokuapp.com/api/app/download",
             onDownloadProgress(progressEvent){
                 progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
                 setPercentage(progress);
             },
+            cancelToken: cancelTokenSource.current.token,
             method: "GET",
             responseType: "blob"
         }).then((res) => {
-            setIsDownloading(false)
-            FileDownload(res.data, "JuanBreath App.apk")
+            setIsDownloading(false);
+            // prepare the data to a blob file
+            const blob = new Blob([res.data], { type: "octet-stream"})
+            saveAs(blob, "JuanBreath.apk");
+            
         }).catch((err) => {
             setIsDownloading(false)
-            alert(err)
         })
+    }
+
+    const cancelDownload = () => {
+        cancelTokenSource.current.cancel();
     }
 
     return (
@@ -51,15 +65,29 @@ const UserHome = () => {
                         <b>JuanBreath</b> is a contact tracing app developed to help the nation 
                         from the adverse effects on the spread the COVID-19 virus.
                         </h6>
-                        { !isDownloading &&  <Button className='accentBtn downloadAppBtn' onClick={() => {downloadApp()}}>Download JuanBreath Mobile App</Button>}
+                        { !isDownloading &&  
+                            <Button className='accentBtn downloadAppBtn' onClick={() => {downloadApp()}} variant="contained">
+                                <DownloadIcon/> Download JuanBreath Mobile App
+                            </Button>
+                        }
                         {
-                            isDownloading && <div style={{ display: "flex"}}>
-                                <Spinner animation="border" role="status" style={{marginRight: "10px", color: "white"}}>
-                                    <span className="visually-hidden">Loading...</span>
-                                </Spinner>
-                                <p style={{ color: "white", marginTop: "5px"}}>Download {percentage}%</p>
+                            isDownloading && 
+                            <div>
+                                <LoadingButton
+                                    loading
+                                    loadingPosition="start"
+                                    startIcon={<SaveIcon />}
+                                    className='accentBtn downloadAppBtn'
+                                    variant="contained"
+                                >
+                                    Downloading Inprogress : {percentage}%
+                                </LoadingButton>
+                                <Button onClick={() => {cancelDownload()}} style={{ marginLeft: "10px", height: "40px" }} variant="contained" color="error">
+                                    Cancel
+                                </Button>
                             </div>
                         }
+                        
                     </div>
                     <div className='userHomeIllustration'>
                     </div>

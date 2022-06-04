@@ -14,7 +14,6 @@ import { postOneDisease } from '../../services/diseases/post';
 import { putOneDisease } from "../../services/diseases/put"
 import { deleteOneDisease } from '../../services/diseases/delete.js';
 // modals
-import QRCodeGeneratorModal from './utilities/QRCodeGenerator.js';
 import AddLocationModal from './utilities/AddLocationModal.js';
 import EditLocationModal from './utilities/EditLocationModal.js';
 import DeleteLocationModal from './utilities/DeleteLocationModal.js';
@@ -50,11 +49,6 @@ const Diseasemanagement = () => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const handleCloseShowDeleteModal = () => setShowDeleteModal(false);
 
-    //Delete Modal Declarations
-    const [showQRModal, setShowQRModal] = useState(false);
-    const [QRCodelocationName, setQRCodeLocationName] = useState('');
-    const handleCloseShowQRModal = () => setShowQRModal(false);
-
     const handleShowDeleteModal = (id) => {
         setShowDeleteModal(true)
         setDeleteId(id)
@@ -76,18 +70,7 @@ const Diseasemanagement = () => {
     const handleDataEdit = (value, field) => {
         setDataToBeEdit({...dataToBeEdit, [field]: value })
     }
-    // qr code Modal Functions
-    const handleShowQRCodeModal = (id) => {
-        setShowQRModal(true);
 
-        // filter the data requested for editing
-        const filterdData = locations.filter((location) => { return location._id === id }) 
-        QRCode.toDataURL(filterdData[0].name).then((data) => {
-            setQRCodeLocationName(data);
-        })
-
-        setDataToBeEdit(filterdData[0])
-    }
 
     const _getAllLocation = async (allowToast) => {
         try {
@@ -144,7 +127,7 @@ const Diseasemanagement = () => {
         } catch (error) {
             setShowToast(!showToast);
             setToastMessage("Something went wrong.");
-            setToastStatus('Danger');
+            setToastStatus('Error');
         }
     }
 
@@ -163,7 +146,7 @@ const Diseasemanagement = () => {
         } catch (error) {
             setShowToast(!showToast);
             setToastMessage("Something went wrong.");
-            setToastStatus('Danger');
+            setToastStatus('Error');
         }
     }
 
@@ -197,8 +180,6 @@ const Diseasemanagement = () => {
                     tableData = {filteredData(locations)}
                     hasDelete={true}
                     hasEdit={true}
-                    hasQR={false}
-                    qrModalFunction={handleShowQRCodeModal}
                     editModalFunction={handleShowEditModal}
                     deleteModalFunction={handleShowDeleteModal}
                     isFetching={isFetching}
@@ -211,14 +192,6 @@ const Diseasemanagement = () => {
                 showFunction = {showEditModal}
                 onHideFunction = {handleCloseShowEditModal}
                 data={dataToBeEdit}
-                dataEditMethod = {handleDataEdit}
-                submitEditMethod={_putOneLocation}
-            />
-            <QRCodeGeneratorModal
-                showFunction = {showQRModal}
-                onHideFunction = {handleCloseShowQRModal}
-                data={dataToBeEdit}
-                qrCodelocationName={QRCodelocationName}
                 dataEditMethod = {handleDataEdit}
                 submitEditMethod={_putOneLocation}
             />

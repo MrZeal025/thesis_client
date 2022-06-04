@@ -4,6 +4,7 @@ import { loginAdmin } from "../../services/auth/login";
 // import css
 import './login.css'
 // import logo
+import {Link} from "react-router-dom"
 import logo from '../../media/logo-White.png'
 // import package/s
 import { useForm } from 'react-hook-form'
@@ -11,6 +12,10 @@ import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import Spinner from 'react-bootstrap/Spinner'
 import jwt_decode from 'jwt-decode';
 import { checkAccess } from '../../services/auth/login';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import LoadingButton from '@mui/lab/LoadingButton';
+import SaveIcon from '@mui/icons-material/Save'
+import { Button } from '@mui/material';
 
 const Login = () => {
 
@@ -89,10 +94,15 @@ const Login = () => {
     return (
         <div className='logincontainer'>
             <div className='loginNav'>
-                <img src={logo} alt='logo' height={50} width={50}/>
-                <div className='loginNavTitleCont' onClick={() => { window.location.href = "/" }}>
-                    <p className='loginNavTitle1'>JuanBreath</p> 
-                    <p className='loginNavTitle2'>ADMIN</p>
+                <div style={{ display: "flex"}}>
+                    <img src={logo} alt='logo' height={50} width={50}/>
+                    <div className='loginNavTitleCont' onClick={() => { window.location.href = "/" }}>
+                        <p className='loginNavTitle1'>JuanBreath</p> 
+                        <p className='loginNavTitle2'>ADMIN</p>
+                    </div>
+                </div>
+                <div className='signInLinkDiv'>
+                    <Link to='/' className='signInLink'><ArrowBackIcon fontSize='12' /> Go Back</Link>
                 </div>
             </div>
             <div className='wrapper'>
@@ -126,15 +136,18 @@ const Login = () => {
                         <div className='mb-10'>
                             <a className='forgotPassLink' href='forgot-password'>Forgot Password?</a>
                         </div>
-                        <button type='submit' className='primaryBlockBtn'>
-                            {
-                                isSubmitting ? 
-                                    <Spinner animation="border" role="status">
-                                        <span className="visually-hidden">Loading...</span>
-                                    </Spinner>
-                                :   "Sign In"
-                            }
-                        </button>
+                        {
+                            isSubmitting ? 
+                                <LoadingButton
+                                    loading
+                                    loadingPosition="start"
+                                    startIcon={<SaveIcon />}
+                                    variant="contained"
+                                >
+                                    Signing Up
+                                </LoadingButton>
+                            :   <Button type='submit' className='primaryBlockBtn' variant='contained'>Sign In</Button>
+                        }
                     </form>
                 </div>
             </div>

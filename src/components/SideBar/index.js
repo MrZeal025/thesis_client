@@ -1,15 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useRef } from 'react'
 import logo from '../../media/logo-Blue.png'
 import './sideBar.css'
-import jwtDecode from 'jwt-decode';
 // import icon/s
 import { FaChartBar, FaMapMarkerAlt, FaAlignJustify, FaUserFriends, FaIdBadge, FaPlus, FaVirus } from "react-icons/fa";
 import { BsPhoneFill } from "react-icons/bs"
-
+import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { checkAccess } from "../../services/auth/login";
-
-import FileDownload from "js-file-download";
 import Spinner from 'react-bootstrap/Spinner'
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
@@ -22,8 +18,10 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { styled, useTheme } from '@mui/material/styles';
+import CancelIcon from '@mui/icons-material/Cancel';
+import { saveAs } from "file-saver"
 
-const drawerWidth = 250;
+const drawerWidth = 255;
 
 const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -33,28 +31,12 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     justifyContent: 'space-between',
 }));
 
-const Sidebar = ({ open, handleDrawerClose }) => {
-
-    const [accessList, setAccess] = useState([])
-
-    const check =  async (role) => {
-        try {
-            let permissionNames = []
-            const data = await checkAccess(role)
-            const permissions = data.data?.data[0].permissions;
-
-            for(let i = 0; i < permissions.length; i++) {
-                permissionNames.push(permissions[i].name)
-            }
-            setAccess(permissionNames)
-        } catch (error) {
-            setAccess([])
-        }
-    }
+const Sidebar = ({ open, handleDrawerClose, accessList }) => {
 
     const theme = useTheme();
     const [isDownloading, setIsDownloading] = useState(false);
     const [percentage, setPercentage] = useState(0);
+    const cancelTokenSource = useRef();
 
     const graph = [
         {
@@ -117,29 +99,30 @@ const Sidebar = ({ open, handleDrawerClose }) => {
     const downloadApp =  () => {
         setIsDownloading(true)
         let progress = 0;
+        cancelTokenSource.current = axios.CancelToken.source();
+
         axios({
             url: "https://juanbreath-server.herokuapp.com/api/admin/app/download",
             onDownloadProgress(progressEvent){
                 progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
                 setPercentage(progress);
             },
+            cancelToken: cancelTokenSource.current.token,
             method: "GET",
             responseType: "blob"
         }).then((res) => {
             setIsDownloading(false)
-            FileDownload(res.data, "JuanBreath Admin App.apk")
+            // prepare the data to a blob file
+            const blob = new Blob([res.data], { type: "octet-stream"})
+            saveAs(blob, "JuanBreath Admin App.apk")
         }).catch((err) => {
             setIsDownloading(false)
-            alert(err)
         })
     }
 
-    useEffect(() => {
-        // get the local token, decode and reuse the users user name as navbar header
-        const token = localStorage.getItem('accessToken');
-        const decodedToken = token ? jwtDecode(token) : null
-        check(decodedToken.role)
-    },[]);
+    const cancelDownload = () => {
+        cancelTokenSource.current.cancel();
+    }
 
     return (
         <Drawer
@@ -176,12 +159,14 @@ const Sidebar = ({ open, handleDrawerClose }) => {
                             graph.map((item, index) => {
                                 return (
                                     accessList.includes(item.accessData) && <>
-                                    <ListItem key={index} disablePadding>
-                                        <ListItemButton component="a" href={item.link} className={`sideBarItem ${window.location.pathname === item.link && 'active'}`}>
-                                            <ListItemIcon style={{ marginLeft: "13px", color: window.location.pathname === item.link && '#2a749f' }}>{item.icon}</ListItemIcon>
-                                            <ListItemText primary={item.name} style={{ fontWeight: "700" }} />
-                                        </ListItemButton>
-                                    </ListItem>
+                                    <Link key={index} to={item.link} style={{ textDecoration: "none"}}>
+                                        <ListItem disablePadding>
+                                            <ListItemButton className={`sideBarItem ${window.location.pathname === item.link && 'active'}`}>
+                                                <ListItemIcon style={{ marginLeft: "13px", color: window.location.pathname === item.link && '#2a749f' }}>{item.icon}</ListItemIcon>
+                                                <ListItemText primary={item.name} style={{ fontWeight: "bold" }} />
+                                            </ListItemButton>
+                                        </ListItem>
+                                    </Link>
                                 </>
                             )})
                         }
@@ -198,12 +183,16 @@ const Sidebar = ({ open, handleDrawerClose }) => {
                             items.map((item, index) => {
                                 return (
                                     accessList.includes(item.accessData) && <>
-                                    <ListItem key={index} disablePadding>
-                                        <ListItemButton component="a" href={item.link} className={`sideBarItem ${window.location.pathname === item.link && 'active'}`}>
-                                            <ListItemIcon style={{ marginLeft: "13px", color: window.location.pathname === item.link && '#2a749f' }}>{item.icon}</ListItemIcon>
-                                            <ListItemText primary={item.name} style={{ fontWeight: "700" }} />
-                                        </ListItemButton>
-                                    </ListItem>
+                                    <Link key={index} to={item.link} style={{ textDecoration: "none"}}>
+                                        <ListItem disablePadding>
+                                            <ListItemButton 
+                                                className={`sideBarItem ${window.location.pathname === item.link && 'active'}`} 
+                                            >
+                                                <ListItemIcon style={{ marginLeft: "13px", color: window.location.pathname === item.link && '#2a749f' }}>{item.icon}</ListItemIcon>
+                                                <ListItemText primary={item.name} style={{ fontWeight: "bold" }} />
+                                            </ListItemButton>
+                                        </ListItem>
+                                    </Link>
                                 </>
                             )})
                         }
@@ -220,12 +209,14 @@ const Sidebar = ({ open, handleDrawerClose }) => {
                             management.map((item, index) => {
                                 return (
                                     accessList.includes(item.accessData) && <>
-                                    <ListItem key={index} disablePadding>
-                                        <ListItemButton component="a" href={item.link} className={`sideBarItem ${window.location.pathname === item.link && 'active'}`}>
-                                            <ListItemIcon style={{ marginLeft: "13px", color: window.location.pathname === item.link && '#2a749f' }}>{item.icon}</ListItemIcon>
-                                            <ListItemText primary={item.name} style={{ fontWeight: "700" }} />
-                                        </ListItemButton>
-                                    </ListItem>
+                                    <Link key={index} to={item.link} style={{ textDecoration: "none"}}>
+                                        <ListItem disablePadding>
+                                            <ListItemButton component="a" href={item.link} className={`sideBarItem ${window.location.pathname === item.link && 'active'}`}>
+                                                <ListItemIcon style={{ marginLeft: "13px", color: window.location.pathname === item.link && '#2a749f' }}>{item.icon}</ListItemIcon>
+                                                <ListItemText primary={item.name} style={{ fontWeight: "bold" }} />
+                                            </ListItemButton>
+                                        </ListItem>
+                                    </Link>
                                 </>
                             )})
                         }
@@ -233,26 +224,33 @@ const Sidebar = ({ open, handleDrawerClose }) => {
                     <Divider />
                 </>
             }
-            {
-                !isDownloading && 
+            <List>
+                {
+                    !isDownloading && 
                     <ListItem disablePadding>
                         <ListItemButton className={"sideBarItem"} onClick={() => { downloadApp()}} >
                             <ListItemIcon style={{ marginLeft: "13px"}}>
                                 <BsPhoneFill className='mr-10'/>
                             </ListItemIcon>
-                            <ListItemText primary={"Download App"} style={{ fontWeight: "700" }} />
+                            <ListItemText primary={"Download App"} style={{ fontWeight: "bold" }} />
                         </ListItemButton>
                     </ListItem> 
-            }
-            {
-                isDownloading && <ListItem disablePadding>
-                    <ListItemButton>
-                        <Spinner animation="border" role="status">
-                            <span className="visually-hidden">Loading...</span>
-                        </Spinner><p>Download {percentage}%</p>
-                    </ListItemButton>
-                </ListItem>
-            }
+                }
+                {
+                    isDownloading && 
+                    <ListItem disablePadding>
+                        <ListItemButton>
+                            <ListItemIcon style={{ marginLeft: "13px"}}>
+                                <Spinner animation="border" role="status" style={{ height: "17px", width: "17px", color: "#2a749f"}}>
+                                    <span className="visually-hidden">Loading...</span>
+                                </Spinner>
+                            </ListItemIcon>
+                            <ListItemText primary={`Downloading ${percentage}%`} style={{ fontWeight: "bold", color: "#2a749f" }} />
+                            <CancelIcon style={{ color: "red"}} onClick={() => { cancelDownload()}} />
+                        </ListItemButton>
+                    </ListItem>
+                }
+            </List>
         </Drawer>
         
     )

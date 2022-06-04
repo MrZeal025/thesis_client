@@ -48,6 +48,8 @@ function RequireAuth({ children }) {
 }
 
 function App() {
+
+  const [token, setToken] = useState(null);
   const [accessList, setAccess] = useState([])
   const shortLiveKey = localStorage.getItem('shortlivekey')
 
@@ -72,7 +74,9 @@ function App() {
     const decodedToken = token ? jwt_decode(token) : null
     if(decodedToken) {
       check(decodedToken.role)
+      setToken(token);
     }
+
   },[]);
 
   return (
@@ -193,7 +197,7 @@ function App() {
               </RequireAuth>
             } 
           />
-          { accessList.length > 0 && <Route path="*" element={<NotFoundRoute/>} /> }
+          { (accessList.length > 0 || token === null) && <Route path="*" element={<NotFoundRoute/>} /> }
         </Routes>
       </Router>
     </div>

@@ -73,7 +73,7 @@
 /* CUSTOM STYLES CSS */
 /* INPUT Custom Style */
 .inputStyle {
-  height: 30px;
+  height: 35px;
   width: 100%;
 
   padding: 0 8px;
@@ -97,7 +97,6 @@
 }
 input:focus {
   outline: none !important;
-  border: 1.5px solid var(--primary);
 }
 .inputErrorMessage {
   font-size: 10px;
@@ -114,10 +113,8 @@ input:focus {
 /* Block Buttons Style */
 .primaryBlockBtn {
   height: 46px;
-  width: 100%;
-
   margin: 10px 0;
-  background-color: var(--primary);
+  background-color: var(--primary) !important;
   color: var(--white);
   font-weight: 600;
 
@@ -322,4 +319,7 @@ a:hover {
 
 .small-input{
   width: 60px;
+}
+.form-error-display {
+  margin-top: 5px;
 }

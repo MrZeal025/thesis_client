@@ -26,6 +26,7 @@ const Locations = () => {
     // location default state
     const [locations, setLocations] = useState([]);
     const [hasErrors, setHasErrors] = useState(false);
+    const [errorMsg, setErrorMsg] = useState([])
     const [showToast, setShowToast] = useState(false);
     const [editId, setEditId] = useState('');
     const [deleteId, setDeleteId] = useState('');
@@ -119,6 +120,8 @@ const Locations = () => {
                 setToastMessage("The location has been created successfully.");
                 setToastStatus('Success');
             }
+
+            return true;
         } catch (error) {
             setShowToast(!showToast);
             setToastMessage("Something went wrong.");
@@ -145,8 +148,11 @@ const Locations = () => {
             }
         } catch (error) {
             setShowToast(!showToast);
+            if(error.response?.status === 400) {
+                setErrorMsg(error.response?.data.message.split('.'))
+            }
             setToastMessage("Something went wrong.");
-            setToastStatus('Danger');
+            setToastStatus('Error');
         }
     }
 
@@ -165,7 +171,7 @@ const Locations = () => {
         } catch (error) {
             setShowToast(!showToast);
             setToastMessage("Something went wrong.");
-            setToastStatus('Danger');
+            setToastStatus('Error');
         }
     }
 
@@ -190,6 +196,7 @@ const Locations = () => {
                     <div style={{ marginTop: "20px"}}>
                         <Refresh onRefresh={_getAllLocation}/>
                         <AddLocationModal 
+                            errorMsg={errorMsg}
                             method={_postOneLocation}
                         />
                     </div>

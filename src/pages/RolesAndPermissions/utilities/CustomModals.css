@@ -11,22 +11,12 @@
     width: auto;
 }
 
-.modal {
-    z-index: 99999;
-}
-
 /* Location QR Modal */
 .modal-header-bg{
     background-color: var(--primary);
 }
 .content-center-modal {
     padding: 0 1%;
-}
-.item-center-modal {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
 
 /* Location QR Code */

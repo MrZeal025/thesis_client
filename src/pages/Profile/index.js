@@ -94,7 +94,7 @@ const ProfilePage = () => {
                 setErrorMsg(error.response?.data.message.split('.'))
             }
             setToastMessage("Something went wrong.");
-            setToastStatus('Danger');
+            setToastStatus('Error');
         }
     }
 
