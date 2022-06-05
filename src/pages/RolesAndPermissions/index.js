@@ -66,6 +66,9 @@ const RolesAndPermissions = () => {
 
     // get all users accounts
     const _getAllRoles = async (allowToast) => {
+        if(allowToast) {
+            setIsFetching(true)
+        }
         try {
             const roles = await getAllRoles();
             setRoles(roles.data?.data);

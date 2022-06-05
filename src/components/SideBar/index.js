@@ -163,7 +163,7 @@ const Sidebar = ({ open, handleDrawerClose, accessList }) => {
                                         <ListItem disablePadding>
                                             <ListItemButton className={`sideBarItem ${window.location.pathname === item.link && 'active'}`}>
                                                 <ListItemIcon style={{ marginLeft: "13px", color: window.location.pathname === item.link && '#2a749f' }}>{item.icon}</ListItemIcon>
-                                                <ListItemText primary={item.name} style={{ fontWeight: "bold" }} />
+                                                <ListItemText primary={item.name} className='list-item-style' />
                                             </ListItemButton>
                                         </ListItem>
                                     </Link>
@@ -189,7 +189,7 @@ const Sidebar = ({ open, handleDrawerClose, accessList }) => {
                                                 className={`sideBarItem ${window.location.pathname === item.link && 'active'}`} 
                                             >
                                                 <ListItemIcon style={{ marginLeft: "13px", color: window.location.pathname === item.link && '#2a749f' }}>{item.icon}</ListItemIcon>
-                                                <ListItemText primary={item.name} style={{ fontWeight: "bold" }} />
+                                                <ListItemText primary={item.name} className='list-item-style' />
                                             </ListItemButton>
                                         </ListItem>
                                     </Link>
@@ -213,7 +213,7 @@ const Sidebar = ({ open, handleDrawerClose, accessList }) => {
                                         <ListItem disablePadding>
                                             <ListItemButton component="a" href={item.link} className={`sideBarItem ${window.location.pathname === item.link && 'active'}`}>
                                                 <ListItemIcon style={{ marginLeft: "13px", color: window.location.pathname === item.link && '#2a749f' }}>{item.icon}</ListItemIcon>
-                                                <ListItemText primary={item.name} style={{ fontWeight: "bold" }} />
+                                                <ListItemText primary={item.name} className='list-item-style' />
                                             </ListItemButton>
                                         </ListItem>
                                     </Link>
@@ -232,7 +232,7 @@ const Sidebar = ({ open, handleDrawerClose, accessList }) => {
                             <ListItemIcon style={{ marginLeft: "13px"}}>
                                 <BsPhoneFill className='mr-10'/>
                             </ListItemIcon>
-                            <ListItemText primary={"Download App"} style={{ fontWeight: "bold" }} />
+                            <ListItemText primary={"Download App"} className='list-item-style' />
                         </ListItemButton>
                     </ListItem> 
                 }
@@ -245,7 +245,7 @@ const Sidebar = ({ open, handleDrawerClose, accessList }) => {
                                     <span className="visually-hidden">Loading...</span>
                                 </Spinner>
                             </ListItemIcon>
-                            <ListItemText primary={`Downloading ${percentage}%`} style={{ fontWeight: "bold", color: "#2a749f" }} />
+                            <ListItemText className='list-item-style' primary={`Downloading ${percentage}%`} />
                             <CancelIcon style={{ color: "red"}} onClick={() => { cancelDownload()}} />
                         </ListItemButton>
                     </ListItem>

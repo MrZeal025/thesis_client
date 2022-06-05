@@ -24,6 +24,7 @@ import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import { visuallyHidden } from "@mui/utils";
 import { FormControl, InputLabel } from "@mui/material";
+import Skeleton from '@mui/material/Skeleton';
 
 const BasicTable = ({
     columnHeads,
@@ -41,6 +42,7 @@ const BasicTable = ({
     // settings up headers and columns
     const columns = useMemo(() => columnHeads, [columnHeads]);
     const data = useMemo(() => tableData, [tableData]);
+    const numberOfLoader = ['1', '2', '3'];
 
     const tableInstance = useTable(
         {
@@ -94,6 +96,10 @@ const BasicTable = ({
         setOrderBy(property);
     };
 
+    const getRndInteger = (min, max) => {
+        return Math.floor(Math.random() * (max - min)) + min;
+    }   
+
     const numberSensorship = (num) => {
         let deconstruct = num.split("");
         deconstruct[4] = "*";
@@ -109,15 +115,67 @@ const BasicTable = ({
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
             <TableContainer sx={{ maxHeight: "63vh" }}>
                 <Table stickyHeader aria-label="sticky table" {...getTableProps()}>
+
                 {isFetching && (
-                    <TableRow className="d-flex justify-content-center w-100 mt-3 mb-3">
-                    <TableCell>
-                        <Spinner animation="border" role="status">
-                        <span className="visually-hidden">Loading...</span>
-                        </Spinner>
-                    </TableCell>
-                    </TableRow>
+                    <>
+                        <TableHead>
+                            {headerGroups.map((headerGroup, i) => (
+                                <TableRow key={i} {...headerGroup.getHeaderGroupProps()}>
+                                    {headerGroup.headers.map((column) => (
+                                    <TableCell
+                                        key={column.Header}
+                                        sortDirection={orderBy === column.Header ? order : false}
+                                        {...column.getHeaderProps(column.getSortByToggleProps())}
+                                    >
+                                        <TableSortLabel
+                                            active={orderBy === column.Header}
+                                            direction={orderBy === column.Header ? order : "asc"}
+                                            style={{ color: "#2a749f", fontWeight: "bold" }}
+                                            onClick={(e) => handleRequestSort(e, column.Header)}
+                                        >
+                                        {column.render("Header")}
+                                        {orderBy === column.Header ? (
+                                            <Box component="span" sx={visuallyHidden}>
+                                            {order === "desc"
+                                                ? "sorted descending"
+                                                : "sorted ascending"}
+                                            </Box>
+                                        ) : null}
+                                        </TableSortLabel>
+                                    </TableCell>
+                                    ))}
+                                </TableRow>
+                            ))}
+                        </TableHead>
+                        <TableBody {...getTableBodyProps()}>
+                            {
+                                numberOfLoader.map((data) => {
+                                    return (
+                                        <TableRow>
+                                            {
+                                                headerGroups[0].headers.map((header) => {
+                                                    return (
+                                                        header.Header === "Actions" 
+                                                        ?
+                                                            <TableCell style={{ display: "flex"}}>
+                                                                <Skeleton animation="wave" variant="rectangular" width={60} height={30} style={{ borderRadius: 6, marginRight: "10px" }} />
+                                                                <Skeleton animation="wave" variant="rectangular" width={60} height={30} style={{ borderRadius: 6 }} />
+                                                            </TableCell>
+                                                        :
+                                                            <TableCell>
+                                                                <Skeleton animation="wave" variant="rectangular" width={ header.Header === "No." ? 50 : getRndInteger(130, 170)} height={30} style={{ borderRadius: 6 }} />
+                                                            </TableCell>
+                                                    )
+                                                })
+                                            }
+                                        </TableRow>
+                                    )
+                                })
+                            }
+                        </TableBody>
+                    </>
                 )}
+
                 {!isFetching && (
                     <>
                     <TableHead>
@@ -455,14 +513,8 @@ const BasicTable = ({
                                     );
                                 })}
                                 </TableRow>
-                            );
-                            })
+                            )})
                         }
-                        {tableData.length === 0 && (
-                        <TableRow>
-                            <TableCell>No data to be displayed at the moment</TableCell>
-                        </TableRow>
-                        )}
                     </TableBody>
                     </>
                 )}

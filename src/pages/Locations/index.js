@@ -91,6 +91,11 @@ const Locations = () => {
     }
 
     const _getAllLocation = async (allowToast) => {
+        
+        if(allowToast) {
+            setIsFetching(true)
+        }
+
         try {
             const locations = await getAllLocations();
             setLocations(locations.data?.data);

@@ -175,42 +175,6 @@ input:focus {
   cursor: pointer;
 }
 
-
-/* TABLE Custom Style */
-/* .customTableDiv {
-  padding: 10px;
-  background-color: var(--white);
-  border-radius: 5px;
-  min-width: 500px;
-}
-.tableStyle {
-  width: 100%;
-  margin: 10px 0;
-  padding: 10px !important;
-  
-  background-color: var(--white);
-  font-size: 13px;
-  box-sizing: border-box;
-  border-radius: 5px;
-}
-
-.tableStyle caption, .tableCaption {
-  text-align: left;
-  margin-bottom: 10px;
-  font-size: 13px;
-}
-.tableStyle thead tr th {
-  color: var(--primary);
-  text-align: left;
-  padding-bottom: 5px;
-  padding-right: 10px;
-}
-.tableStyle tbody tr td {
-  color: var(--blackTextColor);
-  padding: 5px;
-  padding-right: 10px;
-} */
-
 .tableCaption {
   text-align: left;
   margin-bottom: 10px;
@@ -223,7 +187,6 @@ input:focus {
   vertical-align: middle !important;
 
 }
-
 
 /* Spacing Classes*/
 .mt-15 {

@@ -40,6 +40,9 @@ const PositiveTracingLogs = () => {
     }
 
     const _getAllVisitationLogs = async (allowToast) => {
+        if(allowToast) {
+            setIsFetching(true)
+        }
         try {
             let exports = []
             const visitationLogs = await getAllPositiveLogs();

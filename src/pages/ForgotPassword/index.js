@@ -16,7 +16,9 @@ const ForgotPassword = () => {
   const [validationError, setErrors] = useState('');
   const [email, setEmail] = useState('')
 
-  const onSubmit = async () => {
+  const onSubmit = async (e) => {
+    
+    e.preventDefault();
 
     try {
       setIsSubmitting(!isSubmitting)
@@ -88,7 +90,7 @@ const ForgotPassword = () => {
                           >
                             Sending
                           </LoadingButton>
-                      :   <Button variant='contained'  className='primaryBlockBtn' onClick={() => onSubmit()}>Continue</Button>
+                      :   <Button type='button' variant='contained'  className='primaryBlockBtn' onClick={e => onSubmit(e)}>Continue</Button>
                   }
               </form>
             </div>

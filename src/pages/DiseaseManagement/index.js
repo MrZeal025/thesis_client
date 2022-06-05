@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react'
 // import package/s
 import Helmet from 'react-helmet';
-import QRCode from 'qrcode';
 // component/s
 import HomeContainer from '../../components/HomeContainer/index.js';
 import BasicTable from '../../components/BasicTable'
@@ -73,6 +72,9 @@ const Diseasemanagement = () => {
 
 
     const _getAllLocation = async (allowToast) => {
+        if(allowToast) {
+            setIsFetching(true)
+        }
         try {
             const locations = await getAllDiseases();
             setLocations(locations.data?.data);

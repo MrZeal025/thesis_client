@@ -33,6 +33,9 @@ const ContactTracingLogs = () => {
     }
 
     const _getAllVisitationLogs = async (allowToast) => {
+        if(allowToast) {
+            setIsFetching(true)
+        }
         try {
             let exports = []
             const visitationLogs = await getAllVisitationLogs();

@@ -72,6 +72,9 @@ const AdminManagement = () => {
     
     // get all admin accounts
     const _getAllAdmins = async (allowToast) => {
+        if(allowToast) {
+            setIsFetching(true)
+        }
         try {
             const admins = await getAllAdmins();
             setAdmins(admins.data?.data);

@@ -29,11 +29,14 @@ const UserManagement = () => {
 
     // get all users accounts
     const _getAllUsers = async (allowToast) => {
+        if(allowToast) {
+            setIsFetching(true)
+        }
         try {
             const admins = await getAllUsers();
             setUsers(admins.data?.data);
             setIsFetching(false);
-             if(allowToast){
+            if(allowToast){
                 setShowToast(!showToast);
                 setToastMessage("The users list has been refreshed successfully.");
                 setToastStatus('Success');
