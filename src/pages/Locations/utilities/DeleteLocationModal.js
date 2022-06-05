@@ -10,10 +10,10 @@ const DeleteLocationModal = ({ showFunction, onHideFunction, data, submitDeleteM
             <FormDialog 
                 show={showFunction} 
                 handleClose={onHideFunction}
-                 onSubmit={submitDeleteMethod}
-                 buttonName="Delete Location"
-                 maxWidth={"sm"}
-                 dialogTitle="Confirm to Delete"
+                onSubmit={submitDeleteMethod}
+                buttonName="Delete Location"
+                maxWidth={"sm"}
+                dialogTitle="Confirm to Delete"
             >
                 <p>
                     If you confirm the deletion of <b className='deleteLocationName'>{data}</b>,

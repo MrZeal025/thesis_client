@@ -8,11 +8,13 @@ import BasicTable from '../../components/BasicTable';
 import { RolesAndPermissionsCOLUMNS } from '../../components/BasicTable/columns';
 // utilities
 import AddRoleModal from './utilities/AddRoles';
+import UpdateRoleModal from './utilities/UpdateRole';
 import DeleteRoleModal from './utilities/DeleteRole';
 import ToastNotification from '../../components/Toast';
 // services
 import { getAllPermissions } from '../../services/permissions/get';
 import { getAllRoles } from '../../services/roles/get';
+import { putOneRole } from "../../services/roles/put";
 import { postOneRole } from '../../services/roles/post';
 import { deleteOneRole } from '../../services/roles/delete';
 // utilities
@@ -29,6 +31,12 @@ const RolesAndPermissions = () => {
     const [toastStatue, setToastStatus] = useState('');
     const [toastMessage, setToastMessage] = useState('');
 
+    // Edit Modal Declarations
+    const [showEditModal, setShowEditModal] = useState(false);
+    const handleCloseShowEditModal = () => setShowEditModal(false);
+    const [editId, setEditId] = useState('');
+    const [dataToBeEdit, setDataToBeEdit] = useState([])
+
     //Delete Modal Declarations
     const [dataToBeDeleted, setDataToBeDeleted] = useState('');
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -37,9 +45,9 @@ const RolesAndPermissions = () => {
     const [query, setQuery] = useState("");
     
     // filtering process
-    const filteredData = (locations) => {
+    const filteredData = (roles) => {
         const keys = ["name", "description"]
-        return locations.filter((item) => keys.some(key => item[key].toLowerCase().includes(query)));
+        return roles.filter((item) => keys.some(key => item[key].toLowerCase().includes(query)));
     }
 
     const modules = [
@@ -62,7 +70,7 @@ const RolesAndPermissions = () => {
             const roles = await getAllRoles();
             setRoles(roles.data?.data);
             setIsFetching(false);
-             if(allowToast){
+            if(allowToast){
                 setShowToast(!showToast);
                 setToastMessage("The roles and permission list has been refreshed successfully.");
                 setToastStatus('Success');
@@ -76,6 +84,16 @@ const RolesAndPermissions = () => {
             }
         }
     }
+
+    // Edit Modal Functions
+    const handleShowEditModal = (id) => {
+        setShowEditModal(true);
+        setEditId(id);
+        // filter the data requested for editing
+        const filterdData = roles.filter((role) => { return role._id === id })  
+        setDataToBeEdit(filterdData[0])
+    }
+
 
     // get all users accounts
     const _getAllPermissions = async () => {
@@ -128,11 +146,27 @@ const RolesAndPermissions = () => {
             const result = await postOneRole(data);
             if(result.data.success) {
                 setRoles([...roles, result.data.data])
-                setToastMessage("Location has been created successfully.");
+                setToastMessage("Role has been created successfully.");
                 setToastStatus('Success');
             }
         } catch (error) {
-            console.log(error.response.data.message)
+            setShowToast(!showToast);
+            setToastMessage(error.response.data ? error.response.data.message : "Something went wrong.");
+            setToastStatus('Error');
+        }
+    }
+
+    // send the data to the backend to be created
+    const _putOneRole = async (data) => {
+        try {
+            const result = await putOneRole(editId, data);
+            if(result.data.success) {
+                const filterdData = roles.filter((role) => { return role._id !== editId })
+                setRoles([...filterdData, result.data.data]);
+                setToastMessage("Role has been updated successfully.");
+                setToastStatus('Success');
+            }
+        } catch (error) {
             setShowToast(!showToast);
             setToastMessage(error.response.data ? error.response.data.message : "Something went wrong.");
             setToastStatus('Error');
@@ -167,9 +201,18 @@ const RolesAndPermissions = () => {
                     isFetching={isFetching}
                     hasDelete={true}
                     hasEdit={true}
+                    editModalFunction={handleShowEditModal}
                     deleteModalFunction={handleShowDeleteModal}
                 />
             </div>
+            <UpdateRoleModal 
+                method={_putOneRole}
+                permissions={permissions}
+                modules={modules}
+                show={showEditModal}
+                onHideFunction = {handleCloseShowEditModal}
+                data={dataToBeEdit}
+            />
             <DeleteRoleModal
                 showFunction = {showDeleteModal}
                 onHideFunction = {handleCloseShowDeleteModal}

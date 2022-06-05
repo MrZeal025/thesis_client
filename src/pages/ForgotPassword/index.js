@@ -7,6 +7,9 @@ import logo from '../../media/logo-White.png'
 import { Helmet } from 'react-helmet'
 import { forgotPassword } from '../../services/auth/forgotpassword'
 import Spinner from 'react-bootstrap/Spinner'
+import { Button } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
+import SaveIcon from '@mui/icons-material/Save'
 
 const ForgotPassword = () => {
   
@@ -58,27 +61,37 @@ const ForgotPassword = () => {
                   on your admin account to reset the password. Instructions  
                   will be sent to your email address.
                 </p>
-                <div>
-                    <input 
-                        type='email' 
-                        className='inputStyle'
-                        placeholder='Email Address'
-                        onChange={e => setEmail(e.target.value)}
-                        value={email}
-                        autoFocus
-                        required
-                    />
-                    <p className='form-error-display'>{validationError.replace('"email"', "Email")}</p>
-                </div>
-                <button type='submit' className='primaryBlockBtn' onClick={() => onSubmit()}>
+                <form>
+                  <div>
+                    <label>Email Address</label>
+                      <input 
+                          type='email' 
+                          className='inputStyle'
+                          onChange={e => setEmail(e.target.value)}
+                          value={email}
+                          autoFocus
+                          required
+                      />
+                      <p style={{
+                        marginTop: "3px",
+                        marginBottom: "10px",
+                        fontSize: "12px",
+                        color:"red"
+                      }}>{validationError.replace('"email"', "Email")}</p>
+                  </div>
                   {
                       isSubmitting ? 
-                          <Spinner animation="border" role="status">
-                              <span className="visually-hidden">Loading...</span>
-                          </Spinner>
-                      :   "Continue"
+                          <LoadingButton
+                            loading
+                            loadingPosition="start"
+                            startIcon={<SaveIcon />}
+                            variant="contained"
+                          >
+                            Sending
+                          </LoadingButton>
+                      :   <Button variant='contained'  className='primaryBlockBtn' onClick={() => onSubmit()}>Continue</Button>
                   }
-                </button>
+              </form>
             </div>
         </div>
     </div>

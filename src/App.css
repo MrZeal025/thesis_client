@@ -278,6 +278,7 @@ a:hover {
 
 /* form error display */
 .form-error-display {
+  margin-top: 5px;
   margin-bottom: 0!important;
   font-size: 12px;
   color: var(--red);
@@ -319,7 +320,4 @@ a:hover {
 
 .small-input{
   width: 60px;
-}
-.form-error-display {
-  margin-top: 5px;
 }

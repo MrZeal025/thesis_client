@@ -9,7 +9,6 @@ import logo from '../../media/logo-White.png'
 // import package/s
 import { useForm } from 'react-hook-form'
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
-import Spinner from 'react-bootstrap/Spinner'
 import jwt_decode from 'jwt-decode';
 import { checkAccess } from '../../services/auth/login';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';

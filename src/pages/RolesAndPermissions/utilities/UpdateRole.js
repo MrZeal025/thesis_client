@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 // import css
 import './CustomModals.css'
 // import package/s
@@ -21,18 +21,22 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const AddRoleModal = ({ method, permissions, modules }) => {
+const UpdateRoleModal = ({ 
+    method, 
+    permissions, 
+    modules, 
+    show, 
+    onHideFunction, 
+    data
+}) => {
     
     const [name, setLocationName] = useState('');
     const [description, setLocationAddress] = useState('');
     const [currentPermissions, setCurrentPermissions] = useState([]);
     const [customPermissions, setCustomPermissions] = useState([]);
-    const [show, setShow] = useState(false);
     const [scroll, setScroll] = useState('paper');
+    const [currentModule, setCurrentModule] = useState([])
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-    
     const onSubmit = () => {
     // create new instance of location for sending
         const locationSchema = {
@@ -42,10 +46,13 @@ const AddRoleModal = ({ method, permissions, modules }) => {
         }
         // pass the data to the method provided
         method(locationSchema);
+
+        setCurrentModule([])
         setCurrentPermissions([]);
         setCustomPermissions([]);
-        // close the modal
-        setShow(false);
+
+        onHideFunction();
+
     }
 
     // function for saving the selected role
@@ -57,6 +64,7 @@ const AddRoleModal = ({ method, permissions, modules }) => {
         for(let i = 0; i < filterPermission.length; i++) {
             permissionsID.push(filterPermission[i]._id)
         }
+        setCurrentModule([...currentModule, data])
         setCurrentPermissions([...currentPermissions, { permissionName: data, permissionsID: permissionsID }])
         setCustomPermissions([...customPermissions, ...permissionsID])
         permissionsID =  [];
@@ -64,17 +72,20 @@ const AddRoleModal = ({ method, permissions, modules }) => {
 
     const removeSelectedRole = (data) => {
         let permissionsID = [];
+        
         const filterPermission = currentPermissions.filter((permission) => { return permission.permissionName !== data })
+        const filteredCurrentMod = currentModule.filter((module) => { return module !== data});
+
         for(let i = 0; i < filterPermission.length; i++) {
             permissionsID.push(...filterPermission[i].permissionsID)
         }
+        setCurrentModule(filteredCurrentMod)
         setCurrentPermissions([...filterPermission])
         setCustomPermissions([...permissionsID]);
         permissionsID = [];
     }
 
     const selectPermissions = (data) => {
-
         if(currentPermissions.filter((permission) => { return permission.permissionName === data }).length > 0) {
             for(let j = 0; j < currentPermissions.length; j++) {
                 removeSelectedRole(data);
@@ -87,22 +98,64 @@ const AddRoleModal = ({ method, permissions, modules }) => {
     }
 
     const descriptionElementRef = React.useRef(null);
-    React.useEffect(() => {
+
+    useEffect(() => {
         if (show) {
+            
             const { current: descriptionElement } = descriptionElementRef;
+
             if (descriptionElement !== null) {
                 descriptionElement.focus();
             }
+
+            let module = []
+            let filteredPerms = []
+            let currentPerms = []
+            let permissionsID = [];
+
+            for(let i = 0; i < data.permissions.length; i++) {
+                module.push(data.permissions[i].name.split(':')[0])
+            }
+
+            // get all unique module
+            const unique = [...new Set(module)]
+            setCurrentModule(unique);
+
+
+            for(let x = 0; x < unique.length; x++) {
+                // filter permission based on the selected module
+                const filterPermission = permissions.filter((permission) => { return permission.name.split(':')[0] === unique[x] })
+                filteredPerms.push(...filterPermission)
+            }
+
+            for(let i = 0; i < filteredPerms.length; i++) {
+                permissionsID.push(filteredPerms[i]._id)
+            }
+
+            for(let x = 0; x < unique.length; x++) {
+                
+                let perModuleId = []
+
+                const filterPermission = permissions.filter((permission) => { return permission.name.split(':')[0] === unique[x] })
+                //  loop from the filtered permission and get the _id 
+                for(let i = 0; i < filterPermission.length; i++) {
+                    perModuleId.push(filterPermission[i]._id)
+                }
+                currentPerms.push({ permissionName: unique[x], permissionsID: perModuleId })
+            }
+            setLocationName(data.name)
+            setLocationAddress(data.description)
+            setCurrentPermissions(currentPerms)
+            setCustomPermissions(permissionsID)
         }
     }, [show]);
 
     return (
         <>
-            <Button className='primaryBtn' onClick={handleShow} variant="contained">Add Role</Button>
             <Dialog 
                 open={show} 
                 fullScreen 
-                onClose={handleClose}
+                onClose={onHideFunction}
                 TransitionComponent={Transition}
             >
                 <AppBar sx={{ position: 'relative' }} style={{ backgroundColor: "#2a749f"}}>
@@ -110,16 +163,16 @@ const AddRoleModal = ({ method, permissions, modules }) => {
                         <IconButton
                             edge="start"
                             color="inherit"
-                            onClick={handleClose}
+                            onClick={onHideFunction}
                             aria-label="close"
                         >
                             <CloseIcon />
                         </IconButton>
                         <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                            Create a new Role
+                            Update {`${data.name}`} Role
                         </Typography>
                         <Button onClick={() => { onSubmit() }} variant="outlined" style={{  color: "white", border: "1px solid white"}}>
-                            Create
+                            Update
                         </Button>
                     </Toolbar>
                 </AppBar>
@@ -131,6 +184,7 @@ const AddRoleModal = ({ method, permissions, modules }) => {
                             <Form.Control 
                                 type="text" 
                                 placeholder="Enter name of role" 
+                                value={name}
                                 onChange={e => setLocationName(e.target.value)} 
                                 required
                             />
@@ -142,6 +196,7 @@ const AddRoleModal = ({ method, permissions, modules }) => {
                                 as="textarea" 
                                 rows={3}
                                 placeholder="Type something" 
+                                value={description}
                                 onChange={e => setLocationAddress(e.target.value)} 
                                 required
                             />
@@ -160,7 +215,7 @@ const AddRoleModal = ({ method, permissions, modules }) => {
                                         {/* renders the module name */}
                                         <FormGroup>
                                             <FormControlLabel  
-                                                control={<Checkbox onClick={() => selectPermissions(module)} />}
+                                                control={<Checkbox checked={currentModule.includes(module)} onClick={() => selectPermissions(module)} />}
                                                 label={module} 
                                             />
                                         </FormGroup>
@@ -173,7 +228,7 @@ const AddRoleModal = ({ method, permissions, modules }) => {
                                                         return (
                                                             <FormGroup>
                                                                 <FormControlLabel  
-                                                                    control={<Checkbox  checked={customPermissions.includes(permission._id)} disabled />}
+                                                                    control={<Checkbox checked={customPermissions.includes(permission._id)} disabled />}
                                                                     label={permission.name} 
                                                                 />
                                                             </FormGroup>
@@ -193,4 +248,4 @@ const AddRoleModal = ({ method, permissions, modules }) => {
         </>
     );
 }
-export default AddRoleModal;
+export default UpdateRoleModal;
