@@ -3,12 +3,9 @@ import React, { useMemo } from "react";
 import "./permissionsStyle.css";
 // react table
 import { useTable, useSortBy, usePagination } from "react-table";
-
 // react bootstrap
 import { FaPen, FaTrash, FaQrcode, FaEye, FaArrowLeft, FaArrowRight } from "react-icons/fa";
-import Spinner from "react-bootstrap/Spinner";
 import Badge from "react-bootstrap/Badge";
-
 // mui
 import Button from '@mui/material/Button';
 import Select from '@mui/material/Select';
@@ -520,6 +517,7 @@ const BasicTable = ({
                 )}
                 </Table>
             </TableContainer>
+            
             <Paper style={{ padding: "5px"}}>
                 <div style={{ width: "100%", display: "flex", justifyContent: "right"}}>
                     <FormControl sx={{ m: 1, minWidth: 120 }} size="small">

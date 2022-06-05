@@ -16,6 +16,8 @@ import Refresh from '../../components/Refresh/index.js';
 import ToastNotification from '../../components/Toast/index.js';
 import { Button } from '@mui/material'
 
+import ReportGenerator from './utilities/report-generator'
+
 const ContactTracingLogs = () => {
 
     const [contactLogs, setContactLogs] = useState([]);
@@ -25,6 +27,10 @@ const ContactTracingLogs = () => {
     const [toastStatue, setToastStatus] = useState('');
     const [toastMessage, setToastMessage] = useState('');
     const [query, setQuery] = useState("");
+
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
     
     // filtering process
     const filteredData = (contactLogs) => {
@@ -140,7 +146,8 @@ const ContactTracingLogs = () => {
                         { 
                             exportableDataState.length > 0 && 
                             <Button 
-                                onClick={() => { JSONToCSVConvertor(exportableDataState, "Visitation Histories", true)}} 
+                                // onClick={() => { JSONToCSVConvertor(exportableDataState, "Visitation Histories", true)}} 
+                                onClick={() => { handleShow() }}
                                 className='primaryBtn'
                                 variant="contained"
                             >
@@ -157,6 +164,12 @@ const ContactTracingLogs = () => {
                     isFetching={isFetching}
                 />
             </div>
+            <ReportGenerator
+                show={show}
+                handleClose={handleClose}
+                contactLogs={contactLogs}
+                logsColumn={LogsCOLUMN}
+            />
             <ToastNotification
                 showToast={showToast}
                 setShowToast={setShowToast}
