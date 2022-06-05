@@ -6,7 +6,6 @@ import logo from '../../media/logo-White.png'
 // import package
 import { Helmet } from 'react-helmet'
 import { forgotPassword } from '../../services/auth/forgotpassword'
-import Spinner from 'react-bootstrap/Spinner'
 import { Button } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import SaveIcon from '@mui/icons-material/Save'
