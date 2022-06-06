@@ -418,8 +418,7 @@ const BasicTable = ({
                                             )
                                             }
                                         >
-                                            <FaEye style={{ marginRight: "5px"}} /> Trace Contacts
-                                        </Button>
+                                            <FaEye style={{ marginRight: "5px"}} /> Trace                                        </Button>
                                         </TableCell>
                                     );
                                     }

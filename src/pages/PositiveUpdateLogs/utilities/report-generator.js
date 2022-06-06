@@ -10,7 +10,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import { Button, Box, Paper } from '@mui/material'
 // table
-import CustomFilters from '../../../components/ColumnFilter';
+import CustomFilters from '../../../components/ColumnFilter/positiveLogFilter';
 import BasicTable from '../../../components/BasicTable'
 import { CSVLink } from "react-csv";
 // silder component
@@ -21,26 +21,40 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const ReportGenerator = ({ show, handleClose, contactLogs, logsColumn }) => {
 
     const [csvData, setCSVData] = useState([]);
+    const [diseases, setDiseases] = useState([]);
     const [locations, setLocations] = useState([]);
+    const [selectedLocations, setSelectedLocations] = useState([])
 
     const headers = [
-        { label: "Contact Number", key : "userId.mobileNumber"},
-        { label: "Location", key : "location"},
-        { label: "Action", key : "action"},
-        { label: "Health Status", key : "userId.userHealthStatus"},
-        { label: "User Type", key : "userId.userType"},
-        { label: "Date", key : "date"},
-        { label: "Time", key : "time"},
+        { label: "First Name", key : "firstName"},
+        { label: "Middle Name", key : "middleName"},
+        { label: "Last Name", key : "lastName"},
+        { label: "Name Extn,", key : "nameExtension"},
+        { label: "Gender", key : "gender"},
+        { label: "Age", key : "age"},
+        { label: "Contact Number", key : "mobileNumber"},
+        { label: "Health Status", key : "healthStatus"},
+        { label: "User Type", key : "userType"},
+        { label: "Lot", key : "lotNumber"},
+        { label: "Street", key : "streetName"},
+        { label: "Barangay", key : "barangay"},
+        { label: "City", key : "city"},
+        { label: "District", key : "district"},
+        { label: "Province", key : "province"},
+        { label: "Date Reported", key : "date"}
     ]
 
     const csvReport = {
-        filename: "Visitation Logs Report.csv",
+        filename: "Positive Cases Report.csv",
         headers: headers,
         data: csvData
     }
 
     // filtering process
     const locationFilter = (locations) => {
+        // set selected locations for reference of other filters
+        setSelectedLocations(locations)
+        // filtering starts here
         const filteredData = []
         
         if (locations.length === 0) {
@@ -48,9 +62,33 @@ const ReportGenerator = ({ show, handleClose, contactLogs, logsColumn }) => {
         } 
         else {
             for(let i = 0; i < locations.length; i++) {
-                const result = contactLogs.filter((item) => { return item.location === locations[i].location })
+                const result = contactLogs.filter((item) => { return item.city === locations[i].location })
                 filteredData.push(...result)
             }  
+            setCSVData(filteredData)
+        }
+    }
+
+    // filtering process
+    const diseaseFilter = (diseases) => {
+        const filteredData = []
+        
+        if (diseases.length === 0) {
+            setCSVData(contactLogs)
+        } 
+        else {
+            if(selectedLocations.length > 0) {
+                for(let i = 0; i < diseases.length; i++) {
+                    const result = csvData.filter((item) => { return item.disease === diseases[i].disease })
+                    filteredData.push(...result)
+                }  
+            } 
+            else {
+                for(let i = 0; i < diseases.length; i++) {
+                    const result = contactLogs.filter((item) => { return item.disease === diseases[i].disease })
+                    filteredData.push(...result)
+                }  
+            }
             setCSVData(filteredData)
         }
     }
@@ -85,11 +123,14 @@ const ReportGenerator = ({ show, handleClose, contactLogs, logsColumn }) => {
 
     useEffect(() => {
 
+        setCSVData(contactLogs);
+
+        // locations filter
         let extractedLocations = []
         let newExtractedLocation = [] 
 
         for(let i = 0; i < contactLogs.length; i++) {
-            extractedLocations.push(contactLogs[i].location);
+            extractedLocations.push(contactLogs[i].city);
         }
         
         let filteredLocation = [...new Set(extractedLocations)]
@@ -97,9 +138,24 @@ const ReportGenerator = ({ show, handleClose, contactLogs, logsColumn }) => {
         for(let i = 0; i < filteredLocation.length; i++) {
             newExtractedLocation.push({ location: filteredLocation[i]  })
         }
-        // base dataset
-        setLocations(newExtractedLocation)
-        setCSVData(contactLogs);
+        // base dataset for locations
+        setLocations(newExtractedLocation);
+        
+        // disease filter
+        let extractedDisease = []
+        let newExtractedDisease = [] 
+
+        for(let i = 0; i < contactLogs.length; i++) {
+            extractedDisease.push(contactLogs[i].disease);
+        }
+        
+        let filteredDisease = [...new Set(extractedDisease)]
+
+        for(let i = 0; i < filteredDisease.length; i++) {
+            newExtractedDisease.push({ disease: filteredDisease[i]  })
+        }
+        // base dataset for locations
+        setDiseases(newExtractedDisease);
 
     },[contactLogs])
 
@@ -124,7 +180,7 @@ const ReportGenerator = ({ show, handleClose, contactLogs, logsColumn }) => {
                         <CloseIcon />
                     </IconButton>
                     <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                        Generate Visitation Logs Report
+                        Generate Positive Log Report
                     </Typography>
                     <Button 
                         variant="outlined" 
@@ -146,7 +202,9 @@ const ReportGenerator = ({ show, handleClose, contactLogs, logsColumn }) => {
                     </DialogTitle>
                     <CustomFilters
                         filterA={locations}
+                        filterB={diseases}
                         locationFilter={locationFilter}
+                        diseaseFilter={diseaseFilter}
                         filterByDateRange={filterByDateRange}
                     />
                     <Paper elevation={1}>

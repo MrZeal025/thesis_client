@@ -10,7 +10,13 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Typography from '@mui/material/Typography';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 
-export default function CustomFilters({ filterA, locationFilter, filterByDateRange }) {
+export default function CustomFilters({ 
+    filterA, 
+    filterB,
+    locationFilter, 
+    diseaseFilter,
+    filterByDateRange 
+}) {
 
     const today = new Date()
     const yesterDay = new Date(today)
@@ -25,6 +31,7 @@ export default function CustomFilters({ filterA, locationFilter, filterByDateRan
 
     return (
         <Box className='d-flex mb-2'>
+            {/* Location Filter */}
             <Box
                 sx={{ boxShadow: 1 }} 
                 style={{ 
@@ -45,7 +52,7 @@ export default function CustomFilters({ filterA, locationFilter, filterByDateRan
                         color: "#2a749f"
                     }}
                 >
-                    Filter by location
+                    Filter by City
                 </Typography>
                 <Autocomplete
                     multiple
@@ -69,7 +76,57 @@ export default function CustomFilters({ filterA, locationFilter, filterByDateRan
                     renderInput={(params) => (
                         <TextField
                             {...params}
-                            label="Filter Location"
+                            label="Filter City"
+                        />
+                    )}
+                />
+            </Box>
+            {/* Disease Filter */}
+            <Box
+                sx={{ boxShadow: 1 }} 
+                style={{ 
+                    backgroundColor: "white", 
+                    padding: "10px", 
+                    borderRadius: '5px', 
+                    marginRight: "10px" 
+                }}
+            >
+                <Typography 
+                    variant="p" 
+                    noWrap 
+                    component="div" 
+                    style={{ 
+                        marginBottom: "10px", 
+                        fontSize: "12px",  
+                        fontWeight: "bold", 
+                        color: "#2a749f"
+                    }}
+                >
+                    Filter by Registered Disease
+                </Typography>
+                <Autocomplete
+                    multiple
+                    id="size-small-filled-multi"
+                    options={filterB}
+                    getOptionLabel={(option) => option.disease}
+                    defaultValue={[]}
+                    style={{ minWidth: "300px", maxWidth: "700px" }}
+                    onChange={(event, newValue) => {
+                        diseaseFilter(newValue)
+                    }}
+                    renderTags={(value, getTagProps) =>
+                        value.map((option, index) => (
+                            <Chip
+                                variant="outlined"
+                                label={option.disease}
+                                {...getTagProps({ index })}
+                            />
+                        ))
+                    }
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            label="Filter Disease"
                         />
                     )}
                 />

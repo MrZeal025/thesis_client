@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 // css
 import './dashboard.css'
 // import package/s
@@ -12,9 +10,11 @@ import VisitationLineChart from './charts/VisitationLinChart';
 import MainMap from './map';
 // utilities
 import { getAllStatistics, getAllWeeklyStatistics, getAllVisitationStatistics } from "../../services/admins/get";
-import { Button } from 'react-bootstrap'
-import { FaSync } from 'react-icons/fa'
-
+import RefreshIcon from '@mui/icons-material/Refresh';
+import { TextField, Button } from '@mui/material'
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 const Dashboard = () => {
 
@@ -124,18 +124,19 @@ const Dashboard = () => {
                 <div style={{ marginBottom: "20px"}} className='d-flex justify-content-md-between'>
                     <h3 className='chartTitle'>Weekly Visitation Status Analytics</h3>
                     <div className='d-flex justify-content-md-between'>
-                        <DatePicker 
-                            selected={startDate} 
-                            form 
-                            onChange={
-                                (date) => {
-                                    setStartDate(date)
+                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <DatePicker
+                                label="End Date"
+                                value={startDate}
+                                onChange={(newValue) => {
+                                    setStartDate(newValue);
                                     weeklyVisitationStatusAnalytics();
-                                } 
-                            } 
-                        />
-                        <Button style={{ marginLeft: "10px" }} onClick={() => { weeklyVisitationStatusAnalytics()}}>
-                            <FaSync/>
+                                }}
+                                renderInput={(params) => <TextField size='small' style={{ marginLeft: "10px"}} {...params} />}
+                            />
+                        </LocalizationProvider>
+                        <Button variant='contained' style={{ marginLeft: "10px" }} onClick={() => { weeklyVisitationStatusAnalytics()}}>
+                            <RefreshIcon/>
                         </Button>
                     </div>
                 </div>
@@ -147,18 +148,19 @@ const Dashboard = () => {
                 <div style={{ marginBottom: "20px"}} className='d-flex justify-content-md-between'>
                     <h3 className='chartTitle'>Weekly Health Status Analytics</h3>
                     <div className='d-flex justify-content-md-between'>
-                        <DatePicker 
-                            selected={startDate} 
-                            form 
-                            onChange={
-                                (date) => {
-                                    setStartDate(date)
+                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <DatePicker
+                                label="End Date"
+                                value={startDate}
+                                onChange={(newValue) => {
+                                    setStartDate(newValue);
                                     weeklyHealthStatusAnalytics();
-                                } 
-                            } 
-                        />
-                        <Button style={{ marginLeft: "10px" }} onClick={() => { weeklyHealthStatusAnalytics()}}>
-                            <FaSync/>
+                                }}
+                                renderInput={(params) => <TextField size='small' style={{ marginLeft: "10px"}} {...params} />}
+                            />
+                        </LocalizationProvider>
+                        <Button variant='contained' style={{ marginLeft: "10px" }} onClick={() => { weeklyHealthStatusAnalytics()}}>
+                            <RefreshIcon/>
                         </Button>
                     </div>
                 </div>

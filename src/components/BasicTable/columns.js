@@ -69,6 +69,45 @@ export const PositiveLogsCOLUMN = [
     }
 ]
 
+export const PositiveLogsCOLUMNExport = [
+    {
+        Header: 'No.',
+        accessor: 'no'
+    },
+    {
+        Header: 'Gender',
+        accessor: 'gender'
+    },
+    {
+        Header: 'Age',
+        accessor: 'age'
+    },
+    {
+        Header: 'City',
+        accessor: 'city'
+    },
+    {
+        Header: 'Contact Number',
+        accessor: 'mobileNumber'
+    },
+    {
+        Header: 'Affiliation',
+        accessor: 'userType'
+    },
+    {
+        Header: 'Current Status',
+        accessor: 'healthStatus'
+    },
+    {
+        Header: 'Disease',
+        accessor: 'disease'
+    },
+    {
+        Header: 'Date',
+        accessor: 'date'
+    }
+]  
+
 export const LocationsCOLUMN = [
     {
         Header: 'No.',
