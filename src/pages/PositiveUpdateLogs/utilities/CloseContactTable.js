@@ -1,3 +1,4 @@
+import { Button } from '@mui/material'
 import React from 'react'
 // component/s
 import { Form } from 'react-bootstrap'
@@ -9,7 +10,7 @@ const CloseContactTable = ({ data }) => {
   return (
     <div className='content-center-modal'>
       <div className='filterandReportGrp'>
-          <button className='primaryBtn genReportBtn'>Alert All Close Contacts</button>
+          <Button variant="contained" className='primaryBtn genReportBtn'>Alert All Close Contacts</Button>
       </div>
       <Form.Text>
           This table shows the list possible close contacts of the infected individual based on the date and time the matches on the same location. 

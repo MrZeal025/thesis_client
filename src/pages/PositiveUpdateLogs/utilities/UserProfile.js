@@ -12,7 +12,7 @@ const PositiveUserProfile = ({ data }) => {
                 All information are strictly confidential.
             </Form.Text>
             <div className='mt-3'>
-                <h3>User Affiliation</h3>
+                <h3>User Profile</h3>
                 <Form.Group className="mb-2 mt-2 d-flex" controlId="formBasicEmail">
                     <div className='form-inline-display'>
                         <Form.Label>User Affiliation</Form.Label>
@@ -26,7 +26,7 @@ const PositiveUserProfile = ({ data }) => {
                 </Form.Group>
             </div>
             <div className='mt-3'>
-                <h3>Full Name</h3>
+                <h4>Basic Information</h4>
                 <Form.Group className="mb-2 mt-2 d-flex" controlId="formBasicEmail">
                     <div className='form-inline-display'>
                         <Form.Label>First Name</Form.Label>
@@ -67,7 +67,7 @@ const PositiveUserProfile = ({ data }) => {
                 </Form.Group>
             </div>
             <div className='mt-3'>
-                <h3>Address</h3>
+                <h4>Address</h4>
                 <Form.Group className="mb-2 mt-2 d-flex" controlId="formBasicEmail">
                     <div className='form-inline-display'>
                         <Form.Label>Lot Number</Form.Label>
@@ -130,7 +130,7 @@ const PositiveUserProfile = ({ data }) => {
                 </Form.Group>
             </div>
             <div className='mt-3'>
-                <h3>Contact Number</h3>
+                <h4>Contact Number</h4>
                 <Form.Group className="mb-2 mt-2 d-flex" controlId="formBasicEmail">
                     <div className='custom-width'>
                         <Form.Label>Mobile Number</Form.Label>

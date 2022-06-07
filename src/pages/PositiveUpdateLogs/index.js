@@ -93,7 +93,6 @@ const PositiveTracingLogs = () => {
 
     // qr code Modal Functions
     const handleContactTracing = async (id) => {
-        console.log(id)
         setShowTracerModal(true);
         try {
             const closeContacts = await getAllCloseContact(id);
