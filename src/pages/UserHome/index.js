@@ -63,7 +63,7 @@ const UserHome = () => {
                         <h1>Your privacy is not sacrificed to ensure your safety.</h1>
                         <h6>
                         <b>JuanBreath</b> is a contact tracing app developed to help the nation 
-                        from the adverse effects on the spread the virus.
+                        from the adverse effects on the spread of pandemic like virus.
                         </h6>
                         { !isDownloading &&  
                             <Button className='accentBtn downloadAppBtn' onClick={() => {downloadApp()}} variant="contained">
