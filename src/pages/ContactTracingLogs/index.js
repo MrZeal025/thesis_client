@@ -87,7 +87,7 @@ const ContactTracingLogs = () => {
             
             <h1 className='contentTitle pb-10'>Visitation Logs</h1>
             <div className='contentDiv'>
-                <p className='tableCaption'>This table contains visitation logs that will be used for contact tracing purposes. No personal information from the users will be collected on the system unless they are stated as positive of COVID-19.</p>
+                <p className='tableCaption'>This table contains visitation logs that will be used for contact tracing purposes. No personal information from the users will be collected on the system unless they are stated as positive of a disease.</p>
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                     <SearchFields onSearch={setQuery}/>
                     <div style={{ marginTop: "20px"}}>

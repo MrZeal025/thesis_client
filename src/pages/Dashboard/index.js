@@ -100,14 +100,14 @@ const Dashboard = () => {
                     </div>
                 </div>  
                 <div className='box'>
-                    <p className='box-top-heading'>Total Positive Users</p>
+                    <p className='box-top-heading'>Total Positive Report</p>
                     <p className='box-middle-heading'>{totalActiveCases}</p>
                     <div className='d-flex justify-content-end'>
                         <p className='box-bottom-heading'>+ {totalActiveCasesToday} Today</p>
                     </div>
                 </div>
                 <div className='box'>
-                    <p className='box-top-heading'>Total Recovered Users</p>
+                    <p className='box-top-heading'>Total Recovered Report</p>
                     <p className='box-middle-heading'>{totalRecoveredCases}</p>
                     <div className='d-flex justify-content-end'>
                         <p className='box-bottom-heading'>+ {totalRecoveredCasesToday} Today</p>
@@ -116,7 +116,7 @@ const Dashboard = () => {
             </div>
             <div style={{ marginTop: "20px", width: "100%"}} className="box-statistics">
                 <div  style={{ marginBottom: "5px"}} className='d-flex justify-content-md-between'>
-                    <h3 className='chartTitle'>Philippines COVID-19 Choroplet Map</h3>
+                    <h3 className='chartTitle'>Philippines Choroplet Map</h3>
                 </div>
                 <MainMap/>
             </div>
