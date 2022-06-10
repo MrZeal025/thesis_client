@@ -43,7 +43,7 @@ const ContactTracingLogs = () => {
         try {
             let exports = []
             const visitationLogs = await getAllVisitationLogs();
-            setContactLogs(visitationLogs.data?.data);
+            setContactLogs(visitationLogs.data?.data.reverse());
             for(let i = 0; i < visitationLogs.data.data.length; i++) {
                 let exportableData = {
                     location: visitationLogs.data.data[i].location,

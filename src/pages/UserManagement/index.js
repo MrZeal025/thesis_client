@@ -34,7 +34,7 @@ const UserManagement = () => {
         }
         try {
             const admins = await getAllUsers();
-            setUsers(admins.data?.data);
+            setUsers(admins.data?.data.reverse());
             setIsFetching(false);
             if(allowToast){
                 setShowToast(!showToast);

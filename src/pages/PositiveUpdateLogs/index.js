@@ -52,7 +52,7 @@ const PositiveTracingLogs = () => {
         try {
             let exports = []
             const visitationLogs = await getAllPositiveLogs();
-            setContactLogs(visitationLogs.data?.data);
+            setContactLogs(visitationLogs.data?.data.reverse());
             for(let i = 0; i < visitationLogs.data.data.length; i++) {
                 let exportableData = {
                     firstName: visitationLogs.data.data[i].firstName,
@@ -97,8 +97,7 @@ const PositiveTracingLogs = () => {
         try {
             const closeContacts = await getAllCloseContact(id);
             const visitationHistroy = await getAllInfectedVisitationHistroy(id);
-            const filteredCloseContacts = closeContacts.data.data.filter((positive) => { return positive.userId.mobileNumber !== id })
-            setCloseContactData(filteredCloseContacts);
+            setCloseContactData(closeContacts.data.data);
             setVisitationHistoryData(visitationHistroy.data?.data)
             // filter the data requested for editing
             const filterdData = positiveLogs.filter((positive) => { return positive.mobileNumber === id })  
