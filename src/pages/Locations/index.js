@@ -194,8 +194,8 @@ const Locations = () => {
             <div className='titleAndButtonDiv'>
                 <h1 className='contentTitle'>Locations</h1>
             </div>
+            <p className='tableCaption'>This table shows the list of locations stored in the system.</p>
             <div className='contentDiv'>
-                <p className='tableCaption'>This table shows the list of locations stored in the system.</p>
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                     <SearchFields onSearch={setQuery}/>
                     <div style={{ marginTop: "20px"}}>

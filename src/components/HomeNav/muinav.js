@@ -15,7 +15,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LockResetIcon from '@mui/icons-material/LockReset';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
-const drawerWidth = 255;
+const drawerWidth = 270;
 
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',

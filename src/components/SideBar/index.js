@@ -21,7 +21,7 @@ import { styled, useTheme } from '@mui/material/styles';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { saveAs } from "file-saver"
 
-const drawerWidth = 255;
+const drawerWidth = 270;
 
 const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',

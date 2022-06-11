@@ -285,6 +285,10 @@ export const DiseasesCOLUMNS = [
         accessor: 'createdAt'
     },
     {
+        Header: 'Tracing Color',
+        accessor: 'color'
+    },
+    {
         Header: 'Actions',
         accessor: 'none'
     }

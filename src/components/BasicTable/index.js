@@ -4,6 +4,7 @@ import "./permissionsStyle.css";
 // react table
 import { useTable, useSortBy, usePagination } from "react-table";
 // react bootstrap
+import { Form } from 'react-bootstrap'
 import { FaPen, FaTrash, FaQrcode, FaEye, FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import Badge from "react-bootstrap/Badge";
 // mui
@@ -250,7 +251,7 @@ const BasicTable = ({
 
                                     if (cell.column.Header === "Disease Name") {
                                     return (
-                                        <TableCell style={{ color: "red", fontWeight: "bold"}}>{cell.row.original.name}</TableCell>
+                                        <TableCell style={{ fontWeight: "bold"}}>{cell.row.original.name}</TableCell>
                                     );
                                     }
 
@@ -366,6 +367,13 @@ const BasicTable = ({
                                         }
                                         >
                                         {cell.row.original.action}
+                                        </TableCell>
+                                    );
+                                    }
+                                    if (cell.column.Header === "Tracing Color") {
+                                    return (
+                                        <TableCell>
+                                            <Form.Control type="color" value={cell.row.original.color} disabled />
                                         </TableCell>
                                     );
                                     }

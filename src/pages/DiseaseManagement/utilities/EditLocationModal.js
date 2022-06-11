@@ -27,6 +27,17 @@ const EditLocationModal = ({ showFunction, onHideFunction, data, dataEditMethod,
                         />
                     </Form.Group>
                 </Row>
+                <Row className='mt-4'>
+                    <Form.Group className="mb-2" controlId="formBasicEmail">
+                        <Form.Label>Tracing Color</Form.Label>
+                        <Form.Control 
+                            type="color"
+                            value={data?.color}
+                            onChange={e => dataEditMethod(e.target.value, 'color')}
+                            required
+                        />
+                    </Form.Group>
+                </Row>
             </FormDialog>
         </>
     );

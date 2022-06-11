@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 import Sidebar from '../SideBar';
 import { checkAccess } from '../../services/auth/login';
 
-const drawerWidth = 255;
+const drawerWidth = 270;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({

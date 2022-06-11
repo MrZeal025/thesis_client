@@ -7,6 +7,7 @@ import FormDialog from '../../../components/DialogModal';
 const AddLocationModal = ({ method }) => {
     
   const [name, setLocationName] = useState('');
+  const [color, setColor] = useState('');
   const [show, setShow] = useState(false);
   
   const handleClose = () => setShow(false);
@@ -15,7 +16,8 @@ const AddLocationModal = ({ method }) => {
     // create new instance of location for sending
 
     const locationSchema = {
-        name: name
+        name: name,
+        color: color
       };
       // pass the data to the method provided
       method(locationSchema);
@@ -33,16 +35,26 @@ const AddLocationModal = ({ method }) => {
         dialogTitle="Trace New Disease"
         dialogDescription1="This form will let you add a new disease variant to the system."
       >
-          <Row className="mt-4">
-            <Form.Group className="mb-2" controlId="formBasicEmail">
-              <Form.Label>Disease Name <b className='text-danger'>*</b></Form.Label>
-              <Form.Control 
-                type="text" 
-                placeholder="Enter name" 
-                onChange={e => setLocationName(e.target.value)} 
-                required
-              />
-            </Form.Group>
+        <Row className="mt-4">
+          <Form.Group className="mb-2" controlId="formBasicEmail">
+            <Form.Label>Disease Name <b className='text-danger'>*</b></Form.Label>
+            <Form.Control 
+              type="text" 
+              placeholder="Enter name" 
+              onChange={e => setLocationName(e.target.value)} 
+              required
+            />
+          </Form.Group>
+        </Row>
+        <Row className="mt-4">
+          <Form.Group className="mb-2" controlId="formBasicEmail">
+            <Form.Label>Tracing Color</Form.Label>
+            <Form.Control 
+              type="color" 
+              onChange={e => setColor(e.target.value)} 
+              required
+            />
+          </Form.Group>
         </Row>
           
       </FormDialog>

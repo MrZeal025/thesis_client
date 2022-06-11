@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 // import package/s
 import Helmet from 'react-helmet';
 // component/s
+import MainMap from '../Dashboard/map/index.jsx';
 import HomeContainer from '../../components/HomeContainer/index.js';
 import BasicTable from '../../components/BasicTable'
 // import table data
@@ -27,7 +28,7 @@ const Diseasemanagement = () => {
     const [showToast, setShowToast] = useState(false);
     const [editId, setEditId] = useState('');
     const [deleteId, setDeleteId] = useState('');
-    const [dataToBeEdit, setDataToBeEdit] = useState({ name: "" });
+    const [dataToBeEdit, setDataToBeEdit] = useState({ name: "", color: "" });
     const [dataToBeDeleted, setDataToBeDeleted] = useState('');
     const [toastStatue, setToastStatus] = useState('');
     const [toastMessage, setToastMessage] = useState('');
@@ -99,10 +100,7 @@ const Diseasemanagement = () => {
         try {
             const result = await postOneDisease(data);
             if(result.data.success) {
-                setLocations([...locations, result.data.data]);
-                setShowToast(!showToast);
-                setToastMessage("The disease has been created successfully.");
-                setToastStatus('Success');
+                _getAllLocation(true);
             }
         } catch (error) {
             setShowToast(!showToast);
@@ -114,17 +112,13 @@ const Diseasemanagement = () => {
     const _putOneLocation = async () => {
         try {
             const newLocation = {
-                name: dataToBeEdit.name
+                name: dataToBeEdit.name,
+                color: dataToBeEdit.color
             }
             const result = await putOneDisease(newLocation, editId);
             if(result.data.success) {
-                // removed the edited data from the set
-                const filterdData = locations.filter((location) => { return location._id !== editId })
-                setLocations([...filterdData, result.data.data]);
-                setShowToast(!showToast);
                 setShowEditModal(!showEditModal);
-                setToastMessage("The disease information has been updated successfully.");
-                setToastStatus('Success');
+                _getAllLocation(true);
             }
         } catch (error) {
             setShowToast(!showToast);
@@ -168,6 +162,9 @@ const Diseasemanagement = () => {
             </div>
             <div className='contentDiv'>
                 <p className='tableCaption'>This table shows the list of disease that are being tracked on the system</p>
+                <div style={{ marginTop: "20px", width: "100%"}} className="box-statistics">
+                    <MainMap/>
+                </div>
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                     <SearchFields onSearch={setQuery}/>
                     <div style={{ marginTop: "20px"}}>
