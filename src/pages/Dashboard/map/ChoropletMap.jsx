@@ -4,7 +4,6 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { getAllPositiveLogs } from '../../../services/positive-update-logs/get';
 import { getAllDiseases } from '../../../services/diseases/get';
-import { phLongLat } from './data/ph.js';
 
 const markerIcon = (disease, data) => {
     if(data.length > 0) {
@@ -33,45 +32,11 @@ export default function ChoropletMap({ countries }) {
 
     const getAllPositiveLogData = async () => {
         try {
-
-            let rebuildedData = [];
             const data = await getAllPositiveLogs();
             const positiveLogs = data.data.data.filter(log => log.healthStatus === "Positive");
-
-            for(let i = 0; i < positiveLogs.length; i++) {
-                const { city } = positiveLogs[i];
-                if(city.toLowerCase().includes("city")) {
-                    rebuildedData.push(positiveLogs[i])
-                }
-                else {
-                    rebuildedData.push({
-                        ...positiveLogs[i],
-                        city: `${city} city`
-                    });
-                }
-            }
-
-            const infectedLocationWithLongLat = phLongLat().filter((data) => {  
-                return rebuildedData.some(log => {
-                    return log.city.toLowerCase() === data.city.toLowerCase()
-                })
-            })
-
-            for(let i = 0; i < rebuildedData.length; i++) {
-                for(let j = 0; j < infectedLocationWithLongLat.length; j++) {
-                    if(infectedLocationWithLongLat[j].city.toLowerCase() === rebuildedData[i].city.toLowerCase()) {
-                        console.log()
-                        rebuildedData[i].lng = Number(infectedLocationWithLongLat[j].lng);
-                        rebuildedData[i].lat = Number(infectedLocationWithLongLat[j].lat);
-                    }
-                }
-            }
-
-            setInfectedLocationWithLongLat(rebuildedData)
-
+            setInfectedLocationWithLongLat(positiveLogs)
             const infectedCities = data.data.data.filter(log => log.healthStatus === "Positive").map(item => item.city.toLowerCase());
             setInfectedCities([...new Set(infectedCities)]);
-
         } catch (error) {
             console.log(error)
         }
