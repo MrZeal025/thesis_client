@@ -44,10 +44,6 @@ export const PositiveLogsCOLUMN = [
         accessor: 'city'
     },
     {
-        Header: 'Contact Number',
-        accessor: 'mobileNumber'
-    },
-    {
         Header: 'Affiliation',
         accessor: 'userType'
     },

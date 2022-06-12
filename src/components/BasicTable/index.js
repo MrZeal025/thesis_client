@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import Moment from 'react-moment';
 // import css
 import "./permissionsStyle.css";
 // react table
@@ -245,7 +246,7 @@ const BasicTable = ({
 
                                     if (cell.column.Header === "Date") {
                                     return (
-                                        <TableCell>{cell.row.original.date}</TableCell>
+                                        <TableCell><Moment format="MMMM DD, YYYY">{cell.row.original.date}</Moment></TableCell>
                                     );
                                     }
 
@@ -343,7 +344,7 @@ const BasicTable = ({
                                     if (cell.column.Header === "Registration Date") {
                                     return (
                                         <TableCell>
-                                        {cell.row.original.createdAt.split("T")[0]}
+                                        <Moment format="MMMM DD, YYYY">{cell.row.original.createdAt?.split("T")[0]}</Moment>
                                         </TableCell>
                                     );
                                     }
@@ -351,7 +352,7 @@ const BasicTable = ({
                                     if (cell.column.Header === "Start Date of Tracing") {
                                     return (
                                         <TableCell>
-                                        {cell.row.original.createdAt.split("T")[0]}
+                                        <Moment format="MMMM DD, YYYY">{cell.row.original.createdAt?.split("T")[0]}</Moment>
                                         </TableCell>
                                     );
                                     }
@@ -405,7 +406,7 @@ const BasicTable = ({
                                     ) {
                                     return (
                                         <TableCell>
-                                        {cell.row.original.createdAt?.split("T")[0]}
+                                            <Moment format="MMMM DD, YYYY">{cell.row.original.createdAt?.split("T")[0]}</Moment>
                                         </TableCell>
                                     );
                                     }
