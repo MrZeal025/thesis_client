@@ -274,6 +274,42 @@ const BasicTable = ({
                                     );
                                     }
 
+                                    if (cell.column.Header === "Type") {
+                                    return (
+                                        <TableCell>
+                                        {cell.row.original.userId.userType}
+                                        </TableCell>
+                                    );
+                                    }
+                                    
+                                    if (cell.column.Header === "Contact Duration") {
+                                    return (
+                                        <TableCell>
+                                        {cell.row.original.totalContactDuration}
+                                        </TableCell>
+                                    );
+                                    }
+
+                                    if (cell.column.Header === "Time Scanned") {
+                                    return (
+                                        <TableCell>
+                                        {convertTo112HourFormat(
+                                            cell.row.original.time
+                                        )}
+                                        </TableCell>
+                                    );
+                                    }
+
+                                    if (cell.column.Header === "Time Leave") {
+                                    return (
+                                        <TableCell>
+                                        {convertTo112HourFormat(
+                                            cell.row.original.timeOut
+                                        )}
+                                        </TableCell>
+                                    );
+                                    }
+
                                     if (cell.column.Header === "Close Contact Number") {
                                     return (
                                         <TableCell>

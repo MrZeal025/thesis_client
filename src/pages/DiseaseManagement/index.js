@@ -162,7 +162,7 @@ const Diseasemanagement = () => {
             </div>
             <div className='contentDiv'>
                 <p className='tableCaption'>This table shows the list of disease that are being tracked on the system</p>
-                <div style={{ marginTop: "20px", width: "100%"}} className="box-statistics">
+                <div style={{ marginTop: "10px", marginBottom: "10px", width: "100%"}} className="box-statistics">
                     <MainMap/>
                 </div>
                 <div style={{ display: "flex", justifyContent: "space-between" }}>

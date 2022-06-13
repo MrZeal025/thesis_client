@@ -6,15 +6,15 @@ const PositiveUserProfile = ({ data }) => {
     
   return (
     <>
-        <div className='content-center-modal'>
+        <div>
             <Form.Text>
-                This form only contains information uploaded by the infected user.
+                This form is <b>VIEW ONLY</b>, it contains information uploaded by the infected user.
                 All information are strictly confidential.
             </Form.Text>
             <div className='mt-3'>
                 <h3>User Profile</h3>
                 <Form.Group className="mb-2 mt-2 d-flex" controlId="formBasicEmail">
-                    <div className='form-inline-display'>
+                    <div>
                         <Form.Label>User Affiliation</Form.Label>
                         <Form.Control 
                             type="text"
@@ -61,6 +61,28 @@ const PositiveUserProfile = ({ data }) => {
                             type="text" 
                             value={data.nameExtension} 
                             readOnly 
+                            required
+                        />
+                    </div>
+                </Form.Group>
+            </div>
+            <div className='mt-3'>
+                <Form.Group className="mb-2 mt-2 d-flex" controlId="formBasicEmail">
+                    <div style={{ marginRight: "20px"}}>
+                        <Form.Label>Age</Form.Label>
+                        <Form.Control 
+                            type="text" 
+                            value={data.age}  
+                            readOnly
+                            required
+                        />
+                    </div>
+                    <div>
+                        <Form.Label>Gender</Form.Label>
+                        <Form.Control 
+                            type="text" 
+                            value={data.gender}  
+                            readOnly
                             required
                         />
                     </div>

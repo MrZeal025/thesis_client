@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
-    LineChart, 
-    Line, 
+    AreaChart , 
+    Area, 
     XAxis, 
     YAxis, 
     CartesianGrid, 
@@ -31,7 +31,7 @@ const VisitationLineChart = ({ weeklyHeathAnalytics }) => {
 
     return (
         <ResponsiveContainer width="100%" aspect={4 / 1}>
-            <LineChart
+            <AreaChart 
                 data={weeklyHeathAnalytics}
             >
                 <CartesianGrid strokeDasharray="3 3" />
@@ -40,11 +40,11 @@ const VisitationLineChart = ({ weeklyHeathAnalytics }) => {
                 <Tooltip />
                 <Legend />
                 {
-                     locations.length > 0 && locations.map((location, i) => {
-                        return <Line key={i} type="monotone" dataKey={location.name} stroke={colors[i]}/>
+                    locations.length > 0 && locations.map((location, i) => {
+                        return <Area key={i} type="monotone" dataKey={location.name} stroke={colors[i]} fill={colors[i]}/>
                     })
                 }
-            </LineChart>
+            </AreaChart>
         </ResponsiveContainer>
     );
 }

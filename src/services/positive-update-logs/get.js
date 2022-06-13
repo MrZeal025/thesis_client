@@ -15,3 +15,7 @@ export const getAllCloseContact = (mobileNumber) => {
 export const getAllInfectedVisitationHistroy = (mobileNumber) => {
   return axios.get(`${baseUrl}/positive-log/visitation-histroy/${mobileNumber}`);
 };
+
+export const alertAllCloseContacts = (data) => {
+  return axios.post(`${baseUrl}/positive-log/close-contacts/alert`, data);
+}

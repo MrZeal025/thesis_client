@@ -20,7 +20,7 @@ export default function MainMap() {
         load();
     }, []);
     return (
-        <div>
+        <>
             {
                 countries.length === 0 
                 ? 
@@ -33,6 +33,6 @@ export default function MainMap() {
                         <MapLegend />
                     </div>
             }
-        </div>
+        </>
     )
 }

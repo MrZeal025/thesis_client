@@ -304,3 +304,7 @@ a:hover {
   border: none !important;
   background: none !important;
 }
+
+.shadowcustom {
+  box-shadow: 0 1.5px .5px rgba(0, 0, 0, .2);
+}

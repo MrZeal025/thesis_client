@@ -6,9 +6,25 @@ import SearchIcon from '@mui/icons-material/Search';
 export default function SearchFields({ onSearch }) {
     return (
         <Box style={{ width: "300px" }}>
-            <Box sx={{ display: 'flex', alignItems: 'flex-end',  padding: "10px", marginBottom: "10px" }}>
-                <SearchIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-                <TextField id="input-with-sx" label="Search" variant="standard" onChange={e => { onSearch(e.target.value)}} />
+            <Box sx={{ 
+                display: 'flex', 
+                alignItems: 'flex-end',  
+                marginBottom: '10px',
+            }}
+            >
+                <div 
+                    className='shadowcustom'
+                    style={{ 
+                        backgroundColor: "white", 
+                        paddingLeft: "20px", 
+                        paddingRight: "20px",
+                        paddingBottom: "10px",
+                        borderRadius: "5px",
+                    }}
+                >
+                    <SearchIcon sx={{ color: 'action.active', marginTop: "10%", mr: 1 }} />
+                    <TextField label="Search" variant="standard" onChange={e => { onSearch(e.target.value)}} />
+                </div>
             </Box>
         </Box>
     );

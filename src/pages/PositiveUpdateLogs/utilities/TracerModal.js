@@ -49,7 +49,12 @@ const a11yProps = (index) => {
     };
 }
 
-const CloseContactTracerModal = ({ showFunction, onHideFunction, data, closeContactData, visitationHistroyData }) => {
+const CloseContactTracerModal = ({ 
+    showFunction, 
+    onHideFunction, 
+    data, 
+    closeContactData, 
+    visitationHistroyData }) => {
 
     const [value, setValue] = useState(0);
     const handleChange = (event, newValue) => {
@@ -69,7 +74,10 @@ const CloseContactTracerModal = ({ showFunction, onHideFunction, data, closeCont
                         <IconButton
                             edge="start"
                             color="inherit"
-                            onClick={onHideFunction}
+                            onClick={() => {
+                                onHideFunction();
+                                setValue(0);
+                            }}
                             aria-label="close"
                         >
                             <CloseIcon />
@@ -81,7 +89,7 @@ const CloseContactTracerModal = ({ showFunction, onHideFunction, data, closeCont
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                         <Tab label="User Information" {...a11yProps(0)} />
                         <Tab label="Visitation History" {...a11yProps(1)} />
-                        <Tab label="Close Contacts" {...a11yProps(2)} />
+                        <Tab label="Close Contact Log" {...a11yProps(2)} />
                     </Tabs>
                     <Tabs defaultActiveKey="home" id="uncontrolled-tab-example" className="mb-3">
                         <TabPanel value={value} index={0}>
@@ -96,6 +104,7 @@ const CloseContactTracerModal = ({ showFunction, onHideFunction, data, closeCont
                         </TabPanel>
                         <TabPanel value={value} index={2}>
                             <CloseContactTable
+                                infectedPersonData={data}
                                 data={closeContactData}
                             />
                         </TabPanel>

@@ -173,7 +173,7 @@ export const UsersCOLUMN = [
         accessor: 'mobileNumber'
     },
     {
-        Header: 'Type',
+        Header: 'User Type',
         accessor: 'userType'
     },
     {
@@ -219,20 +219,28 @@ export const CloseContactCOLUMNS = [
         accessor: ''
     },
     {
-        Header: 'Location',
-        accessor: 'location'
+        Header: 'Type',
+        accessor: ''
     },
     {
-        Header: 'Action',
-        accessor: 'action'
+        Header: 'Location',
+        accessor: 'location'
     },
     {
         Header: 'Date',
         accessor: ''
     },
     {
-        Header: 'Time',
-        accessor: 'none'
+        Header: 'Time Scanned',
+        accessor: ''
+    },
+    {
+        Header: 'Time Leave',
+        accessor: ''
+    },
+    {
+        Header: 'Contact Duration',
+        accessor: ''
     }
 ]
 
