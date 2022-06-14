@@ -248,11 +248,11 @@ a:hover {
 }
 .entry {
   color: var(--accent) !important;
-  font-weight: 600;
+  font-weight: 600 !important;
 }
 .exit {
   color: var(--red) !important;
-  font-weight: 600;
+  font-weight: 600 !important;
 }
 
 .permission-container {

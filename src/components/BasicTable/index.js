@@ -300,16 +300,6 @@ const BasicTable = ({
                                     );
                                     }
 
-                                    if (cell.column.Header === "Time Leave") {
-                                    return (
-                                        <TableCell>
-                                        {convertTo112HourFormat(
-                                            cell.row.original.timeOut
-                                        )}
-                                        </TableCell>
-                                    );
-                                    }
-
                                     if (cell.column.Header === "Close Contact Number") {
                                     return (
                                         <TableCell>
@@ -368,8 +358,7 @@ const BasicTable = ({
                                         return (
                                             <TableCell
                                             style={{
-                                                fontWeight: "bold",
-                                                color: "red"
+                                                fontWeight: "bold"
                                             }}
                                             >
                                             {cell.row.original.disease}
@@ -459,7 +448,8 @@ const BasicTable = ({
                                             title="Delete"
                                             onClick={() =>
                                             tracerModalFunction(
-                                                cell.row.original?.mobileNumber
+                                                cell.row.original?.mobileNumber,
+                                                cell.row.original?.date
                                             )
                                             }
                                         >

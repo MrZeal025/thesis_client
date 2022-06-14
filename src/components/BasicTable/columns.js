@@ -231,11 +231,7 @@ export const CloseContactCOLUMNS = [
         accessor: ''
     },
     {
-        Header: 'Time Scanned',
-        accessor: ''
-    },
-    {
-        Header: 'Time Leave',
+        Header: 'Time of First Contact',
         accessor: ''
     },
     {

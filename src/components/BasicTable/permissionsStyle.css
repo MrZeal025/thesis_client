@@ -1,33 +1,68 @@
 .Admin {
     background-color: #a52c2c !important;
+    color: white !important;
+    margin: 1px;
+    font-size: 11px !important;
 }
 .Location {
     background-color: #696b7e !important;
+    color: white !important;
+    margin: 1px;
+    font-size: 11px !important;
 }
 .Permissions {
+    font-size: 11px !important;
+    margin: 1px;
     background-color: #f1bc0b !important;
 }
 .Auth {
+    font-size: 11px !important;
+    color: white !important;
+    margin: 1px;
     background-color: #c45b0a !important;
 }
 .Role {
+    font-size: 11px !important;
+    margin: 1px;
     background-color: #e63400 !important;
 }
 .Contact-Tracing-Logs {
+    font-size: 11px !important;
+    margin: 1px;
+    color: white !important;
     background-color: #41222a !important;
 }
 .Dashboard {
+    font-size: 11px !important;
+    margin: 1px;
+    color: white !important;
     background-color: #383838 !important;
 }
 .Admin-Application-Download {
+    font-size: 11px !important;
+    margin: 1px;
+    color: white !important;
     background-color: #5f42aa !important;
 }
 .Visitation-History {
+    font-size: 11px !important;
+    margin: 1px;
+    color: white !important;
     background-color: #506432 !important;
 }
 .Users {
+    font-size: 11px !important;
+    margin: 1px;
+    color: white !important;
     background-color: #0a887b !important;
 }
 .Statistics {
+    font-size: 11px !important;
+    margin: 1px;
+    color: white !important;
     background-color: #80003a !important;
+}
+.Disease {
+    margin: 1px;
+    font-size: 11px !important;
 }

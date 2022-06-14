@@ -7,8 +7,8 @@ export const getAllPositiveLogs = () => {
 };
 
 // get all location data
-export const getAllCloseContact = (mobileNumber) => {
-  return axios.get(`${baseUrl}/positive-log/close-contacts/${mobileNumber}`);
+export const getAllCloseContact = (mobileNumber,date) => {
+  return axios.get(`${baseUrl}/positive-log/close-contacts/${mobileNumber}/${date}`);
 };
 
 // get all location data
