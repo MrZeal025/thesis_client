@@ -10,10 +10,12 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Divider from '@mui/material/Divider';
 // icons
+import BookIcon from '@mui/icons-material/Book';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LockResetIcon from '@mui/icons-material/LockReset';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import Book from '@mui/icons-material/Book';
 
 const drawerWidth = 270;
 
@@ -64,8 +66,24 @@ export default function HomeNavBar({ fullName, showResetPasswordModal, logout, o
             onClose={handleMenuClose}
             style={{ top: "40px"}}
         >
-            <MenuItem color='grey' onClick={() => { window.location.href ="/profile"}}><AccountCircleIcon style={{ marginRight: "6px", color: "grey" }}/> Profile</MenuItem>
-            <MenuItem color='grey' onClick={() => { showResetPasswordModal()}}><LockResetIcon style={{ marginRight: "6px", color: "grey"}}/> Reset Password</MenuItem>
+            <MenuItem 
+                color='grey' 
+                onClick={() => { window.location.href ="/profile"}}
+            >
+                <AccountCircleIcon style={{ marginRight: "6px", color: "grey" }}/> Profile
+            </MenuItem>
+            <MenuItem 
+                color='grey' 
+                onClick={() => { showResetPasswordModal()}}
+            >
+                <LockResetIcon style={{ marginRight: "6px", color: "grey"}}/> Reset Password
+            </MenuItem>
+            <MenuItem 
+                color='grey' 
+                onClick={() => {  window.location.href ="/systems-guide"}}
+            >
+                <Book style={{ marginRight: "6px", color: "grey"}}/> Guide
+            </MenuItem>
             <Divider/>
             <MenuItem color='grey' onClick={() => { logout()}}><ExitToAppIcon style={{ marginRight: "6px", color: "grey"}}/> Sign Out</MenuItem>
         </Menu>

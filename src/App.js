@@ -19,6 +19,7 @@ import UserManagement from './pages/UserManagement';
 import PositiveTracingLogs from './pages/PositiveUpdateLogs';
 import ProfilePage from './pages/Profile';
 import Diseasemanagement from './pages/DiseaseManagement';
+import SystemsGuide from './pages/SystemsGuide';
 //utilities
 import jwt_decode from 'jwt-decode';
 import { checkAccess } from './services/auth/login';
@@ -178,8 +179,8 @@ function App() {
               } 
             />
           }
-         {
-           accessList.filter((item) => (item.includes("Role:Read"))).length > 0 && 
+          {
+          accessList.filter((item) => (item.includes("Role:Read"))).length > 0 && 
             <Route 
               path="/roles-and-permissions" 
               element={
@@ -188,7 +189,15 @@ function App() {
                 </RequireAuth>
               } 
             />
-         }
+        }
+        <Route 
+          path="/systems-guide" 
+          element={
+            <RequireAuth>
+              <SystemsGuide/>
+            </RequireAuth>
+          } 
+        />
           <Route 
             path="/profile" 
             element={
