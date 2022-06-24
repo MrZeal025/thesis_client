@@ -5,11 +5,14 @@ import './dashboard.css'
 import Helmet from 'react-helmet'
 // component/s
 import HomeContainer from '../../components/HomeContainer'
-import WeeklyHealthStatusGraph from './charts/SimpleLineChart'
+import WeeklyHealthStatusGraph from './charts/HealthLineChart'
+import WeeklyHealthBarStatusGraph from './charts/HealthBarChart'
+import VisitationBarChart from './charts/VisitationBarChart'
 import VisitationLineChart from './charts/VisitationLinChart';
 // utilities
-import { getAllStatistics, getAllWeeklyStatistics, getAllVisitationStatistics } from "../../services/admins/get";
 import RefreshIcon from '@mui/icons-material/Refresh';
+import GraphSelect from './graph-select'
+import { getAllStatistics, getAllWeeklyStatistics, getAllVisitationStatistics } from "../../services/admins/get";
 import { TextField, Button } from '@mui/material'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -30,6 +33,18 @@ const Dashboard = () => {
     const [weeklyVisitationAnalytics, setWeeklyVisitationAnalytics] = useState([]);
 
     const [startDate, setStartDate] = useState(new Date());
+
+    // graph selection state
+    const [graphType, setgraphType] = React.useState('Line');
+    const [graphType2, setgraphType2] = React.useState('Line');
+
+    const handleChange = (event) => {
+        setgraphType(event.target.value);
+    };
+
+    const handleChange2 = (event) => {
+        setgraphType2(event.target.value);
+    };
 
     const statisticsData = async () => {
         try {
@@ -117,6 +132,10 @@ const Dashboard = () => {
                 <div style={{ marginBottom: "20px"}} className='d-flex justify-content-md-between'>
                     <h3 className='chartTitle'>Weekly Visitation Status Analytics</h3>
                     <div className='d-flex justify-content-md-between'>
+                        <GraphSelect
+                            graphType={graphType}
+                            handleChange={handleChange}
+                        />
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
                                 label="End Date"
@@ -125,7 +144,7 @@ const Dashboard = () => {
                                     setStartDate(newValue);
                                     weeklyVisitationStatusAnalytics();
                                 }}
-                                renderInput={(params) => <TextField size='small' style={{ marginLeft: "10px"}} {...params} />}
+                                renderInput={(params) => <TextField size='small' style={{ marginLeft: "10px", width: "350px"}} {...params} />}
                             />
                         </LocalizationProvider>
                         <Button variant='contained' style={{ marginLeft: "10px" }} onClick={() => { weeklyVisitationStatusAnalytics()}}>
@@ -133,14 +152,27 @@ const Dashboard = () => {
                         </Button>
                     </div>
                 </div>
-                <VisitationLineChart
-                    weeklyHeathAnalytics={weeklyVisitationAnalytics}
-                />
+                {
+                    graphType === "Line" && 
+                    <VisitationLineChart
+                        weeklyHeathAnalytics={weeklyVisitationAnalytics}
+                    />
+                }
+                {
+                    graphType === "Bar" &&
+                    <VisitationBarChart
+                        weeklyHeathAnalytics={weeklyVisitationAnalytics}
+                    />
+                }
             </div>
             <div style={{ marginTop: "20px", width: "100%"}} className="box-statistics">
                 <div style={{ marginBottom: "20px"}} className='d-flex justify-content-md-between'>
                     <h3 className='chartTitle'>Weekly Health Status Analytics</h3>
                     <div className='d-flex justify-content-md-between'>
+                        <GraphSelect
+                            graphType={graphType2}
+                            handleChange={handleChange2}
+                        />
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
                                 label="End Date"
@@ -149,7 +181,7 @@ const Dashboard = () => {
                                     setStartDate(newValue);
                                     weeklyHealthStatusAnalytics();
                                 }}
-                                renderInput={(params) => <TextField size='small' style={{ marginLeft: "10px"}} {...params} />}
+                                renderInput={(params) => <TextField size='small' style={{ marginLeft: "10px", width: "350px"}} {...params} />}
                             />
                         </LocalizationProvider>
                         <Button variant='contained' style={{ marginLeft: "10px" }} onClick={() => { weeklyHealthStatusAnalytics()}}>
@@ -157,9 +189,18 @@ const Dashboard = () => {
                         </Button>
                     </div>
                 </div>
-                <WeeklyHealthStatusGraph
-                    weeklyHeathAnalytics={weeklyHeathAnalytics}
-                />
+                { 
+                    graphType2 === "Line" && 
+                    <WeeklyHealthStatusGraph
+                        weeklyHeathAnalytics={weeklyHeathAnalytics}
+                    />
+                }
+                { 
+                    graphType2 === "Bar" && 
+                    <WeeklyHealthBarStatusGraph
+                        weeklyHeathAnalytics={weeklyHeathAnalytics}
+                    />
+                }
             </div>
         </HomeContainer>
         
