@@ -37,7 +37,7 @@ const Diseasemanagement = () => {
     
     // filtering process
     const filteredData = (locations) => {
-        const keys = ["name", "totalMonitoredToday", "totalTraceCount"]
+        const keys = ["name"]
         return locations.filter((item) => keys.some(key => item[key].toLowerCase().includes(query)));
     }
 

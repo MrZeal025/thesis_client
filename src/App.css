@@ -290,15 +290,15 @@ a:hover {
 }
 
 .marker-icon {
-  width: 40px;
-  height: 40px;
+  width:50px;
+  height: 50px;
   border-radius: 50%;
   padding-top: 7px;
   font-size: 20px;
   font-weight: bold;
   text-align: center;
   color: white;
-  opacity: 0.8;
+  opacity: 0.55352;
 }
 .leaflet-div-icon {
   border: none !important;
@@ -311,4 +311,22 @@ a:hover {
 
 .css-1uwabd6 {
   padding: 16px 15px !important;
+}
+
+.box-legend-red {
+  height: 15px;
+  width: 15px;
+  opacity: 0.456;
+  background-color: #BD0026;
+  margin-right: 10px;
+  border: 1px solid black;
+}
+
+.box-legend-green {
+  height: 15px;
+  width: 15px;
+  opacity: 0.456;
+  background-color: #abf7b1;
+  border: 1px solid black;
+  margin-right: 10px;
 }

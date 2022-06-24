@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { MapContainer, Polygon, TileLayer, Marker, Popup } from "react-leaflet"
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -50,7 +50,7 @@ export default function ChoropletMap({ countries }) {
     }, []);
 
     return (
-        <div>
+        <Fragment>
             <MapContainer
                 style={{ height: "42vh", background: "rgb(79, 216, 255)" }}
                 scrollWheelZoom={true}
@@ -70,7 +70,8 @@ export default function ChoropletMap({ countries }) {
                                 icon={markerIcon(data.disease, monitoredDiseases)}
                             >    
                                 <Popup>
-                                    { data.city + " " + data.province }
+                                    <p>{ data.city + " " + data.province + ", " + data.barangay }</p>
+                                    <p>Disease Report: <b>{data.disease}</b></p>
                                 </Popup>
                             </Marker>
                         )
@@ -91,7 +92,7 @@ export default function ChoropletMap({ countries }) {
                                 dashArray: 3,
                                 color: 'white'
                             }: {
-                                fillColor: '#FD8D3C',
+                                fillColor: '#abf7b1',
                                 fillOpacity: 0.456,
                                 weight: 2,
                                 opacity: 1,
@@ -108,6 +109,6 @@ export default function ChoropletMap({ countries }) {
                     })
                 }
             </MapContainer>
-        </div>
+        </Fragment>
     );
 }
