@@ -108,7 +108,7 @@ const Dashboard = () => {
                 </div>
                 <div className='box'>
                     <p className='box-top-heading'>Total Normal User</p>
-                    <p className='box-middle-heading'>{totalNormalUsers}</p>
+                    <p className='box-middle-heading'>{totalNormalUsers + totalRecoveredCases}</p>
                     <div className='d-flex justify-content-end'>
                         <p className='box-bottom-heading'>+ {totalNormalUsersToday} Today</p>
                     </div>
